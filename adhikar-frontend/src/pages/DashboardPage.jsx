@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import Badge from '../components/ui/Badge';
 import Alert from '../components/ui/Alert';
 
@@ -28,10 +28,10 @@ const DashboardPage = () => {
   useEffect(() => {
     if (profile) {
       setLoading(true);
-      mockSchemesService
-        .evaluateMatchedSchemes(profile)
-        .then((res) => setMatchSummary(res.summary))
-        .catch((err) => console.error(err))
+      schemesApi
+        .getMatchedSchemes(profile)
+        .then((res) => setMatchSummary(res?.summary || null))
+        .catch((err) => console.error('Failed to load dashboard match summary:', err))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);

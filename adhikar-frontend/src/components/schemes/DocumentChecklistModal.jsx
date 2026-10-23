@@ -4,7 +4,7 @@ import { FileCheck, Shield, ExternalLink, ArrowRight, AlertCircle } from 'lucide
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
-import { mockSchemesService } from '../../data/mockService';
+import { schemesApi } from '../../api/schemesApi';
 
 const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -14,12 +14,12 @@ const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
   useEffect(() => {
     if (schemeId && isOpen) {
       setLoading(true);
-      mockSchemesService
+      schemesApi
         .getSchemeDocuments(schemeId)
         .then((res) => {
-          setData(res);
+          setData(res?.data || res);
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.error('Error in DocumentChecklistModal:', err))
         .finally(() => setLoading(false));
     } else {
       setData(null);

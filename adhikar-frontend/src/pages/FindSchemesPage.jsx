@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { useProfile } from '../context/ProfileContext';
 import { useAuth } from '../context/AuthContext';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import Badge from '../components/ui/Badge';
 import DocumentChecklistModal from '../components/schemes/DocumentChecklistModal';
 
@@ -38,12 +38,12 @@ const FindSchemesPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    mockSchemesService
-      .evaluateMatchedSchemes(profile)
+    schemesApi
+      .getMatchedSchemes(profile)
       .then((res) => {
         setEvaluationResult(res);
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error('Failed to evaluate matched schemes:', err))
       .finally(() => setLoading(false));
   }, [profile]);
 

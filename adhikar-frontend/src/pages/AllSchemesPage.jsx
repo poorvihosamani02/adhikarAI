@@ -6,7 +6,7 @@ import {
   Compass,
   Info
 } from 'lucide-react';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import SchemeCard from '../components/schemes/SchemeCard';
 import DocumentChecklistModal from '../components/schemes/DocumentChecklistModal';
 import Badge from '../components/ui/Badge';
@@ -26,12 +26,12 @@ const AllSchemesPage = () => {
   const [activeChecklistSchemeId, setActiveChecklistSchemeId] = useState(null);
 
   useEffect(() => {
-    mockSchemesService
+    schemesApi
       .getAllSchemes()
       .then((res) => {
-        setSchemes(res.data);
+        setSchemes(res?.data || res?.schemes || []);
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error('Failed to load schemes from API:', err))
       .finally(() => setLoading(false));
   }, []);
 

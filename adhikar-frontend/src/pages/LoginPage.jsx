@@ -47,24 +47,86 @@ const LoginPage = () => {
 
   const [activeTab, setActiveTab] = useState(initialTab);
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Form Fields mapped to backend
-  const [loginEmail, setLoginEmail] = useState('arun.kumar@example.com');
-  const [loginPassword, setLoginPassword] = useState('Password@123');
+  // Form Fields mapped to backend — strictly empty by default
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
 
   const [regName, setRegName] = useState('');
   const [regEmail, setRegEmail] = useState('');
   const [regPassword, setRegPassword] = useState('');
 
+  // Dynamic form instance key to force React to recreate clean DOM elements
+  const [formInstanceId, setFormInstanceId] = useState(() => Date.now());
+
+  // Input interactive flags: read-only until user focuses, thwarting browser autofill
+  const [loginEmailEditable, setLoginEmailEditable] = useState(false);
+  const [loginPwdEditable, setLoginPwdEditable] = useState(false);
+  const [regNameEditable, setRegNameEditable] = useState(false);
+  const [regEmailEditable, setRegEmailEditable] = useState(false);
+  const [regPwdEditable, setRegPwdEditable] = useState(false);
+
+  // Helper to thoroughly clear all input fields, state, and editable locks
+  const resetAllFields = () => {
+    setLoginEmail('');
+    setLoginPassword('');
+    setRegName('');
+    setRegEmail('');
+    setRegPassword('');
+    setRememberMe(false);
+    setErrorMsg('');
+    setSuccessMsg('');
+    setLoginEmailEditable(false);
+    setLoginPwdEditable(false);
+    setRegNameEditable(false);
+    setRegEmailEditable(false);
+    setRegPwdEditable(false);
+    setFormInstanceId(Date.now());
+  };
+
+  // Reset all input fields whenever the page or tab is accessed (including after logout or re-navigation)
   useEffect(() => {
-    if (query.get('tab') === 'register') {
+    const tabParam = new URLSearchParams(location.search).get('tab');
+    if (tabParam === 'register') {
       setActiveTab('register');
+    } else {
+      setActiveTab('login');
     }
-  }, [location.search]);
+
+    resetAllFields();
+
+    // Secondary and tertiary cleanup to thwart delayed browser autofill injections
+    const t1 = setTimeout(() => {
+      setLoginEmail('');
+      setLoginPassword('');
+      setRegName('');
+      setRegEmail('');
+      setRegPassword('');
+    }, 60);
+
+    const t2 = setTimeout(() => {
+      setLoginEmail('');
+      setLoginPassword('');
+      setRegName('');
+      setRegEmail('');
+      setRegPassword('');
+    }, 180);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [location.key, location.pathname, location.search, location.state]);
+
+  const handleTabSwitch = (tab) => {
+    setActiveTab(tab);
+    resetAllFields();
+    navigate(tab === 'register' ? '/login?tab=register' : '/login', { replace: true });
+  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -75,6 +137,8 @@ const LoginPage = () => {
     try {
       await login(loginEmail, loginPassword);
       setSuccessMsg('Authentication successful! Navigating to dashboard...');
+      // Clear inputs immediately after success
+      resetAllFields();
       setTimeout(() => {
         navigate(redirectPath);
       }, 350);
@@ -105,13 +169,22 @@ const LoginPage = () => {
 
     setLoading(true);
     try {
-      const res = await register(regName, regEmail, regPassword);
-      setSuccessMsg(res.message || 'Account created successfully! Please sign in.');
-      setLoginEmail(regEmail);
-      setActiveTab('login');
+      // 1. Register new citizen account on backend
+      await register(regName, regEmail, regPassword);
+      setSuccessMsg('Account registered successfully! Signing you in...');
+
+      // 2. Automatically log in immediately without requiring another click on sign in
+      await login(regEmail, regPassword);
+
+      // 3. Clear all input fields and locks
+      resetAllFields();
+
+      // 4. Navigate directly into application
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 400);
     } catch (err) {
       setErrorMsg(err.message || 'Registration failed.');
-    } finally {
       setLoading(false);
     }
   };
@@ -188,13 +261,64 @@ const LoginPage = () => {
             style={{
               fontSize: '0.95rem',
               color: 'var(--charcoal-500)',
-              marginBottom: '2rem'
+              marginBottom: '1.5rem'
             }}
           >
             {activeTab === 'login'
-              ? 'Welcome back! Please enter your details.'
-              : 'Enter your credentials to access your citizen profile.'}
+              ? 'Sign in to access your saved citizen profile and matched schemes.'
+              : 'Register your new citizen profile to access statutory entitlements.'}
           </p>
+
+          {/* Segmented Tab Switcher: Sign In (Existing User) vs Register (New User) */}
+          <div
+            style={{
+              display: 'flex',
+              background: '#f1f5f9',
+              padding: '4px',
+              borderRadius: '12px',
+              marginBottom: '1.75rem',
+              border: '1px solid rgba(139, 115, 85, 0.12)'
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => handleTabSwitch('login')}
+              style={{
+                flex: 1,
+                padding: '0.65rem 1rem',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                background: activeTab === 'login' ? '#ffffff' : 'transparent',
+                color: activeTab === 'login' ? 'var(--charcoal-900)' : 'var(--charcoal-500)',
+                boxShadow: activeTab === 'login' ? '0 2px 6px rgba(0, 0, 0, 0.08)' : 'none'
+              }}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => handleTabSwitch('register')}
+              style={{
+                flex: 1,
+                padding: '0.65rem 1rem',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                background: activeTab === 'register' ? '#ffffff' : 'transparent',
+                color: activeTab === 'register' ? 'var(--charcoal-900)' : 'var(--charcoal-500)',
+                boxShadow: activeTab === 'register' ? '0 2px 6px rgba(0, 0, 0, 0.08)' : 'none'
+              }}
+            >
+              Register (New Account)
+            </button>
+          </div>
 
           {errorMsg && (
             <Alert variant="danger" onClose={() => setErrorMsg('')}>
@@ -210,7 +334,25 @@ const LoginPage = () => {
 
           {/* FORM: Sign In */}
           {activeTab === 'login' ? (
-            <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <form key={`login-form-${formInstanceId}`} onSubmit={handleLoginSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Invisible decoy inputs to capture aggressive browser autofill */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-9999px',
+                  left: '-9999px',
+                  width: '0',
+                  height: '0',
+                  overflow: 'hidden',
+                  opacity: 0,
+                  pointerEvents: 'none'
+                }}
+                aria-hidden="true"
+              >
+                <input type="text" name="adhikar_decoy_user" tabIndex="-1" autoComplete="off" />
+                <input type="password" name="adhikar_decoy_pwd" tabIndex="-1" autoComplete="off" />
+              </div>
+
               {/* Email Field */}
               <div>
                 <label
@@ -225,8 +367,15 @@ const LoginPage = () => {
                   Email
                 </label>
                 <input
+                  key={`login-email-${formInstanceId}`}
                   type="email"
+                  name={`usr_eml_${formInstanceId}`}
                   required
+                  autoComplete="off"
+                  spellCheck="false"
+                  readOnly={!loginEmailEditable}
+                  onFocus={() => setLoginEmailEditable(true)}
+                  onPointerDown={() => setLoginEmailEditable(true)}
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="Enter your email"
@@ -241,7 +390,7 @@ const LoginPage = () => {
                     outline: 'none',
                     transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
                   }}
-                  onFocus={(e) => {
+                  onFocusCapture={(e) => {
                     e.target.style.borderColor = 'var(--coral-500)';
                     e.target.style.boxShadow = '0 0 0 3px rgba(216, 109, 78, 0.12)';
                   }}
@@ -267,11 +416,17 @@ const LoginPage = () => {
                 </label>
                 <div style={{ position: 'relative' }}>
                   <input
+                    key={`login-pwd-${formInstanceId}`}
                     type={showPassword ? 'text' : 'password'}
+                    name={`usr_sec_${formInstanceId}`}
                     required
+                    autoComplete="new-password"
+                    readOnly={!loginPwdEditable}
+                    onFocus={() => setLoginPwdEditable(true)}
+                    onPointerDown={() => setLoginPwdEditable(true)}
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="••••••••••••"
+                    placeholder="Enter your password"
                     style={{
                       width: '100%',
                       padding: '0.75rem 2.8rem 0.75rem 1rem',
@@ -283,7 +438,7 @@ const LoginPage = () => {
                       outline: 'none',
                       transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
                     }}
-                    onFocus={(e) => {
+                    onFocusCapture={(e) => {
                       e.target.style.borderColor = 'var(--coral-500)';
                       e.target.style.boxShadow = '0 0 0 3px rgba(216, 109, 78, 0.12)';
                     }}
@@ -414,11 +569,7 @@ const LoginPage = () => {
                 Don't have an account?{' '}
                 <button
                   type="button"
-                  onClick={() => {
-                    setActiveTab('register');
-                    setErrorMsg('');
-                    setSuccessMsg('');
-                  }}
+                  onClick={() => handleTabSwitch('register')}
                   style={{
                     background: 'none',
                     border: 'none',
@@ -428,7 +579,7 @@ const LoginPage = () => {
                     padding: 0
                   }}
                 >
-                  Sign up
+                  Sign up (Register)
                 </button>
               </div>
 
@@ -479,14 +630,38 @@ const LoginPage = () => {
             </form>
           ) : (
             /* FORM: Register */
-            <form onSubmit={handleRegisterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <form key={`register-form-${formInstanceId}`} onSubmit={handleRegisterSubmit} autoComplete="off" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              {/* Invisible decoy inputs to capture aggressive browser autofill */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-9999px',
+                  left: '-9999px',
+                  width: '0',
+                  height: '0',
+                  overflow: 'hidden',
+                  opacity: 0,
+                  pointerEvents: 'none'
+                }}
+                aria-hidden="true"
+              >
+                <input type="text" name="adhikar_reg_decoy_user" tabIndex="-1" autoComplete="off" />
+                <input type="password" name="adhikar_reg_decoy_pwd" tabIndex="-1" autoComplete="off" />
+              </div>
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: 'var(--charcoal-800)', marginBottom: '0.45rem' }}>
                   Full Name
                 </label>
                 <input
+                  key={`reg-name-${formInstanceId}`}
                   type="text"
+                  name={`reg_fname_${formInstanceId}`}
                   required
+                  autoComplete="off"
+                  spellCheck="false"
+                  readOnly={!regNameEditable}
+                  onFocus={() => setRegNameEditable(true)}
+                  onPointerDown={() => setRegNameEditable(true)}
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
                   placeholder="e.g. Arun Kumar"
@@ -508,8 +683,15 @@ const LoginPage = () => {
                   Email
                 </label>
                 <input
+                  key={`reg-email-${formInstanceId}`}
                   type="email"
+                  name={`reg_eml_${formInstanceId}`}
                   required
+                  autoComplete="off"
+                  spellCheck="false"
+                  readOnly={!regEmailEditable}
+                  onFocus={() => setRegEmailEditable(true)}
+                  onPointerDown={() => setRegEmailEditable(true)}
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
                   placeholder="Enter your email"
@@ -532,8 +714,14 @@ const LoginPage = () => {
                 </label>
                 <div style={{ position: 'relative' }}>
                   <input
+                    key={`reg-password-${formInstanceId}`}
                     type={showPassword ? 'text' : 'password'}
+                    name={`reg_sec_${formInstanceId}`}
                     required
+                    autoComplete="new-password"
+                    readOnly={!regPwdEditable}
+                    onFocus={() => setRegPwdEditable(true)}
+                    onPointerDown={() => setRegPwdEditable(true)}
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
                     placeholder="Create a password"
@@ -588,7 +776,7 @@ const LoginPage = () => {
                   marginTop: '0.5rem'
                 }}
               >
-                {loading ? 'Creating account...' : 'Create account'}
+                {loading ? 'Registering & Signing in...' : 'Register & Sign In'}
               </button>
 
               <div
@@ -602,11 +790,7 @@ const LoginPage = () => {
                 Already have an account?{' '}
                 <button
                   type="button"
-                  onClick={() => {
-                    setActiveTab('login');
-                    setErrorMsg('');
-                    setSuccessMsg('');
-                  }}
+                  onClick={() => handleTabSwitch('login')}
                   style={{
                     background: 'none',
                     border: 'none',

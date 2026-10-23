@@ -10,7 +10,7 @@ import {
   Link as LinkIcon,
   ArrowUpRight
 } from 'lucide-react';
-import { mockScamShieldService } from '../data/mockService';
+import { aiApi } from '../api/aiApi';
 import Badge from '../components/ui/Badge';
 import HealthBadge from '../components/common/HealthBadge';
 
@@ -44,10 +44,11 @@ const ScamShieldPage = () => {
 
     setAnalyzing(true);
     try {
-      const res = await mockScamShieldService.analyzeScam(messageText, url);
+      const res = await aiApi.analyzeScam(messageText, url);
       setResult(res);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to analyze scam message:', err);
+      alert(err.message || 'Error occurred while contacting Scam Shield service.');
     } finally {
       setAnalyzing(false);
     }

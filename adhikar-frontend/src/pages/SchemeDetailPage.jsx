@@ -16,7 +16,7 @@ import {
   ArrowRight,
   ArrowUpRight
 } from 'lucide-react';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Alert from '../components/ui/Alert';
@@ -30,10 +30,10 @@ const SchemeDetailPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    mockSchemesService
+    schemesApi
       .getSchemeById(id)
       .then((res) => {
-        setScheme(res.data);
+        setScheme(res?.data || res);
       })
       .catch((err) => {
         setError(err.message || 'Scheme not found.');

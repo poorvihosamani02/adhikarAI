@@ -17,7 +17,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
 
 const Navbar = () => {
-  const { user, isAuthenticated, logout, switchDemoUser } = useAuth();
+  const { user, isAuthenticated, isDemo, logout, switchDemoUser } = useAuth();
   const { profile } = useProfile();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,29 +37,40 @@ const Navbar = () => {
       {/* Top Prototype Demonstration Notice Bar */}
       <div className="demo-top-banner">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          <span className="demo-tag">Prototype Demo</span>
-          <span>
-            Visual Redesign (Otto Style) &bull; Frontend-Only Preview Mode
-          </span>
+          {isDemo ? (
+            <>
+              <span className="demo-tag">DEMO MODE</span>
+              <span>
+                Simulated Citizen Profiles &bull; Click below to test different demographics
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="demo-tag" style={{ background: '#10b981', color: '#ffffff' }}>LIVE MODE</span>
+              <span>
+                Connected to Node.js Express Backend &amp; Python AI Services
+              </span>
+            </>
+          )}
         </div>
         <div className="demo-quick-switchers">
-          <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>Switch Citizen:</span>
+          <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>Demo Citizens:</span>
           <button
-            className={`demo-pill-btn ${profile?.name === 'Arun Kumar' ? 'active' : ''}`}
+            className={`demo-pill-btn ${isDemo && profile?.name === 'Arun Kumar' ? 'active' : ''}`}
             onClick={() => handleProfileSwitch('SC')}
             title="Switch to Arun Kumar (SC Student, Karnataka)"
           >
             Arun (SC)
           </button>
           <button
-            className={`demo-pill-btn ${profile?.name === 'Priya Sharma' ? 'active' : ''}`}
+            className={`demo-pill-btn ${isDemo && profile?.name === 'Priya Sharma' ? 'active' : ''}`}
             onClick={() => handleProfileSwitch('OBC')}
             title="Switch to Priya Sharma (OBC Farmer, Maharashtra)"
           >
             Priya (OBC)
           </button>
           <button
-            className={`demo-pill-btn ${profile?.name === 'Ramesh Rao' ? 'active' : ''}`}
+            className={`demo-pill-btn ${isDemo && profile?.name === 'Ramesh Rao' ? 'active' : ''}`}
             onClick={() => handleProfileSwitch('Senior')}
             title="Switch to Ramesh Rao (Senior Citizen, BPL)"
           >
@@ -143,10 +154,10 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="nav-auth-pill">
-                <Link to="/login" className="nav-auth-link">
+                <Link to="/login" state={{ resetTimestamp: Date.now() }} className="nav-auth-link">
                   Sign In
                 </Link>
-                <Link to="/login?tab=register" className="nav-auth-btn">
+                <Link to="/login?tab=register" state={{ resetTimestamp: Date.now() }} className="nav-auth-btn">
                   <span>Register</span>
                   <ArrowUpRight size={14} />
                 </Link>
@@ -239,6 +250,7 @@ const Navbar = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <Link
                   to="/login"
+                  state={{ resetTimestamp: Date.now() }}
                   className="btn btn-outline btn-block"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -246,6 +258,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/login?tab=register"
+                  state={{ resetTimestamp: Date.now() }}
                   className="btn btn-primary btn-block"
                   style={{ background: '#ffffff', color: 'var(--charcoal-900)' }}
                   onClick={() => setMobileMenuOpen(false)}

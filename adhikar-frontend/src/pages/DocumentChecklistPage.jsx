@@ -11,7 +11,7 @@ import {
   Sparkles,
   Search
 } from 'lucide-react';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import Alert from '../components/ui/Alert';
@@ -25,28 +25,29 @@ const DocumentChecklistPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    mockSchemesService
+    schemesApi
       .getAllSchemes()
       .then((res) => {
-        setSchemes(res.data);
+        const list = res?.data || res?.schemes || [];
+        setSchemes(list);
         if (id) {
           setSelectedSchemeId(id);
-        } else if (res.data.length > 0) {
-          setSelectedSchemeId(res.data[0].scheme_id);
+        } else if (list.length > 0) {
+          setSelectedSchemeId(list[0].scheme_id);
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching schemes for checklist:', err));
   }, [id]);
 
   useEffect(() => {
     if (selectedSchemeId) {
       setLoading(true);
-      mockSchemesService
+      schemesApi
         .getSchemeDocuments(selectedSchemeId)
         .then((res) => {
-          setSchemeData(res);
+          setSchemeData(res?.data || res);
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.error('Error fetching scheme documents:', err))
         .finally(() => setLoading(false));
     }
   }, [selectedSchemeId]);

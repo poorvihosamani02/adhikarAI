@@ -10,7 +10,8 @@ import {
   CheckCircle2,
   Info
 } from 'lucide-react';
-import { mockDocumentDoctorService, mockSchemesService } from '../data/mockService';
+import { aiApi } from '../api/aiApi';
+import { schemesApi } from '../api/schemesApi';
 import Badge from '../components/ui/Badge';
 import HealthBadge from '../components/common/HealthBadge';
 
@@ -35,26 +36,28 @@ const DocumentDoctorPage = () => {
 
   useEffect(() => {
     Promise.all([
-      mockDocumentDoctorService.getRules(),
-      mockSchemesService.getAllSchemes()
+      aiApi.getDocumentRules(),
+      schemesApi.getAllSchemes()
     ])
       .then(([rulesRes, schemesRes]) => {
-        setRules(rulesRes.rules);
-        setSchemes(schemesRes.data);
+        const loadedRules = rulesRes?.rules || [];
+        const loadedSchemes = schemesRes?.data || schemesRes?.schemes || [];
+        setRules(loadedRules);
+        setSchemes(loadedSchemes);
 
         if (initialDocName) {
-          const match = rulesRes.rules.find(
+          const match = loadedRules.find(
             (r) =>
               r.document_name.toLowerCase().includes(initialDocName.toLowerCase()) ||
               initialDocName.toLowerCase().includes(r.document_name.toLowerCase())
           );
           if (match) setSelectedRuleId(match.rule_id);
-          else if (rulesRes.rules.length > 0) setSelectedRuleId(rulesRes.rules[0].rule_id);
-        } else if (rulesRes.rules.length > 0) {
-          setSelectedRuleId(rulesRes.rules[1]?.rule_id || rulesRes.rules[0].rule_id);
+          else if (loadedRules.length > 0) setSelectedRuleId(loadedRules[0].rule_id);
+        } else if (loadedRules.length > 0) {
+          setSelectedRuleId(loadedRules[1]?.rule_id || loadedRules[0].rule_id);
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error('Failed to load rules/schemes in Document Doctor:', err))
       .finally(() => setLoadingRules(false));
   }, [initialDocName]);
 
@@ -100,7 +103,7 @@ const DocumentDoctorPage = () => {
       const fileSizeKb = file ? Math.round(file.size / 1024) : 240;
       const fileName = file ? file.name : `${selectedRule.document_name.toLowerCase().replace(/\s+/g, '_')}_2026.pdf`;
 
-      const result = await mockDocumentDoctorService.checkDocument({
+      const result = await aiApi.checkDocument({
         scheme_id: selectedSchemeId,
         document_type: selectedRule.document_type,
         document_name: selectedRule.document_name,
@@ -111,7 +114,8 @@ const DocumentDoctorPage = () => {
 
       setAnalysisResult(result);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to pre-verify document:', err);
+      alert(err.message || 'Error occurred while verifying document with Document Doctor.');
     } finally {
       setChecking(false);
     }

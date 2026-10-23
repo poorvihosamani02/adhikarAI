@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   ArrowUpRight
 } from 'lucide-react';
-import { mockChatService } from '../data/mockService';
+import { aiApi } from '../api/aiApi';
 import Badge from '../components/ui/Badge';
 import HealthBadge from '../components/common/HealthBadge';
 
@@ -93,7 +93,7 @@ const KnowYourRightsPage = () => {
     setIsTyping(true);
 
     try {
-      const response = await mockChatService.askQuestion(question, language);
+      const response = await aiApi.askQuestion(question, language);
       const botMsg = {
         id: Date.now() + 1,
         sender: 'bot',
@@ -108,7 +108,7 @@ const KnowYourRightsPage = () => {
       const errorMsg = {
         id: Date.now() + 1,
         sender: 'bot',
-        text: 'Sorry, I encountered an issue retrieving statutory datasets. Please try asking again.',
+        text: err.message || 'Sorry, I encountered an issue retrieving statutory datasets. Please verify the AI service is active.',
         sources: [],
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };

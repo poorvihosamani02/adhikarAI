@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdhikarAI — Visual Direction & Design System Preview</title>
+  <link rel="stylesheet" href="system.css">
+  <style>
+    /* Specific interactive preview stylings */
+    .preview-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .preview-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary-900);
+    }
+    .brand-logo span.ai {
+      color: var(--saffron-500);
+    }
+    .brand-pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: var(--primary-50);
+      color: var(--primary-700);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--slate-700);
+    }
+    .nav-links a:hover {
+      color: var(--primary-600);
+    }
+    .chat-bubble-bot {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      max-width: 650px;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .source-box {
+      margin-top: 0.75rem;
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.8125rem;
+    }
+    .risk-meter {
+      height: 8px;
+      background: var(--slate-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin: 0.75rem 0;
+    }
+    .risk-meter-fill {
+      height: 100%;
+      background: var(--danger-500);
+      width: 95%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar Preview -->
+  <header class="preview-header">
+    <div class="container preview-navbar">
+      <div class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-800);">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span>Adhikar<span class="ai">AI</span></span>
+        <span class="brand-pill">CITIZEN EMPOWERMENT</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#schemes">Find Schemes</a></li>
+        <li><a href="#schemes">All 20 Schemes</a></li>
+        <li><a href="#rights">Legal Rights AI</a></li>
+        <li><a href="#doctor">Document Doctor</a></li>
+        <li><a href="#scam">Scam Shield</a></li>
+      </ul>
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Sign In</button>
+        <button class="btn btn-saffron" style="padding: 0.5rem 1rem;">Register</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 2.5rem; padding-bottom: 4rem;">
+    
+    <!-- Hero Banner Component -->
+    <section class="card-hero" style="margin-bottom: 3rem;">
+      <div style="max-width: 760px;">
+        <span class="badge badge-saffron" style="margin-bottom: 1rem; font-weight: 700;">
+          Verified Citizen AI Assistant
+        </span>
+        <h1 style="font-size: 2.75rem; color: #ffffff; margin-bottom: 1rem; line-height: 1.18;">
+          Empowering Every Citizen to Claim Their Rights & Entitlements
+        </h1>
+        <p style="font-size: 1.125rem; color: var(--slate-300); margin-bottom: 2rem; line-height: 1.6;">
+          Match your profile against 20 verified government schemes, inspect required documents against official criteria, detect fraudulent messages, and access statutory legal guidance with authentic citations.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn btn-saffron" style="font-size: 1rem; padding: 0.85rem 1.75rem;">
+            Find My Eligible Schemes
+          </button>
+          <button class="btn btn-outline" style="background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,0.25);">
+            Browse All 20 Schemes
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component Showcases Grid -->
+    <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Visual Component Showcase</h2>
+
+    <div class="grid-2" style="margin-bottom: 3rem;">
+
+      <!-- 1. Scheme Match Card (Find My Schemes) -->
+      <div class="card card-hover" id="schemes">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+          <span class="badge badge-emerald">100% ELIGIBLE</span>
+          <span class="badge badge-blue">Central Scheme</span>
+        </div>
+        <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Post-Matric Scholarship for SC Students</h3>
+        <p style="font-size: 0.875rem; color: var(--slate-500); margin-bottom: 1rem;">
+          Ministry of Social Justice and Empowerment &bull; Scheme ID: <code>SC001</code>
+        </p>
+        <div style="background: var(--primary-50); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1rem;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--primary-700); font-weight: 700;">Financial Benefit</div>
+          <div style="font-size: 1.25rem; font-weight: 800; color: var(--primary-900);">₹13,500 <span style="font-size: 0.85rem; font-weight: 500;">/ Annual Allowance</span></div>
+        </div>
+        <div style="border-top: 1px solid var(--slate-200); padding-top: 0.75rem; margin-bottom: 1rem;">
+          <div style="font-size: 0.8125rem; font-weight: 600; color: var(--emerald-700); margin-bottom: 0.25rem;">
+            &check; Annual income ₹1,20,000 is within ₹2,50,000 ceiling.
+          </div>
+          <div style="font-size: 0.8125rem; font-weight: 600; color: var(--emerald-700);">
+            &check; Age 24 matches eligible age window (15 - 35 years).
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-primary" style="flex: 1;">View Checklist</button>
+          <button class="btn btn-outline">Official Portal &nearr;</button>
+        </div>
+      </div>
+
+      <!-- 2. Scam Shield Analysis Result Card -->
+      <div class="card card-hover" id="scam">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+          <span class="badge badge-danger">HIGH RISK SCAM DETECTED</span>
+          <span class="badge badge-slate">Pattern ID: #22</span>
+        </div>
+        <h3 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Power Bill Disconnection Fraud</h3>
+        <p style="font-size: 0.875rem; color: var(--slate-500);">Analysis Confidence: <strong>95%</strong></p>
+        
+        <div class="risk-meter">
+          <div class="risk-meter-fill"></div>
+        </div>
+
+        <div style="background: var(--danger-50); border-left: 4px solid var(--danger-500); padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+          <div style="font-size: 0.8125rem; font-weight: 700; color: var(--danger-700); margin-bottom: 0.25rem;">Warning Signs Identified:</div>
+          <ul style="font-size: 0.8125rem; color: var(--danger-700); padding-left: 1.2rem; line-height: 1.45;">
+            <li>Urgent tonight 9:30 PM power disconnection threat</li>
+            <li>Unverified 10-digit personal mobile number provided</li>
+            <li>Suspicious short-link (bit.ly / apk download)</li>
+          </ul>
+        </div>
+        <button class="btn btn-primary" style="width: 100%; background-color: var(--slate-900);">
+          View Recommended Protective Actions
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 3. Legal Rights AI Assistant Interaction Showcase -->
+    <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem;" id="rights">Know Your Rights AI — Verified Legal Citations</h2>
+    
+    <div class="card" style="margin-bottom: 3rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <div style="width: 10px; height: 10px; background: var(--emerald-500); border-radius: 50%;"></div>
+          <span style="font-weight: 600; font-size: 0.875rem;">Connected to RAG Chatbot Microservice (Port 8001)</span>
+        </div>
+        <span class="badge badge-blue">Zero Hallucinations Guarantee</span>
+      </div>
+
+      <div class="chat-bubble-bot">
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-700); margin-bottom: 0.35rem;">ADHIKARAI STATUTORY GUIDANCE</div>
+        <p style="font-size: 0.9375rem; line-height: 1.6; margin-bottom: 0.75rem;">
+          Under the <strong>Legal Services Authorities Act, 1987 (Section 12)</strong>, all workmen, industrial laborers, persons in custody, and persons with annual income below statutory state ceilings are entitled to <strong>free and competent legal aid</strong> before all civil and criminal courts.
+        </p>
+        
+        <div class="source-box">
+          <div style="font-weight: 700; color: var(--slate-900); margin-bottom: 0.25rem;">
+            Verified Authority Source: National Legal Services Authority (NALSA)
+          </div>
+          <div style="color: var(--slate-600);">Document ID: <code>DOC003</code> &bull; Legal Basis: Section 12(h), LSA Act, 1987</div>
+          <a href="https://nalsa.gov.in" target="_blank" style="display: inline-block; margin-top: 0.25rem; font-weight: 600;">
+            Visit Official NALSA Portal &nearr;
+          </a>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+        <input type="text" class="form-input" placeholder="Ask a question about RTI, NALSA free legal aid, or cyber fraud reporting..." style="flex: 1;" readonly value="Who is eligible for free legal aid under NALSA?">
+        <button class="btn btn-saffron">Send Query</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer style="background: #ffffff; border-top: 1px solid var(--border-subtle); padding: 2rem 0; font-size: 0.875rem; color: var(--slate-500);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>&copy; 2026 AdhikarAI. Built for Indian Citizen Empowerment & Welfare Readiness.</div>
+      <div style="display: flex; gap: 1.5rem;">
+        <span>National Cyber Helpline: <strong>1930</strong></span>
+        <span>DoPT RTI: <strong>rtionline.gov.in</strong></span>
+        <span>NALSA Aid: <strong>nalsa.gov.in</strong></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

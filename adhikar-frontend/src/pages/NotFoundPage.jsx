@@ -1,54 +1,46 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Compass, Home, Search, ArrowLeft, ShieldAlert } from 'lucide-react';
-import Button from '../components/ui/Button';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container" style={{ maxWidth: '640px', marginTop: '3rem', textAlign: 'center' }}>
-      <div className="card" style={{ padding: '3.5rem 2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem' }}>
+    <main>
+      <div className="section-wrap" style={{ maxWidth: '640px', margin: '70px auto', textAlign: 'center' }}>
         <div
           style={{
-            width: '72px',
-            height: '72px',
-            borderRadius: '50%',
-            background: 'var(--primary-50)',
-            color: 'var(--primary-600)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '24px',
+            padding: '50px 30px',
+            boxShadow: 'var(--shadow-soft)'
           }}
         >
-          <ShieldAlert size={36} />
-        </div>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✦</div>
 
-        <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--primary-900)', lineHeight: 1 }}>
-          404
-        </div>
+          <div style={{ fontFamily: 'Manrope, sans-serif', fontSize: '3.5rem', fontWeight: 900, color: '#20211f', lineHeight: 1 }}>
+            404
+          </div>
 
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--slate-900)' }}>
-          Page or Entitlement Not Found
-        </h2>
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '20px', fontWeight: 800, margin: '14px 0 10px' }}>
+            Page or Entitlement Not Found
+          </h2>
 
-        <p style={{ color: 'var(--slate-600)', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '440px' }}>
-          The URL you requested does not correspond to a valid AdhikarAI page or cataloged welfare scheme.
-        </p>
+          <p style={{ color: '#77786f', fontSize: '14px', lineHeight: 1.6, maxWidth: '420px', margin: '0 auto 28px' }}>
+            The civic page you requested does not exist or may have been moved. Explore our cataloged schemes or return home.
+          </p>
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginTop: '1rem' }}>
-          <Button variant="primary" icon={Home} onClick={() => navigate('/')}>
-            Return Home
-          </Button>
-          <Button variant="outline" icon={Search} onClick={() => navigate('/schemes')}>
-            Browse Schemes
-          </Button>
-          <Button variant="ghost" icon={ArrowLeft} onClick={() => navigate(-1)}>
-            Go Back
-          </Button>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/" className="button button-dark">
+              Return Home <span>→</span>
+            </Link>
+            <Link to="/schemes" className="sample-button" style={{ padding: '10px 18px', fontSize: '14px', fontWeight: 700 }}>
+              Explore Schemes
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

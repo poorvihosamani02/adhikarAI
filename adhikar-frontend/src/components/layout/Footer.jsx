@@ -1,174 +1,86 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ExternalLink, PhoneCall, ArrowUpRight } from 'lucide-react';
 
 const Footer = () => {
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-top">
-          {/* Column 1: Brand & Civic Mission */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '1rem' }}>
-              <div className="brand-dots">
-                <div className="brand-dot" />
-                <div className="brand-dot" />
-                <div className="brand-dot" />
-                <div className="brand-dot" />
-              </div>
-              <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em', fontFamily: 'var(--font-heading)' }}>
-                adhikar<span style={{ opacity: 0.85, fontWeight: 600 }}>.ai</span>
-              </span>
-            </div>
-            <p style={{ color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.25rem', maxWidth: '320px' }}>
-              Democratizing statutory awareness, welfare scheme eligibility, and cyber fraud defense for every Indian citizen.
-            </p>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'rgba(255, 255, 255, 0.12)',
-                border: '1px solid rgba(255, 255, 255, 0.22)',
-                padding: '0.35rem 0.85rem',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '0.8rem',
-                color: '#ffffff',
-                fontWeight: 600
-              }}
-            >
-              <PhoneCall size={14} />
-              <span>Cybercrime Helpline: <strong>1930</strong> (24x7)</span>
-            </div>
-          </div>
+    <footer className="site-footer">
+      <div className="footer-main">
+        {/* Brand Column */}
+        <div>
+          <Link className="brand footer-brand" to="/">
+            <span className="brand-mark">
+              <span>A</span><i>✦</i>
+            </span>
+            <span className="brand-copy">
+              <strong>adhikar<span>ai</span></strong>
+              <small>Citizen empowerment, reimagined</small>
+            </span>
+          </Link>
 
-          {/* Column 2: Citizen Modules */}
-          <div>
-            <h4 className="footer-title">Citizen Tools</h4>
-            <ul className="footer-links">
-              <li>
-                <Link to="/find-schemes" className="footer-link">
-                  Find My Schemes
-                </Link>
-              </li>
-              <li>
-                <Link to="/schemes" className="footer-link">
-                  Government Schemes
-                </Link>
-              </li>
-              <li>
-                <Link to="/know-your-rights" className="footer-link">
-                  Legal Rights AI (Ask Genie)
-                </Link>
-              </li>
-              <li>
-                <Link to="/document-doctor" className="footer-link">
-                  Document Doctor
-                </Link>
-              </li>
-              <li>
-                <Link to="/scam-shield" className="footer-link">
-                  Scam Shield Defense
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile" className="footer-link">
-                  Citizen Eligibility Profile
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <p style={{ marginTop: '16px', maxWidth: '340px', color: '#77786f', fontSize: '14px', lineHeight: 1.7 }}>
+            Because knowing your options<br />
+            is the first step to using them.
+          </p>
 
-          {/* Column 3: National Portals & Helplines */}
-          <div>
-            <h4 className="footer-title">Official Portals</h4>
-            <ul className="footer-links">
-              <li>
-                <a
-                  href="https://cybercrime.gov.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                >
-                  <span>Cyber Crime Portal</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://nalsa.gov.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                >
-                  <span>NALSA Legal Aid</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://rtionline.gov.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                >
-                  <span>RTI Online Portal</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://scholarships.gov.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                >
-                  <span>National Scholarship Portal</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://myscheme.gov.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-link"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                >
-                  <span>myScheme Portal</span>
-                  <ArrowUpRight size={13} />
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Compliance & Disclaimer */}
-          <div>
-            <h4 className="footer-title">Statutory Policy</h4>
-            <p style={{ color: 'rgba(255, 255, 255, 0.72)', fontSize: '0.8125rem', lineHeight: 1.6, marginBottom: '0.75rem' }}>
-              <strong>Zero Hallucinations:</strong> Legal answers and document validation rules are strictly
-              grounded in published statutory acts and official ministry gazettes.
-            </p>
-            <p style={{ color: 'rgba(255, 255, 255, 0.72)', fontSize: '0.8125rem', lineHeight: 1.6 }}>
-              AdhikarAI is an independent citizen assistance technology. We never ask for Aadhaar OTPs or banking PINs.
-            </p>
-          </div>
+          <a className="footer-top" href="#top" onClick={scrollToTop} style={{ marginTop: '20px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            Back to top <span>↑</span>
+          </a>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="footer-bottom">
-          <div>
-            &copy; {new Date().getFullYear()} AdhikarAI. Built for Indian Citizen Welfare &amp; Statutory Empowerment.
+        {/* Column 2: Citizen Tools */}
+        <div>
+          <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '.08em', color: '#45463f', marginBottom: '14px' }}>
+            CITIZEN TOOLS
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <span>20 Schemes &bull; 30 Document Rules &bull; 22 Scam Patterns</span>
-            <span style={{ color: '#ffffff', fontWeight: 600 }}>100% Free Public Civic Tool</span>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '14px' }}>
+            <li><Link to="/my-schemes" style={{ color: '#66685f' }}>My Schemes</Link></li>
+            <li><Link to="/schemes" style={{ color: '#66685f' }}>Explore Benefits</Link></li>
+            <li><Link to="/document-doctor" style={{ color: '#66685f' }}>Document Doctor</Link></li>
+            <li><Link to="/documents" style={{ color: '#66685f' }}>Document Checklist</Link></li>
+            <li><Link to="/scam-shield" style={{ color: '#66685f' }}>Scam Shield</Link></li>
+            <li><Link to="/know-your-rights" style={{ color: '#66685f' }}>Know Your Rights</Link></li>
+          </ul>
+        </div>
+
+        {/* Column 3: National Portals */}
+        <div>
+          <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '.08em', color: '#45463f', marginBottom: '14px' }}>
+            OFFICIAL PORTALS
+          </div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '14px' }}>
+            <li><a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#66685f' }}>Cyber Crime Portal ↗</a></li>
+            <li><a href="https://nalsa.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#66685f' }}>NALSA Legal Aid ↗</a></li>
+            <li><a href="https://rtionline.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#66685f' }}>RTI Online Portal ↗</a></li>
+            <li><a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#66685f' }}>National Scholarship ↗</a></li>
+            <li><a href="https://myscheme.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#66685f' }}>myScheme Portal ↗</a></li>
+          </ul>
+        </div>
+
+        {/* Column 4: Helplines & Statutory Disclaimer */}
+        <div>
+          <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '.08em', color: '#45463f', marginBottom: '14px' }}>
+            EMERGENCY HELPLINES
+          </div>
+          <p style={{ color: '#66685f', fontSize: '13px', lineHeight: 1.6, margin: '0 0 12px' }}>
+            <strong>Cyber Fraud Helpline:</strong> 1930 (National)<br />
+            <strong>Legal Aid Helpline:</strong> 15100 (NALSA)<br />
+            <strong>Consumer Helpline:</strong> 1915 (National)
+          </p>
+          <div style={{ padding: '10px 14px', borderRadius: '12px', background: '#e1f1e3', fontSize: '12px', color: '#254c3c', fontWeight: 600 }}>
+            Zero Hallucinations: Legal answers and criteria are grounded in official statutory acts and government gazettes.
           </div>
         </div>
+      </div>
+
+      <div className="footer-bottom">
+        <span>© {new Date().getFullYear()} AdhikarAI • Citizen Empowerment Platform</span>
+        <span>Built for clarity, access and informed choices.</span>
+        <span>Always verify through official government sources.</span>
       </div>
     </footer>
   );

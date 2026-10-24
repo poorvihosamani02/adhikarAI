@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileCheck, Shield, ExternalLink, ArrowRight, AlertCircle } from 'lucide-react';
 import Modal from '../ui/Modal';
-import Button from '../ui/Button';
-import Badge from '../ui/Badge';
-import { mockSchemesService } from '../../data/mockService';
+import { schemesApi } from '../../api/schemesApi';
 
 const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -14,12 +11,12 @@ const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
   useEffect(() => {
     if (schemeId && isOpen) {
       setLoading(true);
-      mockSchemesService
+      schemesApi
         .getSchemeDocuments(schemeId)
         .then((res) => {
-          setData(res);
+          setData(res?.data || res);
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.error('Error in DocumentChecklistModal:', err))
         .finally(() => setLoading(false));
     } else {
       setData(null);
@@ -28,15 +25,17 @@ const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
 
   const handleInspectDoc = (doc) => {
     onClose();
-    navigate(`/document-doctor?schemeId=${schemeId}&docName=${encodeURIComponent(doc.name)}`);
+    navigate(`/document-doctor?scheme=${schemeId}&docName=${encodeURIComponent(doc.name || doc.document_name)}`);
   };
+
+  const docs = data?.required_documents || data?.documents || [];
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       title="Required Document Checklist"
-      maxWidth="680px"
+      maxWidth="640px"
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
           {data?.official_portal_url && (
@@ -44,101 +43,103 @@ const DocumentChecklistModal = ({ schemeId, isOpen, onClose }) => {
               href={data.official_portal_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-outline btn-sm"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+              className="arrow-link"
+              style={{ fontSize: '13px' }}
             >
-              <span>Official Portal</span>
-              <ExternalLink size={14} />
+              Official Portal <span>↗</span>
             </a>
           )}
-          <Button variant="secondary" size="sm" onClick={onClose}>
+          <button
+            type="button"
+            className="sample-button"
+            onClick={onClose}
+            style={{ marginLeft: 'auto' }}
+          >
             Close
-          </Button>
+          </button>
         </div>
       }
     >
       {loading ? (
-        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--slate-500)' }}>
+        <div style={{ padding: '2rem', textAlign: 'center', color: '#77786f' }}>
           Loading official document specifications...
         </div>
       ) : data ? (
         <div>
           {/* Scheme Info Strip */}
-          <div style={{ marginBottom: '1.25rem' }}>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)', marginBottom: '0.25rem' }}>
+          <div style={{ marginBottom: '16px' }}>
+            <span className="tiny-label">SELECTED WELFARE SCHEME</span>
+            <h4 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '18px', fontWeight: 800, margin: '4px 0 6px', color: '#20211f' }}>
               {data.scheme_name}
             </h4>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--slate-500)' }}>
-              Provider: {data.provider_name} &bull; Jurisdiction: {data.jurisdiction}
+            <div style={{ fontSize: '13px', color: '#77786f' }}>
+              Provider: {data.provider_name} • Jurisdiction: {data.jurisdiction}
             </div>
           </div>
 
-          <div className="alert alert-info" style={{ fontSize: '0.8125rem', padding: '0.75rem 1rem' }}>
-            <div>
-              <strong>Pre-Submission Checklist:</strong> Ensure each certificate is updated for the current academic / financial year before initiating your portal application.
-            </div>
+          <div style={{ padding: '12px 16px', borderRadius: '12px', background: '#faf8f3', border: '1px solid #e8e4dc', fontSize: '13px', color: '#45463f', marginBottom: '16px' }}>
+            💡 <strong>Pre-Submission Checklist:</strong> Ensure all certificates are valid for the current academic / financial year before initiating your portal application.
           </div>
 
           {/* Documents List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1rem' }}>
-            {data.documents && data.documents.length > 0 ? (
-              data.documents.map((doc, idx) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {docs.map((doc, idx) => {
+              const docName = typeof doc === 'string' ? doc : doc.document_name || doc.name;
+              const isMandatory = typeof doc === 'object' ? doc.is_mandatory !== false : true;
+              const docNotes = typeof doc === 'object' ? doc.notes || doc.description : '';
+
+              return (
                 <div
-                  key={doc.id || idx}
+                  key={idx}
                   style={{
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '1rem',
-                    background: 'var(--slate-50)',
+                    border: '1px solid #e8e4dc',
+                    borderRadius: '14px',
+                    padding: '14px 18px',
+                    background: '#fffefa',
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.5rem'
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <FileCheck size={18} style={{ color: 'var(--primary-600)' }} />
-                      <span style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--slate-900)' }}>
-                        {doc.name}
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <strong style={{ fontSize: '14px', fontFamily: 'Manrope, sans-serif', color: '#20211f' }}>
+                        {docName}
+                      </strong>
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: 700,
+                          padding: '2px 6px',
+                          borderRadius: '999px',
+                          background: isMandatory ? '#eeebff' : '#faf8f3',
+                          border: `1px solid ${isMandatory ? '#ded3fa' : '#e8e4dc'}`,
+                          color: isMandatory ? '#44317a' : '#77786f'
+                        }}
+                      >
+                        {isMandatory ? 'Mandatory' : 'Conditional'}
                       </span>
                     </div>
-                    <Badge variant="blue">{doc.category || 'Certificate'}</Badge>
+
+                    {docNotes && (
+                      <div style={{ fontSize: '12px', color: '#77786f', marginTop: '2px' }}>
+                        {docNotes}
+                      </div>
+                    )}
                   </div>
 
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--slate-600)', margin: 0 }}>
-                    {doc.guidance}
-                  </p>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: '0.5rem',
-                      paddingTop: '0.5rem',
-                      borderTop: '1px dashed var(--slate-200)',
-                      fontSize: '0.75rem',
-                      color: 'var(--slate-500)'
-                    }}
+                  <button
+                    type="button"
+                    className="arrow-link"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', padding: 0 }}
+                    onClick={() => handleInspectDoc(doc)}
                   >
-                    <span>Issuing: {doc.issuing_authority}</span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleInspectDoc(doc)}
-                      style={{ padding: '0.2rem 0.55rem', fontSize: '0.75rem' }}
-                    >
-                      <span>Check with Document Doctor</span>
-                      <ArrowRight size={12} />
-                    </Button>
-                  </div>
+                    Pre-verify <span>→</span>
+                  </button>
                 </div>
-              ))
-            ) : (
-              <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--slate-500)', fontSize: '0.875rem' }}>
-                No specific documents enumerated in dataset. Basic identity proof (Aadhaar) and income declaration standardly apply.
-              </div>
-            )}
+              );
+            })}
           </div>
         </div>
       ) : null}

@@ -1,12 +1,15 @@
+@import "./nisarga-styles.css";
+
 /* ==========================================================================
    AdhikarAI — Modern Civic Platform Design System
-   Aesthetic Reference: Otto (Warm Terracotta / Coral, Cream, Minimalist, Bold Typography)
+   Visual Styling & Components Adapted from Nisarga Frontend Design
    ========================================================================== */
 
 :root {
   /* Typography */
-  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Manrope', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-editorial: 'Playfair Display', Georgia, serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Primary Theme Palette (Warm Terracotta / Coral Clay) */
@@ -55,11 +58,11 @@
   --amber-50: #fffbeb;
 
   /* Surfaces & Canvas */
-  --bg-page: #F4EDE4;
-  --bg-card: #ffffff;
-  --bg-card-subtle: #fbf8f5;
-  --border-subtle: rgba(139, 115, 85, 0.14);
-  --border-focus: var(--coral-600);
+  --bg-page: var(--paper, #faf8f3);
+  --bg-card: var(--white, #fffefa);
+  --bg-card-subtle: #f7f5ed;
+  --border-subtle: var(--line, #e8e4dc);
+  --border-focus: var(--ink, #20211f);
 
   /* Radii (Modern Pill & Rounded Shapes) */
   --radius-xs: 6px;
@@ -96,8 +99,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-page);
-  color: var(--charcoal-900);
+  background-color: var(--paper, #faf8f3);
+  color: var(--ink, #20211f);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

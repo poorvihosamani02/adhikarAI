@@ -49,6 +49,7 @@ const App = () => {
         <Route path="schemes/:id" element={<SchemeDetailPage />} />
         <Route path="schemes/:id/documents" element={<DocumentChecklistPage />} />
         <Route path="documents" element={<DocumentChecklistPage />} />
+        <Route path="my-schemes" element={<FindSchemesPage />} />
         <Route path="find-schemes" element={<FindSchemesPage />} />
         <Route path="know-your-rights" element={<KnowYourRightsPage />} />
         <Route path="document-doctor" element={<DocumentDoctorPage />} />

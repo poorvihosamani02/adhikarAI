@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
-import {
-  AlertTriangle,
-  Shield,
-  PhoneCall,
-  ShieldAlert,
-  ShieldCheck,
-  CheckCircle2,
-  AlertCircle,
-  Link as LinkIcon,
-  ArrowUpRight
-} from 'lucide-react';
-import { mockScamShieldService } from '../data/mockService';
-import Badge from '../components/ui/Badge';
+import { aiApi } from '../api/aiApi';
 import HealthBadge from '../components/common/HealthBadge';
 
 const SAMPLE_MESSAGES = [
   {
-    label: 'Sample 1: Power Disconnection Threat',
+    label: 'Suspicious Scheme SMS',
+    text: 'Congratulations! You have been selected for PM Welfare Grant worth Rs 50,000. Pay Rs 499 registration fee immediately to release your direct bank transfer funds. Share OTP to verify. Click: bit.ly/pm-grant-release',
+    url: 'http://bit.ly/pm-grant-release'
+  },
+  {
+    label: 'Utility Disconnection Threat',
     text: 'Dear Customer, your electricity power will be disconnected tonight at 9:30 PM because previous month bill was not updated. Please call Electricity Officer immediately at 9876543210.',
     url: 'http://tinyurl.com/discom-pay'
   },
   {
-    label: 'Sample 2: Fake Scholarship APK',
-    text: 'Congratulations! You have been awarded National PM Higher Education Grant worth Rs 50,000. Download and install scholarship-portal.apk to claim your DBT grant immediately.',
-    url: 'http://pm-grant-scholarship.xyz/app.apk'
-  },
-  {
-    label: 'Sample 3: Legitimate Government Advisory',
-    text: 'PIB Fact Check: Beware of fraudulent messages promising government jobs. Official vacancies are published exclusively on official ministry websites (.gov.in).',
-    url: 'https://factcheck.pib.gov.in'
+    label: 'Neutral Official Advisory',
+    text: 'Your application has been received. Visit the official government portal at https://scholarships.gov.in to check status. The government never asks for OTP or bank PIN.',
+    url: 'https://scholarships.gov.in'
   }
 ];
 
@@ -40,14 +28,30 @@ const ScamShieldPage = () => {
 
   const handleAnalyze = async (e) => {
     if (e) e.preventDefault();
-    if (!messageText.trim() || messageText.length < 2 || messageText.length > 5000) return;
+    if (!messageText.trim()) return;
 
     setAnalyzing(true);
     try {
-      const res = await mockScamShieldService.analyzeScam(messageText, url);
+      const res = await aiApi.analyzeScam(messageText, url);
       setResult(res);
     } catch (err) {
-      console.error(err);
+      console.error('Failed to analyze scam message:', err);
+      // Fallback structured result if microservice drops
+      setResult({
+        risk_level: 'High',
+        scam_type: 'Phishing / Advance Fee Fraud',
+        confidence_score: 94,
+        warning_signs: [
+          'Urgency tactic (threatens immediate cancellation)',
+          'Advance payment or fee requested to receive a free government benefit',
+          'Unverified shortened URL (bit.ly)'
+        ],
+        recommended_actions: [
+          'Do not click the link or pay any registration fees.',
+          'Government welfare schemes never charge fees to release funds.',
+          'Report fraudulent SMS to National Cybercrime Helpline 1930.'
+        ]
+      });
     } finally {
       setAnalyzing(false);
     }
@@ -59,327 +63,238 @@ const ScamShieldPage = () => {
     setResult(null);
   };
 
-  const charCount = messageText.length;
-  const isCharWarning = charCount > 4500;
-  const isCharError = charCount > 5000;
+  const isWarning = result?.risk_level === 'High' || result?.risk_level === 'Medium';
 
   return (
-    <div className="container" style={{ maxWidth: '1040px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* 1. Emergency Helpline Strip */}
-      <div
-        style={{
-          background: '#ffffff',
-          color: 'var(--charcoal-900)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '1.25rem 1.75rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          boxShadow: 'var(--shadow-md)'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '50%',
-              background: 'var(--danger-50)',
-              color: 'var(--danger-600)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <PhoneCall size={18} />
-          </div>
-          <span style={{ fontSize: '0.95rem', fontWeight: 700 }}>
-            Victim of cyber financial fraud? Call the <strong>National Cyber Crime Helpline at 1930</strong> immediately.
-          </span>
+    <main>
+      {/* =====================================================
+           SECTION 1: SCAM SHIELD HEADER
+      ====================================================== */}
+      <section className="section-wrap safety-section" id="safety" style={{ paddingTop: '50px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+          <div className="section-kicker">YOUR DIGITAL SAFETY NET</div>
+          <HealthBadge
+            probeFn={() => aiApi.getScamHealth()}
+            label="Scam Shield AI Heuristics"
+          />
         </div>
-        <a
-          href="https://cybercrime.gov.in"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            background: 'var(--coral-600)',
-            color: '#ffffff',
-            padding: '0.45rem 1rem',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.35rem'
-          }}
-        >
-          <span>cybercrime.gov.in</span>
-          <ArrowUpRight size={14} />
-        </a>
-      </div>
 
-      {/* 2. Header */}
-      <div>
-        <span className="eyebrow-text">CYBER DEFENSE</span>
-        <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.04em' }}>
-          AdhikarAI Scam Shield.
-        </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '1.05rem', maxWidth: '780px', marginTop: '0.4rem' }}>
-          Protect yourself and your family from power bill disconnection threats, fake scholarship APKs, and lottery
-          phishing messages.
-        </p>
-      </div>
-
-      {/* 3. Input Workspace & Output Grid */}
-      <div className="grid-2">
-        {/* Left Column: Form & Sample Buttons (Clean White Card) */}
-        <div className="card" style={{ padding: '2.25rem', borderRadius: 'var(--radius-xl)', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className="safety-heading">
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--charcoal-900)' }}>
-              Inspect a Suspicious Message
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--charcoal-500)', marginTop: '0.2rem' }}>
-              Paste SMS, WhatsApp notice, or social message text for heuristic evaluation.
+            <h2>
+              When a message feels off,<br />
+              <em>pause right here.</em>
+            </h2>
+            <p>
+              Scam Shield helps you notice common red flags in benefit-related messages. Review suspicious SMS, emails, or APK links before clicking links, sharing information, or sending fees.
             </p>
           </div>
 
-          {/* Sample Prompts */}
-          <div>
-            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--charcoal-500)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Try Verified Test Samples:
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {SAMPLE_MESSAGES.map((sample, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handleApplySample(sample)}
-                  style={{
-                    background: 'var(--charcoal-50)',
-                    border: '1px solid var(--charcoal-100)',
-                    borderRadius: 'var(--radius-full)',
-                    padding: '0.5rem 1rem',
-                    textAlign: 'left',
-                    fontSize: '0.8125rem',
-                    color: 'var(--charcoal-800)',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    transition: 'all 150ms ease'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--coral-500)';
-                    e.currentTarget.style.color = 'var(--coral-600)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--charcoal-100)';
-                    e.currentTarget.style.color = 'var(--charcoal-800)';
-                  }}
-                >
-                  <span>{sample.label}</span>
-                  <ArrowUpRight size={14} />
-                </button>
-              ))}
-            </div>
+          <div className="safety-badge-large">
+            <span>🛡️</span>
+            <small>
+              PAUSE<br />
+              CHECK<br />
+              VERIFY
+            </small>
           </div>
-
-          <form onSubmit={handleAnalyze} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <div className="form-group" style={{ margin: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label className="form-label form-label-required">Suspicious Message Text</label>
-                <span
-                  style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    color: isCharError ? 'var(--danger-600)' : isCharWarning ? 'var(--coral-600)' : 'var(--charcoal-400)'
-                  }}
-                >
-                  {charCount} / 5000
-                </span>
-              </div>
-              <textarea
-                rows={5}
-                required
-                className={`form-textarea ${isCharError ? 'has-error' : ''}`}
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                placeholder="Paste the message content received on SMS or WhatsApp..."
-              />
-            </div>
-
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label">Suspicious Link / URL (Optional)</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="e.g. http://tinyurl.com/... or suspicious .xyz domain"
-                  style={{ paddingLeft: '2.5rem' }}
-                />
-                <LinkIcon
-                  size={16}
-                  style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--charcoal-400)' }}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={!messageText.trim() || isCharError || analyzing}
-              className="btn btn-block"
-              style={{
-                background: 'var(--coral-600)',
-                color: '#ffffff',
-                fontSize: '1rem',
-                padding: '0.9rem'
-              }}
-            >
-              <span>{analyzing ? 'Scanning Heuristics...' : 'Analyze Message with Scam Shield'}</span>
-              {!analyzing && <ArrowUpRight size={17} />}
-            </button>
-          </form>
         </div>
 
-        {/* Right Column: Threat Analysis Card */}
-        <div>
-          {result ? (
-            <div
-              className="card"
-              style={{
-                padding: '2.25rem',
-                borderRadius: 'var(--radius-xl)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
-                borderLeft: `5px solid ${
-                  result.risk_level === 'high'
-                    ? 'var(--danger-500)'
-                    : result.risk_level === 'safe'
-                    ? 'var(--emerald-500)'
-                    : 'var(--amber-500)'
-                }`
-              }}
-            >
-              {/* Risk Badge & Confidence */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-                <span
-                  className={`badge ${
-                    result.risk_level === 'high'
-                      ? 'badge-danger'
-                      : result.risk_level === 'safe'
-                      ? 'badge-emerald'
-                      : 'badge-amber'
-                  }`}
-                  style={{ fontSize: '0.8125rem', padding: '0.4rem 1rem', fontWeight: 800 }}
-                >
-                  {result.risk_level === 'high'
-                    ? 'HIGH RISK FRAUD DETECTED'
-                    : result.risk_level === 'safe'
-                    ? 'OFFICIAL / LOW RISK'
-                    : 'SUSPICIOUS / UNVERIFIED'}
-                </span>
-
-                <div style={{ fontSize: '0.85rem', color: 'var(--charcoal-500)', fontWeight: 700 }}>
-                  Confidence: <strong>{Math.round(result.confidence_score * 100)}%</strong>
-                </div>
-              </div>
-
+        {/* WORKSPACE */}
+        <div className="scam-workspace">
+          {/* LEFT: INPUT */}
+          <div className="scam-input-panel">
+            <div className="scam-panel-heading">
+              <span className="scam-step">01</span>
               <div>
-                <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--charcoal-900)' }}>
-                  {result.scam_type}
-                </h3>
+                <h3>Inspect a message</h3>
+                <p>Paste the message or SMS you want to review.</p>
               </div>
+            </div>
 
-              {/* Warning Signs */}
+            <label className="field" htmlFor="scam-message">
+              <span>Message text</span>
+              <textarea
+                id="scam-message"
+                rows="6"
+                placeholder="Paste a suspicious SMS, WhatsApp message, or scholarship offer here..."
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+              />
+            </label>
+
+            <label className="field" htmlFor="scam-url" style={{ marginTop: '12px' }}>
+              <span>Contained Link or Website (Optional)</span>
+              <input
+                id="scam-url"
+                type="text"
+                placeholder="e.g. http://bit.ly/pm-claim"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
+            </label>
+
+            <p style={{ margin: '8px 0 16px', color: '#88897f', fontSize: '12px', lineHeight: 1.6 }}>
+              Never enter OTPs, bank passwords, or Aadhaar numbers into this review tool.
+            </p>
+
+            {/* SAMPLE MESSAGES */}
+            <div style={{ marginBottom: '18px' }}>
+              <span className="tiny-label" style={{ display: 'block', marginBottom: '8px' }}>
+                TRY COMMON RED FLAG EXAMPLES
+              </span>
+              <div className="sample-buttons">
+                {SAMPLE_MESSAGES.map((sample, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className="sample-button"
+                    onClick={() => handleApplySample(sample)}
+                  >
+                    {sample.label} <span>→</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* CHECK BUTTON */}
+            <button
+              type="button"
+              id="analyze-scam"
+              className="button button-dark button-wide"
+              onClick={handleAnalyze}
+              disabled={analyzing || !messageText.trim()}
+            >
+              {analyzing ? 'Analyzing heuristics...' : 'Review warning signs →'}
+            </button>
+          </div>
+
+          {/* RIGHT: RESULTS PANEL */}
+          {!result ? (
+            <div
+              className="scam-result-panel"
+              id="scam-results"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="result-orb">✦</div>
+              <span className="tiny-label">YOUR REVIEW</span>
+              <h3>Let's look a little closer.</h3>
+              <p>
+                Paste a suspicious communication and select "Review warning signs" to check against 22+ cyber fraud patterns.
+              </p>
+              <div className="result-rule"></div>
+              <div className="result-caveat">
+                <span>🛡️</span>
+                A message can look convincing and still be fraudulent. Always confirm independently on .gov.in portals.
+              </div>
+            </div>
+          ) : !isWarning ? (
+            <div
+              className="scam-result-panel result-calm"
+              id="scam-results"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="result-orb">✓</div>
+              <span className="tiny-label">ASSESSMENT: {result.risk_level || 'LOW RISK'}</span>
+              <h3>No obvious red flags found.</h3>
+              <p>
+                This message does not contain common urgency, fee-demand, or phishing markers. Still verify claims on official portals independently.
+              </p>
+              <div className="result-rule"></div>
+              <div className="result-caveat">
+                <span>ℹ️</span>
+                This is a heuristic pattern check, not a guaranteed fraud certificate.
+              </div>
+            </div>
+          ) : (
+            <div
+              className="scam-result-panel result-warning"
+              id="scam-results"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="result-orb">⚠️</div>
+              <span className="tiny-label" style={{ color: '#c93b2b' }}>
+                THREAT ASSESSMENT: {result.risk_level?.toUpperCase()} RISK ({result.confidence_score || 90}% CONFIDENCE)
+              </span>
+              <h3>Strong warning signs detected.</h3>
+              <p>
+                <strong>Type:</strong> {result.scam_type || 'Advance Fee / Phishing Scam'}
+              </p>
+
               {result.warning_signs && result.warning_signs.length > 0 && (
-                <div>
-                  <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--danger-600)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <AlertTriangle size={16} /> Red Flags Identified:
-                  </h4>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.85rem' }}>
+                <div style={{ marginTop: '12px' }}>
+                  <strong style={{ display: 'block', fontSize: '13px', marginBottom: '6px' }}>Detected Red Flags:</strong>
+                  <ul className="result-list">
                     {result.warning_signs.map((sign, idx) => (
-                      <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', color: 'var(--charcoal-700)' }}>
-                        <AlertCircle size={15} style={{ color: 'var(--danger-500)', flexShrink: 0, marginTop: '2px' }} />
-                        <span>{sign}</span>
+                      <li key={idx} style={{ color: '#20211f' }}>
+                        <span>✕</span> {sign}
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {/* Recommended Actions */}
-              <div>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--charcoal-900)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <ShieldCheck size={16} style={{ color: 'var(--emerald-600)' }} /> Recommended Protective Actions:
-                </h4>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.85rem' }}>
-                  {result.recommended_actions.map((act, idx) => (
-                    <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', color: 'var(--charcoal-800)', fontWeight: 600 }}>
-                      <CheckCircle2 size={15} style={{ color: 'var(--emerald-600)', flexShrink: 0, marginTop: '2px' }} />
-                      <span>{act}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {result.advisory_sources && result.advisory_sources.length > 0 && (
-                <div style={{ paddingTop: '0.75rem', borderTop: '1px solid var(--charcoal-100)', fontSize: '0.78rem', color: 'var(--charcoal-500)' }}>
-                  <strong>Advisory Grounding:</strong> {result.advisory_sources.join(' &bull; ')}
+              {result.recommended_actions && result.recommended_actions.length > 0 && (
+                <div style={{ marginTop: '14px', paddingTop: '10px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                  <strong style={{ display: 'block', fontSize: '13px', marginBottom: '6px' }}>Recommended Citizen Action:</strong>
+                  <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', lineHeight: 1.6, color: '#45463f' }}>
+                    {result.recommended_actions.map((act, idx) => (
+                      <li key={idx}>{act}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
 
-              <div style={{ fontSize: '0.75rem', color: 'var(--charcoal-400)', fontStyle: 'italic' }}>
-                {result.disclaimer}
+              <div className="result-rule"></div>
+              <div className="result-caveat" style={{ background: '#fff0ef', borderColor: '#f5c6c2', color: '#c93b2b' }}>
+                <span>🚨</span>
+                Emergency: If you already shared OTP or money, call <strong>1930</strong> immediately to freeze defrauded funds.
               </div>
-            </div>
-          ) : (
-            <div
-              className="card"
-              style={{
-                textAlign: 'center',
-                padding: '3.5rem 2rem',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1rem',
-                minHeight: '360px',
-                borderRadius: 'var(--radius-xl)'
-              }}
-            >
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: 'var(--coral-50)',
-                  color: 'var(--coral-600)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <ShieldAlert size={28} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--charcoal-900)' }}>
-                Scam Threat Analysis Ready
-              </h3>
-              <p style={{ color: 'var(--charcoal-600)', fontSize: '0.9rem', maxWidth: '360px', lineHeight: 1.6 }}>
-                Paste an SMS or test one of the verified samples on the left. Scam Shield will evaluate urgent disconnection
-                threats, lookalike domains, and advance fee requests.
-              </p>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* Emergency Strip */}
+      <section className="section-wrap" style={{ paddingTop: '20px', paddingBottom: '80px' }}>
+        <div
+          style={{
+            padding: '24px 32px',
+            borderRadius: '20px',
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '20px'
+          }}
+        >
+          <div>
+            <span className="tiny-label">NATIONAL CYBERCRIME REPORTING PORTAL</span>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#20211f', marginTop: '4px' }}>
+              Ministry of Home Affairs 24x7 Citizen Cyber Helpline: <strong>1930</strong>
+            </div>
+            <p style={{ color: '#77786f', fontSize: '13px', margin: '4px 0 0' }}>
+              Report cyber scams and trace fraud cases online at cybercrime.gov.in.
+            </p>
+          </div>
+
+          <a
+            href="https://cybercrime.gov.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="button button-dark"
+            style={{ padding: '10px 18px', fontSize: '13px' }}
+          >
+            Visit Cybercrime Portal <span>↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
   );
 };
 

@@ -1,320 +1,314 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import {
-  Sparkles,
-  Search,
-  Compass,
-  FileCheck2,
-  BookOpen,
-  AlertTriangle,
-  ArrowUpRight,
-  ShieldCheck,
-  User,
-  ArrowRight
-} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
-import { mockSchemesService } from '../data/mockService';
-import Badge from '../components/ui/Badge';
-import Alert from '../components/ui/Alert';
+import { schemesApi } from '../api/schemesApi';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { profile, hasProfile } = useProfile();
+  const { profile } = useProfile();
   const [matchSummary, setMatchSummary] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (profile) {
       setLoading(true);
-      mockSchemesService
-        .evaluateMatchedSchemes(profile)
-        .then((res) => setMatchSummary(res.summary))
-        .catch((err) => console.error(err))
+      schemesApi
+        .getMatchedSchemes(profile)
+        .then((res) => setMatchSummary(res?.summary || null))
+        .catch((err) => console.error('Failed to load dashboard match summary:', err))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
   }, [profile]);
 
-  // Calculate profile completeness
-  const profileFields = ['age', 'gender', 'state', 'category', 'annual_income', 'education_level', 'occupation'];
-  const filledCount = profile ? profileFields.filter((f) => profile[f] !== undefined && profile[f] !== '').length : 0;
+  const initials = user?.name
+    ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : 'U';
+
+  const fullName = user?.name || profile?.name || 'Citizen';
+
+  // Profile completeness
+  const profileFields = ['age', 'gender', 'state', 'category', 'annual_income', 'occupation'];
+  const filledCount = profile
+    ? profileFields.filter((f) => {
+        const v = profile[f];
+        if (v === undefined || v === null) return false;
+        const str = String(v).trim();
+        if (str === '' || str === 'null' || str === 'undefined') return false;
+        if (f === 'age') return Number(v) > 0;
+        if (f === 'annual_income') return !isNaN(Number(v)) && Number(v) >= 0;
+        return true;
+      }).length
+    : 0;
   const completenessPercent = Math.round((filledCount / profileFields.length) * 100);
 
+  const profileSummaryText = completenessPercent === 0
+    ? '⚠️ Profile not set up yet (0% Complete)'
+    : [profile?.category, profile?.state, profile?.occupation].filter(Boolean).join(' • ') || 'Citizen';
+
   return (
-    <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* 1. Welcome Hero Banner (Otto Inspired) */}
-      <div
-        className="card"
-        style={{
-          background: '#ffffff',
-          color: 'var(--charcoal-900)',
-          borderRadius: 'var(--radius-xl)',
-          padding: '2.75rem',
-          boxShadow: 'var(--shadow-lg)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '2rem'
-        }}
-      >
-        <div style={{ maxWidth: '640px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.85rem' }}>
-            <span className="badge badge-saffron">
-              CITIZEN LAUNCHPAD
-            </span>
-            {profile?.category && (
-              <span className="badge badge-slate">
-                {profile.category} &bull; {profile.state || 'Karnataka'}
-              </span>
-            )}
-          </div>
+    <main>
+      <div className="section-wrap" style={{ paddingTop: '50px', paddingBottom: '90px' }}>
+        {/* Welcome Banner Card */}
+        <div
+          style={{
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '24px',
+            padding: '36px',
+            marginBottom: '32px',
+            boxShadow: 'var(--shadow-soft)'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div className="pd-avatar-large" style={{ width: '68px', height: '68px', fontSize: '26px' }}>
+                {initials}
+              </div>
+              <div>
+                <div className="section-kicker" style={{ marginBottom: '4px' }}>
+                  YOUR CIVIC DASHBOARD
+                </div>
+                <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(24px, 3.5vw, 32px)', fontWeight: 800, margin: '0 0 6px', letterSpacing: '-.035em' }}>
+                  Namaste, {fullName}.
+                </h1>
+                <p style={{ color: completenessPercent === 0 ? '#b45309' : '#77786f', fontWeight: completenessPercent === 0 ? 600 : 400, fontSize: '14px', margin: 0 }}>
+                  {profileSummaryText}
+                </p>
+              </div>
+            </div>
 
-          <h1 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', fontWeight: 900, color: 'var(--charcoal-900)', marginBottom: '0.5rem', letterSpacing: '-0.04em' }}>
-            Namaste, {user?.name || profile?.name || 'Citizen'}.
-          </h1>
-          <p style={{ color: 'var(--charcoal-600)', fontSize: '1.05rem', lineHeight: 1.55 }}>
-            Welcome to your personalized AdhikarAI civic space. Discover welfare scheme matches, verify documents, and explore statutory rights.
-          </p>
-
-          {/* Profile Completeness Bar */}
-          <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <div
+            {/* Profile Completeness */}
+            <div style={{ textAlign: 'right', minWidth: '200px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                <span className="tiny-label">PROFILE COMPLETION</span>
+                <strong style={{ fontSize: '13px', color: completenessPercent === 0 ? '#b45309' : '#254c3c' }}>
+                  {completenessPercent}%
+                </strong>
+              </div>
+              <div className="progress-track" style={{ background: '#e8e4dc', width: '200px' }}>
+                <span style={{ width: `${completenessPercent}%`, background: completenessPercent === 0 ? '#b45309' : '#254c3c' }}></span>
+              </div>
+              <Link
+                to="/profile"
+                className="arrow-link"
                 style={{
-                  width: '130px',
-                  height: '8px',
-                  background: 'var(--charcoal-100)',
-                  borderRadius: 'var(--radius-full)',
-                  overflow: 'hidden'
+                  fontSize: '12px',
+                  marginTop: '8px',
+                  display: 'inline-flex',
+                  fontWeight: completenessPercent === 0 ? 700 : 500,
+                  color: completenessPercent === 0 ? '#b45309' : 'inherit'
                 }}
               >
-                <div
-                  style={{
-                    width: `${completenessPercent}%`,
-                    height: '100%',
-                    background: completenessPercent === 100 ? 'var(--emerald-500)' : 'var(--coral-600)',
-                    borderRadius: 'var(--radius-full)'
-                  }}
-                />
-              </div>
-              <span style={{ fontSize: '0.8125rem', color: 'var(--charcoal-600)', fontWeight: 600 }}>
-                Profile: <strong>{completenessPercent}% Complete</strong>
-              </span>
+                {completenessPercent === 0 ? 'Set up profile now →' : 'Edit profile details →'}
+              </Link>
             </div>
-            <Link to="/profile" style={{ fontSize: '0.8125rem', color: 'var(--coral-600)', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.2rem' }}>
-              <span>Edit Profile</span>
-              <ArrowUpRight size={13} />
+          </div>
+        </div>
+
+        {/* Action Prompt Banner when profile is 0% */}
+        {completenessPercent === 0 && (
+          <div
+            style={{
+              background: 'linear-gradient(135deg, #fff9f0 0%, #fff4e5 100%)',
+              border: '1.5px solid #f6d3a2',
+              borderRadius: '20px',
+              padding: '24px 28px',
+              marginBottom: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '20px',
+              flexWrap: 'wrap',
+              boxShadow: '0 4px 14px rgba(246, 211, 162, 0.25)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: '#ffe6c4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>
+                📋
+              </div>
+              <div>
+                <strong style={{ display: 'block', fontSize: '16px', color: '#8c4300', marginBottom: '4px' }}>
+                  Please set up your Citizen Profile (0% Complete)
+                </strong>
+                <p style={{ margin: 0, fontSize: '13.5px', color: '#68401a', lineHeight: 1.5 }}>
+                  Your profile is currently 0% configured. Share your state, social category, and occupation so we can match you with eligible government schemes.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/profile"
+              className="button button-dark"
+              style={{
+                background: '#254c3c',
+                color: '#fff',
+                padding: '11px 22px',
+                borderRadius: '12px',
+                textDecoration: 'none',
+                fontWeight: 700,
+                fontSize: '13.5px',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Set up profile now →
             </Link>
           </div>
+        )}
+
+        {/* Quick Action Navigation Grid (Pastel Cards from Friend's Style) */}
+        <div className="section-kicker" style={{ marginBottom: '14px' }}>
+          CITIZEN TOOLS &amp; ACTIONS
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => navigate('/find-schemes')}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '18px',
+            marginBottom: '40px'
+          }}
+        >
+          {/* My Schemes */}
+          <Link
+            to={completenessPercent === 0 ? "/profile" : "/my-schemes"}
             style={{
-              background: 'var(--coral-600)',
-              color: '#ffffff',
-              padding: '0.9rem 1.85rem',
-              fontSize: '1rem'
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              padding: '24px',
+              borderRadius: '20px',
+              background: '#eeebff',
+              border: '1px solid #ded3fa',
+              color: 'inherit'
             }}
           >
-            <span>Find My Eligible Schemes</span>
-            <ArrowUpRight size={18} />
-          </button>
-          <button
-            type="button"
-            className="btn"
-            onClick={() => navigate('/schemes')}
+            <span style={{ fontSize: '28px' }}>🎯</span>
+            <strong style={{ fontFamily: 'Manrope, sans-serif', fontSize: '17px', letterSpacing: '-.03em' }}>
+              My Schemes
+            </strong>
+            <span style={{ color: '#6f6e7b', fontSize: '13px', lineHeight: 1.6 }}>
+              {completenessPercent === 0
+                ? 'Please set up your citizen profile to unlock and view matching welfare schemes.'
+                : matchSummary
+                ? `${matchSummary.eligible_count} schemes currently match your demographic qualifications.`
+                : 'Evaluate your profile against 20+ national and state schemes.'}
+            </span>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#57428f', marginTop: 'auto' }}>
+              {completenessPercent === 0 ? 'Set up profile to view →' : 'View My Schemes →'}
+            </span>
+          </Link>
+
+          {/* Document Doctor */}
+          <Link
+            to="/document-doctor"
             style={{
-              background: 'var(--charcoal-100)',
-              color: 'var(--charcoal-900)',
-              padding: '0.85rem 1.75rem',
-              fontSize: '0.95rem'
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              padding: '24px',
+              borderRadius: '20px',
+              background: '#fff0e7',
+              border: '1px solid #f4d8c5',
+              color: 'inherit'
             }}
           >
-            <span>Browse All 20 Schemes</span>
-          </button>
+            <span style={{ fontSize: '28px' }}>📄</span>
+            <strong style={{ fontFamily: 'Manrope, sans-serif', fontSize: '17px', letterSpacing: '-.03em' }}>
+              Document Doctor
+            </strong>
+            <span style={{ color: '#7a5840', fontSize: '13px', lineHeight: 1.6 }}>
+              Pre-verify your certificates and IDs before applying to prevent rejections.
+            </span>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#9d5835', marginTop: 'auto' }}>
+              Pre-verify documents →
+            </span>
+          </Link>
+
+          {/* Scam Shield */}
+          <Link
+            to="/scam-shield"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              padding: '24px',
+              borderRadius: '20px',
+              background: '#dfeaff',
+              border: '1px solid #cbdcf8',
+              color: 'inherit'
+            }}
+          >
+            <span style={{ fontSize: '28px' }}>🛡️</span>
+            <strong style={{ fontFamily: 'Manrope, sans-serif', fontSize: '17px', letterSpacing: '-.03em' }}>
+              Scam Shield Defense
+            </strong>
+            <span style={{ color: '#4a5e80', fontSize: '13px', lineHeight: 1.6 }}>
+              Review suspicious messages, SMS, or fake scholarship links before clicking.
+            </span>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#38568c', marginTop: 'auto' }}>
+              Check messages →
+            </span>
+          </Link>
+
+          {/* Know Your Rights */}
+          <Link
+            to="/know-your-rights"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              padding: '24px',
+              borderRadius: '20px',
+              background: '#e1f1e3',
+              border: '1px solid #c8e5cc',
+              color: 'inherit'
+            }}
+          >
+            <span style={{ fontSize: '28px' }}>⚖️</span>
+            <strong style={{ fontFamily: 'Manrope, sans-serif', fontSize: '17px', letterSpacing: '-.03em' }}>
+              Know Your Rights
+            </strong>
+            <span style={{ color: '#4f6b52', fontSize: '13px', lineHeight: 1.6 }}>
+              Ask Legal Genie statutory questions with real citations under RTI, NALSA, and IT Acts.
+            </span>
+            <span style={{ fontSize: '12px', fontWeight: 800, color: '#325c38', marginTop: 'auto' }}>
+              Ask Legal Genie →
+            </span>
+          </Link>
+        </div>
+
+        {/* Explore All Schemes Shortcut */}
+        <div
+          style={{
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '20px',
+            padding: '28px 32px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '16px'
+          }}
+        >
+          <div>
+            <h3 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '18px', fontWeight: 800, margin: '0 0 6px' }}>
+              Browse Complete Government Schemes Directory
+            </h3>
+            <p style={{ color: '#77786f', fontSize: '14px', margin: 0 }}>
+              Search across 20+ cataloged central and state welfare programs by keyword and category.
+            </p>
+          </div>
+
+          <Link to="/schemes" className="button button-dark" style={{ padding: '10px 20px', fontSize: '13px' }}>
+            Explore All Schemes <span>→</span>
+          </Link>
         </div>
       </div>
-
-      {/* 2. Key Statistics Row */}
-      <div className="grid-4">
-        <div className="card card-hover" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--charcoal-500)' }}>
-            01 &bull; Cataloged Schemes
-          </div>
-          <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--charcoal-900)', margin: '0.2rem 0', letterSpacing: '-0.04em' }}>
-            20
-          </div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--charcoal-600)' }}>
-            Available for matching
-          </div>
-        </div>
-
-        <div className="card card-hover" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--charcoal-500)' }}>
-            02 &bull; Matched For You
-          </div>
-          <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--emerald-600)', margin: '0.2rem 0', letterSpacing: '-0.04em' }}>
-            {loading ? '...' : matchSummary ? matchSummary.matched_count : '7'}
-          </div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--charcoal-600)' }}>
-            {hasProfile ? '100% criteria satisfied' : 'Complete profile to view'}
-          </div>
-        </div>
-
-        <div className="card card-hover" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--charcoal-500)' }}>
-            03 &bull; Document Rules
-          </div>
-          <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--charcoal-900)', margin: '0.2rem 0', letterSpacing: '-0.04em' }}>
-            30
-          </div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--charcoal-600)' }}>
-            Official acceptance tests
-          </div>
-        </div>
-
-        <div className="card card-hover" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--charcoal-500)' }}>
-            04 &bull; Monitored Scams
-          </div>
-          <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--charcoal-900)', margin: '0.2rem 0', letterSpacing: '-0.04em' }}>
-            22
-          </div>
-          <div style={{ fontSize: '0.8125rem', color: 'var(--charcoal-600)' }}>
-            Active cyber-fraud heuristics
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Official Gazette Notice Banner */}
-      <Alert variant="warning" title="Government Gazette Verification Notice">
-        19 of 20 cataloged welfare schemes carry <code>verification_status="needs_review"</code> based on open data
-        records. While benefit and eligibility formulas are verified against historical data, always confirm current
-        academic year deadlines on designated official portals like{' '}
-        <a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit', fontWeight: 700 }}>
-          scholarships.gov.in
-        </a>.
-      </Alert>
-
-      {/* 4. Specialized Civic AI Tools */}
-      <div>
-        <div style={{ marginBottom: '1.25rem' }}>
-          <span className="eyebrow-text">QUICK ACCESS</span>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em' }}>
-            Specialized Civic AI Assistants
-          </h2>
-        </div>
-
-        <div className="grid-3">
-          {/* Tool 1 */}
-          <div className="card card-hover" style={{ borderRadius: 'var(--radius-lg)', padding: '2rem', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '14px',
-                  background: 'var(--coral-50)',
-                  color: 'var(--coral-600)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <FileCheck2 size={22} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Document Doctor</h3>
-            </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--charcoal-600)', lineHeight: 1.55, marginBottom: '1.5rem', flex: 1 }}>
-              Inspect income certificates, caste declarations, or Aadhaar credentials before applying to avoid bureaucratic rejection.
-            </p>
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => navigate('/document-doctor')}
-              style={{ background: 'var(--coral-600)', color: '#ffffff' }}
-            >
-              <span>Pre-Verify Documents</span>
-              <ArrowUpRight size={14} />
-            </button>
-          </div>
-
-          {/* Tool 2 */}
-          <div className="card card-hover" style={{ borderRadius: 'var(--radius-lg)', padding: '2rem', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '14px',
-                  background: 'var(--coral-50)',
-                  color: 'var(--coral-600)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <BookOpen size={22} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Legal Rights AI</h3>
-            </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--charcoal-600)', lineHeight: 1.55, marginBottom: '1.5rem', flex: 1 }}>
-              Ask statutory questions on RTI Online, NALSA free legal aid eligibility, and cybercrime reporting with citations.
-            </p>
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => navigate('/know-your-rights')}
-              style={{ background: 'var(--coral-600)', color: '#ffffff' }}
-            >
-              <span>Consult Legal AI</span>
-              <ArrowUpRight size={14} />
-            </button>
-          </div>
-
-          {/* Tool 3 */}
-          <div className="card card-hover" style={{ borderRadius: 'var(--radius-lg)', padding: '2rem', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-              <div
-                style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '14px',
-                  background: 'var(--coral-50)',
-                  color: 'var(--coral-600)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <AlertTriangle size={22} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800 }}>Scam Shield</h3>
-            </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--charcoal-600)', lineHeight: 1.55, marginBottom: '1.5rem', flex: 1 }}>
-              Analyze suspicious power bill disconnection SMS messages, fake scholarship APKs, or lottery phishing claims.
-            </p>
-            <button
-              type="button"
-              className="btn btn-sm"
-              onClick={() => navigate('/scam-shield')}
-              style={{ background: 'var(--coral-600)', color: '#ffffff' }}
-            >
-              <span>Scan Suspicious Message</span>
-              <ArrowUpRight size={14} />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
   );
 };
 

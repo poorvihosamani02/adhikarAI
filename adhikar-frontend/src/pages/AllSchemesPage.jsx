@@ -1,15 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Search,
-  Filter,
-  X,
-  Compass,
-  Info
-} from 'lucide-react';
-import { mockSchemesService } from '../data/mockService';
+import { schemesApi } from '../api/schemesApi';
 import SchemeCard from '../components/schemes/SchemeCard';
 import DocumentChecklistModal from '../components/schemes/DocumentChecklistModal';
-import Badge from '../components/ui/Badge';
 
 const AllSchemesPage = () => {
   const [schemes, setSchemes] = useState([]);
@@ -26,12 +18,12 @@ const AllSchemesPage = () => {
   const [activeChecklistSchemeId, setActiveChecklistSchemeId] = useState(null);
 
   useEffect(() => {
-    mockSchemesService
+    schemesApi
       .getAllSchemes()
       .then((res) => {
-        setSchemes(res.data);
+        setSchemes(res?.data || res?.schemes || []);
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error('Failed to load schemes from API:', err))
       .finally(() => setLoading(false));
   }, []);
 
@@ -105,235 +97,277 @@ const AllSchemesPage = () => {
     setSortBy('name_asc');
   };
 
+  const handleCategoryCardClick = (catName) => {
+    // Find closest matching category in list
+    const matched = categories.find(c => c.toLowerCase().includes(catName.toLowerCase()));
+    if (matched) {
+      setSelectedCategory(matched);
+    } else {
+      setSelectedCategory('all');
+    }
+    const el = document.getElementById('scheme-directory');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Page Title & Eyebrow */}
-      <div>
-        <span className="eyebrow-text">PUBLIC CIVIC DIRECTORY</span>
-        <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.04em' }}>
-          Government Scheme Catalog.
-        </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '1.05rem', maxWidth: '780px', marginTop: '0.4rem' }}>
-          Explore cataloged welfare schemes across central ministries and Karnataka state departments with comprehensive
-          statutory guidelines, benefit limits, and required document checklists.
-        </p>
-      </div>
+    <main>
+      {/* =====================================================
+           1. BENEFIT CATEGORIES HERO
+      ====================================================== */}
+      <section className="section-wrap benefits-section" style={{ paddingTop: '70px' }}>
+        <div className="section-kicker">SUPPORT FOR DIFFERENT JOURNEYS</div>
 
-      {/* Search and Filters Bar (Clean White Card) */}
-      <div
-        className="card"
-        style={{
-          padding: '1.5rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          borderRadius: 'var(--radius-xl)'
-        }}
-      >
-        {/* Top row: search bar & sort */}
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: '260px', position: 'relative' }}>
-            <input
-              type="text"
-              className="form-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by scheme name, ministry, keyword, or course..."
-              style={{ paddingLeft: '2.5rem' }}
-            />
-            <Search
-              size={17}
-              style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--charcoal-400)' }}
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                style={{
-                  position: 'absolute',
-                  right: '0.85rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--charcoal-400)'
-                }}
-              >
-                <X size={16} />
-              </button>
-            )}
-          </div>
-
-          <div style={{ minWidth: '190px' }}>
-            <select className="form-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="name_asc">Sort: Name (A to Z)</option>
-              <option value="benefit_desc">Sort: Benefit (High to Low)</option>
-            </select>
-          </div>
+        <div className="section-heading-row" style={{ marginTop: '16px' }}>
+          <h2>
+            Where could support<br />
+            <em>begin for you?</em>
+          </h2>
+          <p>
+            Start with an area of life. Each category leads you towards verified official government scheme information, eligibility rules, and document requirements.
+          </p>
         </div>
 
-        {/* Second row: dropdown filter controls */}
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--charcoal-500)', fontSize: '0.85rem', fontWeight: 700 }}>
-            <Filter size={15} /> Filters:
+        <div className="benefit-category-grid">
+          {/* EDUCATION */}
+          <article className="benefit-category benefit-education" onClick={() => handleCategoryCardClick('education')} style={{ cursor: 'pointer' }}>
+            <div className="category-icon">🎓</div>
+            <span className="category-number">01 / LEARNING</span>
+            <h3>Education &amp; Scholarships</h3>
+            <p>Pre-Matric, Post-Matric, and higher education assistance for eligible students.</p>
+            <div className="arrow-link">
+              Explore education support <span>→</span>
+            </div>
+          </article>
+
+          {/* AGRICULTURE */}
+          <article className="benefit-category benefit-agriculture" onClick={() => handleCategoryCardClick('agriculture')} style={{ cursor: 'pointer' }}>
+            <div className="category-icon">🌾</div>
+            <span className="category-number">02 / CULTIVATING</span>
+            <h3>Agriculture &amp; Farmers</h3>
+            <p>Direct income support, crop insurance, and equipment grants for cultivating families.</p>
+            <div className="arrow-link">
+              Explore agriculture support <span>→</span>
+            </div>
+          </article>
+
+          {/* HEALTHCARE */}
+          <article className="benefit-category benefit-health" onClick={() => handleCategoryCardClick('health')} style={{ cursor: 'pointer' }}>
+            <div className="category-icon">🏥</div>
+            <span className="category-number">03 / WELLBEING</span>
+            <h3>Healthcare &amp; Insurance</h3>
+            <p>Secondary and tertiary hospitalization coverage for vulnerable households.</p>
+            <div className="arrow-link">
+              Explore healthcare support <span>→</span>
+            </div>
+          </article>
+
+          {/* LIVELIHOOD */}
+          <article className="benefit-category benefit-livelihood" onClick={() => handleCategoryCardClick('livelihood')} style={{ cursor: 'pointer' }}>
+            <div className="category-icon">💼</div>
+            <span className="category-number">04 / OPPORTUNITY</span>
+            <h3>Livelihood &amp; Skills</h3>
+            <p>Guaranteed wage employment, credit linkage for self-help groups, and artisan grants.</p>
+            <div className="arrow-link">
+              Explore livelihood support <span>→</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* =====================================================
+           2. SCHEME DIRECTORY & SEARCH
+      ====================================================== */}
+      <section className="section-wrap" id="scheme-directory" style={{ paddingTop: '40px', paddingBottom: '90px' }}>
+        <div className="section-kicker">EXPLORE GOVERNMENT PROGRAMMES</div>
+
+        <div className="section-heading-row" style={{ marginTop: '14px' }}>
+          <div>
+            <h2>
+              Find support that<br />
+              <em>fits your journey.</em>
+            </h2>
           </div>
-
-          <select
-            className="form-select"
-            style={{ width: 'auto', minWidth: '150px', padding: '0.45rem 0.85rem' }}
-            value={selectedJurisdiction}
-            onChange={(e) => setSelectedJurisdiction(e.target.value)}
-          >
-            <option value="all">All Jurisdictions</option>
-            <option value="central">Central Schemes</option>
-            <option value="karnataka">Karnataka State</option>
-          </select>
-
-          <select
-            className="form-select"
-            style={{ width: 'auto', minWidth: '160px', padding: '0.45rem 0.85rem' }}
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="all">All Categories</option>
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c.charAt(0).toUpperCase() + c.slice(1)}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="form-select"
-            style={{ width: 'auto', minWidth: '160px', padding: '0.45rem 0.85rem' }}
-            value={selectedBeneficiary}
-            onChange={(e) => setSelectedBeneficiary(e.target.value)}
-          >
-            <option value="all">All Beneficiaries</option>
-            <option value="sc">Scheduled Caste (SC)</option>
-            <option value="st">Scheduled Tribe (ST)</option>
-            <option value="obc">Other Backward Class (OBC)</option>
-            <option value="minority">Minorities</option>
-            <option value="bpl">BPL / Low Income</option>
-          </select>
-
-          {hasActiveFilters && (
-            <button
-              onClick={handleResetFilters}
-              style={{
-                background: 'var(--danger-50)',
-                border: 'none',
-                color: 'var(--danger-600)',
-                padding: '0.4rem 0.85rem',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.3rem'
-              }}
-            >
-              <X size={13} /> Clear filters
-            </button>
-          )}
-
-          <div style={{ marginLeft: 'auto', fontSize: '0.85rem', color: 'var(--charcoal-500)', fontWeight: 700 }}>
-            Showing {filteredSchemes.length} of {schemes.length} Schemes
-          </div>
+          <p>
+            Search by scheme name or keywords, or filter by category and beneficiary groups.
+          </p>
         </div>
-      </div>
 
-      {/* Schemes Grid */}
-      {loading ? (
-        <div style={{ padding: '4rem 1rem', textAlign: 'center', color: '#ffffff' }}>
-          <div style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Loading Government Scheme Catalog...</div>
-          <p style={{ opacity: 0.8 }}>Indexing central and state welfare entitlements.</p>
-        </div>
-      ) : filteredSchemes.length > 0 ? (
-        <div className="grid-3">
-          {filteredSchemes.map((scheme) => (
-            <SchemeCard
-              key={scheme.scheme_id}
-              scheme={scheme}
-              onOpenChecklist={(s) => setActiveChecklistSchemeId(s.scheme_id)}
-            />
-          ))}
-        </div>
-      ) : (
+        {/* Search Bar & Filters */}
         <div
-          className="card"
           style={{
-            textAlign: 'center',
-            padding: '3.5rem 1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1rem',
-            borderRadius: 'var(--radius-xl)'
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '20px',
+            padding: '24px',
+            marginBottom: '32px',
+            boxShadow: 'var(--shadow-soft)'
           }}
         >
+          {/* Keyword Search */}
+          <div style={{ marginBottom: '20px' }}>
+            <label className="field" htmlFor="scheme-search">
+              <span>Search schemes by keyword or provider</span>
+              <input
+                id="scheme-search"
+                type="search"
+                placeholder="Search PM-KISAN, NSP, Ayushman Bharat, Scholarships..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </label>
+          </div>
+
+          {/* Filter Pills */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* Category Filter Pills */}
+            <div className="rights-categories" style={{ margin: 0 }}>
+              <button
+                type="button"
+                className={`rights-filter ${selectedCategory === 'all' ? 'active' : ''}`}
+                onClick={() => setSelectedCategory('all')}
+              >
+                All Categories ({schemes.length})
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`rights-filter ${selectedCategory === cat ? 'active' : ''}`}
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Jurisdiction & Sort Dropdowns */}
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <select
+                value={selectedJurisdiction}
+                onChange={(e) => setSelectedJurisdiction(e.target.value)}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--line, #e8e4dc)',
+                  background: '#faf8f3',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  color: '#45463f'
+                }}
+              >
+                <option value="all">All Jurisdictions</option>
+                <option value="central">Central Government</option>
+                <option value="karnataka">Karnataka State</option>
+              </select>
+
+              <select
+                value={selectedBeneficiary}
+                onChange={(e) => setSelectedBeneficiary(e.target.value)}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--line, #e8e4dc)',
+                  background: '#faf8f3',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  color: '#45463f'
+                }}
+              >
+                <option value="all">All Beneficiaries</option>
+                <option value="sc">SC Category</option>
+                <option value="st">ST Category</option>
+                <option value="obc">OBC Category</option>
+                <option value="bpl">BPL / Low Income</option>
+                <option value="minority">Minority Communities</option>
+              </select>
+
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  className="sample-button"
+                  onClick={handleResetFilters}
+                  style={{ fontSize: '12px' }}
+                >
+                  Reset ✕
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#77786f' }}>
+            <div style={{ fontSize: '24px', marginBottom: '12px' }}>⏳</div>
+            <p>Loading cataloged government schemes from SQLite database...</p>
+          </div>
+        )}
+
+        {/* Results Counter */}
+        {!loading && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', fontSize: '13px', color: '#77786f' }}>
+            <span>Showing <strong>{filteredSchemes.length}</strong> welfare schemes</span>
+            <span>Always confirm eligibility on official government portals</span>
+          </div>
+        )}
+
+        {/* Scheme Grid */}
+        {!loading && (
           <div
             style={{
-              width: '56px',
-              height: '56px',
-              borderRadius: '50%',
-              background: 'var(--charcoal-100)',
-              color: 'var(--charcoal-500)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+              gap: '20px'
             }}
           >
-            <Search size={28} />
+            {filteredSchemes.map((scheme) => (
+              <SchemeCard
+                key={scheme.scheme_id}
+                scheme={scheme}
+                onOpenChecklist={(s) => setActiveChecklistSchemeId(s.scheme_id)}
+              />
+            ))}
           </div>
-          <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--charcoal-900)' }}>
-            No Schemes Found Matching Criteria
-          </h3>
-          <p style={{ color: 'var(--charcoal-600)', fontSize: '0.9rem', maxWidth: '440px' }}>
-            Try clearing search keywords or loosening the category and beneficiary filters.
-          </p>
-          <button
-            type="button"
-            className="btn btn-sm"
-            onClick={handleResetFilters}
-            style={{ background: 'var(--coral-600)', color: '#ffffff' }}
+        )}
+
+        {/* Empty Search State */}
+        {!loading && filteredSchemes.length === 0 && (
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '60px 20px',
+              borderRadius: '20px',
+              background: '#fffefa',
+              border: '1px solid var(--line, #e8e4dc)'
+            }}
           >
-            Reset All Filters
-          </button>
-        </div>
-      )}
+            <div style={{ fontSize: '32px', marginBottom: '12px' }}>🔍</div>
+            <h3 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '18px', fontWeight: 800 }}>
+              No schemes match your filter
+            </h3>
+            <p style={{ color: '#77786f', fontSize: '14px', maxWidth: '400px', margin: '8px auto 20px' }}>
+              Try searching with different terms or reset your active category filters to view all available welfare schemes.
+            </p>
+            <button
+              type="button"
+              className="button button-dark"
+              onClick={handleResetFilters}
+            >
+              Reset all filters
+            </button>
+          </div>
+        )}
+      </section>
 
-      {/* Catalog Disclosures Box */}
-      <div
-        className="card"
-        style={{
-          borderRadius: 'var(--radius-lg)',
-          padding: '1.25rem 1.5rem',
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '0.85rem'
-        }}
-      >
-        <Info size={20} style={{ color: 'var(--coral-600)', flexShrink: 0, marginTop: '2px' }} />
-        <div style={{ fontSize: '0.8125rem', color: 'var(--charcoal-700)', lineHeight: 1.6 }}>
-          <strong>Dataset Provenance &amp; Verification Notice:</strong> The schemes displayed above are cataloged from
-          official central and state open gazettes for Academic / Financial Year 2026-2027. Application windows, fee
-          concessions, and deadlines are subject to periodic ministry notification updates. Always complete final
-          submissions directly on verified portals like{' '}
-          <a href="https://scholarships.gov.in" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit', fontWeight: 700 }}>
-            scholarships.gov.in
-          </a>.
-        </div>
-      </div>
-
-      {/* Document Checklist Modal */}
+      {/* Modal for Scheme Document Checklist */}
       <DocumentChecklistModal
         schemeId={activeChecklistSchemeId}
-        isOpen={!!activeChecklistSchemeId}
+        isOpen={Boolean(activeChecklistSchemeId)}
         onClose={() => setActiveChecklistSchemeId(null)}
       />
-    </div>
+    </main>
   );
 };
 

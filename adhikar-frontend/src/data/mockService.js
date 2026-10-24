@@ -39,6 +39,9 @@ export const mockAuthService = {
 
     if (matchedProfile) {
       localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(matchedProfile));
+    } else {
+      // Clear demo profile for custom users so profile setup starts at 0%
+      localStorage.removeItem(STORAGE_KEYS.PROFILE);
     }
 
     return {
@@ -65,6 +68,9 @@ export const mockAuthService = {
       email: email.toLowerCase().trim()
     };
 
+    // Fresh sign up starts with 0% profile
+    localStorage.removeItem(STORAGE_KEYS.PROFILE);
+
     return {
       status: 'success',
       is_demo: true,
@@ -86,7 +92,7 @@ export const mockAuthService = {
   logout: () => {
     localStorage.removeItem(STORAGE_KEYS.USER);
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    // Keep or reset profile as needed
+    localStorage.removeItem(STORAGE_KEYS.PROFILE);
   }
 };
 
@@ -98,14 +104,14 @@ export const mockProfileService = {
     await new Promise((r) => setTimeout(r, 200));
     const raw = localStorage.getItem(STORAGE_KEYS.PROFILE);
     if (!raw) {
-      // Default to Arun Kumar for instant prototype demonstration
-      localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(DEFAULT_CITIZEN_PROFILE));
-      return { status: 'success', is_demo: true, profile: DEFAULT_CITIZEN_PROFILE };
+      // Do NOT default to Arun Kumar; return empty/null profile so new sign-ins start at 0%
+      return { status: 'success', is_demo: true, profile: null, has_profile: false };
     }
     try {
-      return { status: 'success', is_demo: true, profile: JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      return { status: 'success', is_demo: true, profile: parsed, has_profile: Boolean(parsed && parsed.state && parsed.category) };
     } catch {
-      return { status: 'success', is_demo: true, profile: null };
+      return { status: 'success', is_demo: true, profile: null, has_profile: false };
     }
   },
 
@@ -233,12 +239,13 @@ export const mockSchemesService = {
   evaluateMatchedSchemes: async (profile) => {
     await new Promise((r) => setTimeout(r, 380));
 
-    if (!profile) {
+    const hasCompleteProfile = Boolean(profile && profile.state && profile.category && profile.age);
+    if (!profile || !hasCompleteProfile) {
       return {
         status: 'success',
         is_demo: true,
         has_profile: false,
-        message: 'Citizen profile not found. Please complete your profile to find eligible schemes.',
+        message: 'Citizen profile not completed yet. Please complete your profile to find eligible schemes.',
         matched_count: 0,
         total_schemes_evaluated: 0,
         schemes: []

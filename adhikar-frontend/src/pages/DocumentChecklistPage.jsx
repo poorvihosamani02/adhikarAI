@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import {
-  FileCheck2,
-  FileText,
-  ArrowLeft,
-  ExternalLink,
-  ChevronRight,
-  Shield,
-  Printer,
-  Sparkles,
-  Search
-} from 'lucide-react';
-import { mockSchemesService } from '../data/mockService';
-import Button from '../components/ui/Button';
-import Badge from '../components/ui/Badge';
-import Alert from '../components/ui/Alert';
+import { schemesApi } from '../api/schemesApi';
 
 const DocumentChecklistPage = () => {
   const { id } = useParams();
@@ -24,205 +10,227 @@ const DocumentChecklistPage = () => {
   const [schemeData, setSchemeData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Checkbox tracking state
+  const [checkedItems, setCheckedItems] = useState({});
+
   useEffect(() => {
-    mockSchemesService
+    schemesApi
       .getAllSchemes()
       .then((res) => {
-        setSchemes(res.data);
+        const list = res?.data || res?.schemes || [];
+        setSchemes(list);
         if (id) {
           setSelectedSchemeId(id);
-        } else if (res.data.length > 0) {
-          setSelectedSchemeId(res.data[0].scheme_id);
+        } else if (list.length > 0) {
+          setSelectedSchemeId(list[0].scheme_id);
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching schemes for checklist:', err));
   }, [id]);
 
   useEffect(() => {
     if (selectedSchemeId) {
       setLoading(true);
-      mockSchemesService
+      schemesApi
         .getSchemeDocuments(selectedSchemeId)
         .then((res) => {
-          setSchemeData(res);
+          setSchemeData(res?.data || res);
+          setCheckedItems({});
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.error('Error fetching scheme documents:', err))
         .finally(() => setLoading(false));
     }
   }, [selectedSchemeId]);
 
+  const toggleCheck = (idx) => {
+    setCheckedItems(prev => ({
+      ...prev,
+      [idx]: !prev[idx]
+    }));
+  };
+
+  const docs = schemeData?.required_documents || schemeData?.documents || [];
+  const totalCount = docs.length;
+  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+  const progressPercent = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
+
   return (
-    <div className="container" style={{ maxWidth: '980px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Breadcrumb & Navigation */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: 'var(--slate-500)' }}>
-          <Link to="/" style={{ color: 'inherit' }}>Home</Link>
-          <ChevronRight size={14} />
-          <Link to="/schemes" style={{ color: 'inherit' }}>Schemes</Link>
-          <ChevronRight size={14} />
-          <span style={{ color: 'var(--slate-800)', fontWeight: 600 }}>Document Checklist</span>
-        </nav>
-
-        <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={() => navigate('/schemes')}>
-          Back to Schemes
-        </Button>
-      </div>
-
-      {/* Header */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
-          <Badge variant="blue" icon={FileCheck2}>
-            Pre-Application Requirements
-          </Badge>
-          <Badge variant="emerald">Standardized Guidance</Badge>
+    <main>
+      <div className="section-wrap" style={{ paddingTop: '50px', paddingBottom: '90px' }}>
+        {/* Breadcrumbs */}
+        <div className="profile-breadcrumb" style={{ marginBottom: '20px' }}>
+          <Link to="/">Home</Link>
+          <span>›</span>
+          <Link to="/schemes">Explore Benefits</Link>
+          <span>›</span>
+          <strong>Document Checklist</strong>
         </div>
-        <h1 style={{ fontSize: '2.1rem', fontWeight: 800, color: 'var(--slate-900)' }}>
-          Required Document Checklists
-        </h1>
-        <p style={{ color: 'var(--slate-600)', fontSize: '0.95rem' }}>
-          Review official certificates and identity documents required before applying for government welfare schemes.
-        </p>
-      </div>
 
-      {/* Scheme Selector */}
-      <div className="card" style={{ padding: '1.25rem 1.5rem', display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-        <label style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--slate-700)', flexShrink: 0 }}>
-          Select Scheme:
-        </label>
-        <select
-          className="form-select"
-          style={{ flex: 1, minWidth: '260px' }}
-          value={selectedSchemeId}
-          onChange={(e) => setSelectedSchemeId(e.target.value)}
+        {/* Section Heading */}
+        <div className="section-kicker">PRE-APPLICATION PREPARATION</div>
+        <div className="section-heading-row" style={{ marginTop: '12px', marginBottom: '28px' }}>
+          <div>
+            <h2>
+              Check your application<br />
+              <em>documents in advance.</em>
+            </h2>
+          </div>
+          <p>
+            Verify and assemble required identity, income, and category certificates before approaching public facilitation centers.
+          </p>
+        </div>
+
+        {/* Scheme Selector Card */}
+        <div
+          style={{
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '20px',
+            padding: '24px',
+            marginBottom: '28px',
+            boxShadow: 'var(--shadow-soft)'
+          }}
         >
-          {schemes.map((s) => (
-            <option key={s.scheme_id} value={s.scheme_id}>
-              {s.scheme_id}: {s.scheme_name} ({s.jurisdiction})
-            </option>
-          ))}
-        </select>
-        <Button variant="outline" size="sm" icon={Printer} onClick={() => window.print()}>
-          Print Checklist
-        </Button>
-      </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+            <label className="field" style={{ flex: 1, minWidth: '280px', margin: 0 }}>
+              <span>Select Scheme to View Required Documents</span>
+              <select
+                value={selectedSchemeId}
+                onChange={(e) => setSelectedSchemeId(e.target.value)}
+              >
+                {schemes.map((s) => (
+                  <option key={s.scheme_id} value={s.scheme_id}>
+                    {s.scheme_name} ({s.category || 'General'})
+                  </option>
+                ))}
+              </select>
+            </label>
 
-      {/* Checklist Content */}
-      {loading ? (
-        <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--slate-500)' }}>
-          Loading document requirements...
-        </div>
-      ) : schemeData ? (
-        <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-            <div>
-              <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.35rem' }}>
-                <Badge variant={schemeData.jurisdiction === 'central' ? 'blue' : 'purple'}>
-                  {schemeData.jurisdiction === 'central' ? 'Central Scheme' : 'Karnataka State'}
-                </Badge>
-              </div>
-              <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--slate-900)' }}>
-                {schemeData.scheme_name}
-              </h2>
-              <div style={{ fontSize: '0.85rem', color: 'var(--slate-500)', marginTop: '0.2rem' }}>
-                Provider Ministry: <strong>{schemeData.provider_name}</strong>
-              </div>
+            {schemeData && (
+              <Link
+                to={`/schemes/${selectedSchemeId}`}
+                className="button button-dark"
+                style={{ padding: '10px 18px', fontSize: '13px' }}
+              >
+                View Scheme Details <span>→</span>
+              </Link>
+            )}
+          </div>
+
+          {/* Readiness Progress Bar */}
+          <div style={{ marginTop: '24px', paddingTop: '18px', borderTop: '1px solid var(--line, #e8e4dc)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <span className="tiny-label">DOCUMENT READINESS PROGRESS</span>
+              <strong style={{ fontSize: '13px', color: '#254c3c' }}>
+                {checkedCount} of {totalCount} ready ({progressPercent}%)
+              </strong>
             </div>
 
-            {schemeData.official_portal_url && (
-              <a
-                href={schemeData.official_portal_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary btn-sm"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
-              >
-                <span>Official Portal</span>
-                <ExternalLink size={14} />
-              </a>
-            )}
-          </div>
-
-          <Alert variant="info">
-            <strong>Verification Recommendation:</strong> Prior to submitting on the official portal, use Document Doctor to
-            pre-check that certificates carry current academic year validity and authorized digital tahsildar seals.
-          </Alert>
-
-          {/* Documents Cards List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {schemeData.documents && schemeData.documents.length > 0 ? (
-              schemeData.documents.map((doc, idx) => (
-                <div
-                  key={doc.id || idx}
-                  style={{
-                    padding: '1.25rem',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    background: 'var(--slate-50)',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '1rem'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                    <div
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: 'var(--radius-sm)',
-                        background: 'var(--primary-100)',
-                        color: 'var(--primary-700)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
-                      }}
-                    >
-                      <FileText size={20} />
-                    </div>
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--slate-900)' }}>
-                          {doc.name}
-                        </span>
-                        <Badge variant="blue" style={{ fontSize: '0.7rem' }}>
-                          {doc.category}
-                        </Badge>
-                      </div>
-                      <p style={{ fontSize: '0.8125rem', color: 'var(--slate-600)', margin: '0.25rem 0' }}>
-                        {doc.guidance}
-                      </p>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>
-                        Issuing Authority: <strong>{doc.issuing_authority}</strong> &bull; Verification:{' '}
-                        <em>{doc.verification_method}</em>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    icon={FileCheck2}
-                    onClick={() =>
-                      navigate(
-                        `/document-doctor?schemeId=${schemeData.scheme_id}&docName=${encodeURIComponent(doc.name)}`
-                      )
-                    }
-                  >
-                    Check with Document Doctor
-                  </Button>
-                </div>
-              ))
-            ) : (
-              <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--slate-500)', fontSize: '0.9rem' }}>
-                Standard identity verification (Aadhaar / Voter ID) and bank passbook apply.
-              </div>
-            )}
+            <div className="progress-track" style={{ background: '#e8e4dc' }}>
+              <span style={{ width: `${progressPercent}%`, background: '#254c3c' }}></span>
+            </div>
           </div>
         </div>
-      ) : null}
-    </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#77786f' }}>
+            <div style={{ fontSize: '28px', marginBottom: '12px' }}>⏳</div>
+            <p>Loading document requirements checklist from database...</p>
+          </div>
+        )}
+
+        {/* Document Checklist Items */}
+        {!loading && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {docs.map((doc, idx) => {
+              const docName = typeof doc === 'string' ? doc : doc.document_name || doc.name;
+              const isMandatory = typeof doc === 'object' ? doc.is_mandatory !== false : true;
+              const docDesc = typeof doc === 'object' ? doc.description || doc.notes : '';
+              const isChecked = Boolean(checkedItems[idx]);
+
+              return (
+                <div
+                  key={idx}
+                  onClick={() => toggleCheck(idx)}
+                  style={{
+                    background: isChecked ? '#f1f5e8' : '#fffefa',
+                    border: `1px solid ${isChecked ? '#c8e5cc' : '#e8e4dc'}`,
+                    borderRadius: '16px',
+                    padding: '20px 24px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    cursor: 'pointer',
+                    transition: 'all .2s ease'
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => {}}
+                    style={{ width: '20px', height: '20px', marginTop: '3px', accentColor: '#254c3c', cursor: 'pointer' }}
+                  />
+
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '4px' }}>
+                      <strong style={{ fontSize: '16px', fontFamily: 'Manrope, sans-serif', color: '#20211f', textDecoration: isChecked ? 'line-through' : 'none' }}>
+                        {docName}
+                      </strong>
+                      <span
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          padding: '2px 8px',
+                          borderRadius: '999px',
+                          background: isMandatory ? '#eeebff' : '#faf8f3',
+                          border: `1px solid ${isMandatory ? '#ded3fa' : '#e8e4dc'}`,
+                          color: isMandatory ? '#44317a' : '#77786f'
+                        }}
+                      >
+                        {isMandatory ? 'Mandatory' : 'Conditional / If Applicable'}
+                      </span>
+                    </div>
+
+                    {docDesc && (
+                      <p style={{ margin: '4px 0 0', color: '#77786f', fontSize: '13px' }}>
+                        {docDesc}
+                      </p>
+                    )}
+                  </div>
+
+                  <Link
+                    to={`/document-doctor?scheme=${selectedSchemeId}&docName=${encodeURIComponent(docName)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="arrow-link"
+                    style={{ fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap' }}
+                  >
+                    Pre-verify <span>→</span>
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && docs.length === 0 && (
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '50px 20px',
+              borderRadius: '20px',
+              background: '#fffefa',
+              border: '1px solid var(--line, #e8e4dc)'
+            }}
+          >
+            <p style={{ color: '#77786f', margin: 0 }}>
+              No document records found for this scheme. Check official guidelines on the portal.
+            </p>
+          </div>
+        )}
+      </div>
+    </main>
   );
 };
 

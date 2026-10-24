@@ -1,0 +1,5552 @@
+@import "./page-styles.css";
+
+/*
+ADHIKARAI — ANNOTATED SHARED STYLESHEET
+
+
+
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: :root. */
+:root {
+  --ink: #20211f;
+  --ink-soft: #4f514d;
+  --muted: #fda103;
+  --paper: #faf8f3;
+  --white: #fffefa;
+  --line: #e8e4dc;
+  --green: #c9f26c;
+  --green-dark: #254c3c;
+  --lilac: #e9ddff;
+  --peach: #ffd9c8;
+  --mint: #d6f0df;
+  --blue: #dceaff;
+  --coral: #ff785d;
+  --radius-lg: 28px;
+  --shadow-soft: 0 24px 70px rgba(48, 45, 36, .09);
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: *. */
+* {
+  box-sizing: border-box;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: html. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: body. */
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: a. */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: button, input, select, textarea. */
+button, input, select, textarea {
+  font: inherit;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: button, a, select. */
+button, a, select {
+  -webkit-tap-highlight-color: transparent;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: button. */
+button {
+  cursor: pointer;
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: ::selection. */
+::selection {
+  background: #d9f6a1;
+  color: var(--ink);
+}
+/* OUTPUT SECTION: GLOBAL / BASE STYLES. SELECTOR: .sr-only. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+/* ─── ANNOUNCEMENT BAR ─── */
+/* OUTPUT SECTION: ANNOUNCEMENT BAR. SELECTOR: .announcement. */
+.announcement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 35px;
+  padding: 7px 16px;
+  background: var(--green);
+  color: #283b25;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .035em;
+}
+/* OUTPUT SECTION: ANNOUNCEMENT BAR. SELECTOR: .announcement-dot. */
+.announcement-dot {
+  width: 6px;
+  height: 6px;
+  background: #426c2b;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(66,108,43,.12);
+}
+/* OUTPUT SECTION: ANNOUNCEMENT BAR. SELECTOR: .announcement-arrow. */
+.announcement-arrow {
+  margin-left: 2px;
+  font-size: 16px;
+}
+/* ─── SITE HEADER ─── */
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .site-header. */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  min-height: 83px;
+  padding: 15px max(5.2vw, 24px);
+  background: rgba(250,248,243,.91);
+  border-bottom: 1px solid rgba(232,228,220,.8);
+  backdrop-filter: blur(18px);
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand. */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-mark. */
+.brand-mark {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 13px;
+  background: var(--green-dark);
+  color: white;
+  font-family: Manrope, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  transform: rotate(-5deg);
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-mark > span. */
+.brand-mark > span {
+  transform: rotate(5deg);
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-mark i. */
+.brand-mark i {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: var(--ink);
+  font-size: 12px;
+  font-style: normal;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-copy. */
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-copy strong. */
+.brand-copy strong {
+  font-family: Manrope, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.065em;
+  line-height: 1.05;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-copy strong span. */
+.brand-copy strong span {
+  color: #62874b;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .brand-copy small. */
+.brand-copy small {
+  color: var(--muted);
+  font-size: 35px;
+  letter-spacing: .015em;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .main-nav. */
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.6vw, 36px);
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .main-nav a. */
+.main-nav a {
+  color: #53554f;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color .2s ease;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .main-nav a:hover, .main-nav a.active. */
+.main-nav a:hover, .main-nav a.active {
+  color: #719448;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .header-actions. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .language-select select. */
+.language-select select {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #565850;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .header-cta. */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 99px;
+  background: var(--ink);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform .2s, background .2s;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .header-cta:hover. */
+.header-cta:hover {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .header-cta span. */
+.header-cta span {
+  font-size: 17px;
+}
+/* OUTPUT SECTION: SITE HEADER. SELECTOR: .menu-toggle. */
+.menu-toggle {
+  display: none;
+  border: 0;
+  background: transparent;
+  font-size: 23px;
+}
+/* ─── PROFILE AVATAR (header top-right) ─── */
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-wrap. */
+.profile-avatar-wrap {
+  position: relative;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-btn. */
+.profile-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid rgba(32,33,31,.12);
+  border-radius: 99px;
+  background: var(--white);
+  cursor: pointer;
+  transition: box-shadow .2s, border-color .2s;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-btn:hover. */
+.profile-avatar-btn:hover {
+  border-color: #8eb96b;
+  box-shadow: 0 4px 14px rgba(32,33,31,.08);
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-img. */
+.profile-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--peach);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 15px;
+  color: #7a4533;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-img img. */
+.profile-avatar-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-name. */
+.profile-avatar-name {
+  font-size: 13px;
+  font-weight: 700;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-caret. */
+.profile-avatar-caret {
+  font-size: 12px;
+  color: var(--muted);
+  transition: transform .2s;
+}
+/* OUTPUT SECTION: PROFILE AVATAR (header top-right). SELECTOR: .profile-avatar-btn[aria-expanded="true"] .profile-avatar-caret. */
+.profile-avatar-btn[aria-expanded="true"] .profile-avatar-caret {
+  transform: rotate(180deg);
+}
+/* Profile dropdown */
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .profile-dropdown. */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 300px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 20px 60px rgba(32,33,31,.13);
+  z-index: 99;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .profile-dropdown.open. */
+.profile-dropdown.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-head. */
+.pd-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--line);
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-avatar-large. */
+.pd-avatar-large {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: var(--peach);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: #7a4533;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-avatar-large img. */
+.pd-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-name. */
+.pd-name {
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-email. */
+.pd-email {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 3px;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-badge. */
+.pd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--mint);
+  color: #3d6e50;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-info-grid. */
+.pd-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-info-item. */
+.pd-info-item {
+  padding: 9px 0;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-info-item small. */
+.pd-info-item small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-info-item strong. */
+.pd-info-item strong {
+  display: block;
+  color: var(--ink);
+  font-size: 11px;
+  margin-top: 3px;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-actions. */
+.pd-actions {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 2px;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-action-link. */
+.pd-action-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background .18s;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-action-link:hover. */
+.pd-action-link:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-action-link .pd-icon. */
+.pd-action-link .pd-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-action-link.logout. */
+.pd-action-link.logout {
+  color: #b04040;
+}
+/* OUTPUT SECTION: HEADER — PROFILE DROPDOWN. SELECTOR: .pd-action-link.logout:hover. */
+.pd-action-link.logout:hover {
+  background: #fff0ef;
+}
+/* ─── SECTION UTILITIES ─── */
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: .section-wrap. */
+.section-wrap {
+  width: min(1160px, calc(100% - 48px));
+  margin: 0 auto;
+}
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: .eyebrow, .section-kicker. */
+.eyebrow, .section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #6a7164;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: .eyebrow-icon. */
+.eyebrow-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--green);
+  color: #37502d;
+  font-size: 16px;
+}
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: h1, h2, h3, p. */
+h1, h2, h3, p {
+  margin-top: 0;
+}
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: h1, h2. */
+h1, h2 {
+  font-family: Manrope, sans-serif;
+  letter-spacing: -.065em;
+}
+/* OUTPUT SECTION: SECTION UTILITIES. SELECTOR: h1 em, h2 em. */
+h1 em, h2 em {
+  color: #64824d;
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  letter-spacing: -.055em;
+}
+/* ─── BUTTONS ─── */
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button. */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  border: 0;
+  border-radius: 99px;
+  padding: 15px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button:hover. */
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 25px rgba(20,30,20,.13);
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button-dark. */
+.button-dark {
+  background: var(--ink);
+  color: white;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button-dark:hover. */
+.button-dark:hover {
+  background: var(--green-dark);
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button span. */
+.button span {
+  font-size: 17px;
+  line-height: 10px;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .button-wide. */
+.button-wide {
+  width: 100%;
+  margin-top: 5px;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .text-link. */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid #b6b8ac;
+  padding: 7px 0;
+  transition: gap .2s;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .text-link:hover. */
+.text-link:hover {
+  gap: 15px;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .arrow-link. */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(45,45,40,.3);
+  font-size: 12px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .arrow-link span. */
+.arrow-link span {
+  font-size: 17px;
+  transition: transform .2s;
+}
+/* OUTPUT SECTION: BUTTONS. SELECTOR: .arrow-link:hover span. */
+.arrow-link:hover span {
+  transform: translate(3px,-2px);
+}
+/* ─── FORM FIELDS ─── */
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 13px;
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field > span. */
+.field > span {
+  color: #64665e;
+  font-size: 12px;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field select, .field input, .field textarea. */
+.field select, .field input, .field textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #e7e5de;
+  border-radius: 10px;
+  outline: 0;
+  padding: 12px 11px;
+  background: #fffefa;
+  color: #393b35;
+  font-size: 12px;
+  transition: border .2s, box-shadow .2s;
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field select:focus, .field input:focus, .field textarea:focus. */
+.field select:focus, .field input:focus, .field textarea:focus {
+  border-color: #8aaf69;
+  box-shadow: 0 0 0 3px rgba(142,185,107,.15);
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field-grid. */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .field-full. */
+.field-full {
+  grid-column: 1 / -1;
+}
+/* OUTPUT SECTION: FORM FIELDS. SELECTOR: .form-privacy-note. */
+.form-privacy-note {
+  margin: 12px 0 0;
+  color: #92948b;
+  font-size: 11px;
+  text-align: center;
+}
+/* ─── PROGRESS TRACK ─── */
+/* OUTPUT SECTION: PROGRESS TRACK. SELECTOR: .progress-track. */
+.progress-track {
+  overflow: hidden;
+  height: 5px;
+  border-radius: 9px;
+  background: #eeeee8;
+}
+/* OUTPUT SECTION: PROGRESS TRACK. SELECTOR: .progress-track > span. */
+.progress-track > span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #8eb96b;
+  transition: width .3s;
+}
+/* ─── TICKER ─── */
+/* OUTPUT SECTION: TICKER. SELECTOR: .ticker. */
+.ticker {
+  overflow: hidden;
+  background: var(--ink);
+  color: #f9f7f0;
+}
+/* OUTPUT SECTION: TICKER. SELECTOR: .ticker-track. */
+.ticker-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 27px;
+  min-width: 850px;
+  padding: 17px 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  animation: ticker-slide 22s linear infinite;
+}
+/* OUTPUT SECTION: TICKER. SELECTOR: .ticker-track b. */
+.ticker-track b {
+  color: var(--green);
+  font-size: 16px;
+}
+@keyframes ticker-slide {
+  /* OUTPUT SECTION: ANIMATION ticker-slide (USED IN TICKER). SELECTOR: from. */
+  from {
+    transform: translateX(0);
+  }
+  /* OUTPUT SECTION: ANIMATION ticker-slide (USED IN TICKER). SELECTOR: to. */
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* ─── HERO ─── */
+/* OUTPUT SECTION: HERO. SELECTOR: .hero. */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(390px, .98fr);
+  align-items: center;
+  gap: clamp(40px, 7vw, 100px);
+  min-height: 630px;
+  padding-top: 72px;
+  padding-bottom: 82px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-copy. */
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 5px 0 0 1.5%;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero h1. */
+.hero h1 {
+  max-width: 640px;
+  margin: 25px 0 20px;
+  font-size: clamp(48px, 5.5vw, 75px);
+  line-height: .99;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-intro. */
+.hero-intro {
+  max-width: 450px;
+  margin-bottom: 27px;
+  color: #666960;
+  font-size: 17px;
+  line-height: 1.8;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-buttons. */
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-proof. */
+.hero-proof {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 42px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .proof-icon-stack. */
+.proof-icon-stack {
+  display: flex;
+  padding-left: 3px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .proof-icon-stack span. */
+.proof-icon-stack span {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  margin-left: -4px;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--peach);
+  color: #6d4a3b;
+  font-size: 15px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .proof-icon-stack span:nth-child(2). */
+.proof-icon-stack span:nth-child(2) {
+  background: var(--lilac);
+  color: #5c477c;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .proof-icon-stack span:nth-child(3). */
+.proof-icon-stack span:nth-child(3) {
+  background: var(--green);
+  color: #36562b;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-proof p. */
+.hero-proof p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-proof strong. */
+.hero-proof strong {
+  font-size: 11px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-proof p span. */
+.hero-proof p span {
+  color: var(--muted);
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-art. */
+.hero-art {
+  min-height: 475px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  isolation: isolate;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-art::before. */
+.hero-art::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  width: 400px;
+  height: 400px;
+  border-radius: 48% 52% 62% 38% / 44% 42% 58% 56%;
+  background: #e9e0ff;
+  transform: rotate(-15deg);
+  animation: blob-shift 11s ease-in-out infinite alternate;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .hero-art::after. */
+.hero-art::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: -2%;
+  bottom: 7%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: #d7f2a7;
+  opacity: .7;
+  filter: blur(1px);
+}
+@keyframes blob-shift {
+  /* OUTPUT SECTION: ANIMATION blob-shift (USED IN HERO). SELECTOR: from. */
+  from {
+    border-radius: 48% 52% 62% 38% / 44% 42% 58% 56%;
+    transform: rotate(-15deg) scale(.98);
+  }
+  /* OUTPUT SECTION: ANIMATION blob-shift (USED IN HERO). SELECTOR: to. */
+  to {
+    border-radius: 62% 38% 40% 60% / 54% 60% 40% 46%;
+    transform: rotate(7deg) scale(1.03);
+  }
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .art-orbit. */
+.art-orbit {
+  position: absolute;
+  border: 1px solid rgba(119,94,170,.19);
+  border-radius: 50%;
+  transform: rotate(-28deg);
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .orbit-one. */
+.orbit-one {
+  width: 470px;
+  height: 200px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .orbit-two. */
+.orbit-two {
+  width: 500px;
+  height: 260px;
+  transform: rotate(37deg);
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .benefit-window. */
+.benefit-window {
+  position: relative;
+  z-index: 2;
+  width: min(355px, 84%);
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 22px;
+  background: rgba(255,254,250,.92);
+  box-shadow: 0 25px 80px rgba(70,52,100,.17);
+  transform: rotate(2deg);
+  animation: float-window 6s ease-in-out infinite;
+}
+@keyframes float-window {
+  /* OUTPUT SECTION: ANIMATION float-window (USED IN HERO). SELECTOR: 0%,100%. */
+  0%,100% {
+    transform: translateY(0) rotate(2deg);
+  }
+  /* OUTPUT SECTION: ANIMATION float-window (USED IN HERO). SELECTOR: 50%. */
+  50% {
+    transform: translateY(-9px) rotate(1deg);
+  }
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-top, .window-heading, .match-top. */
+.window-top, .window-heading, .match-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-brand. */
+.window-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-mark. */
+.mini-mark {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 7px;
+  background: var(--green-dark);
+  color: white;
+  font-size: 14px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .live-pill. */
+.live-pill {
+  padding: 5px 7px;
+  border-radius: 99px;
+  background: #f1f6e8;
+  color: #5d784b;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .07em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .live-pill i, .chat-brand small i. */
+.live-pill i, .chat-brand small i {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #80ae55;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-heading. */
+.window-heading {
+  margin-top: 23px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .tiny-label. */
+.tiny-label {
+  color: #8b8d84;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-avatar. */
+.window-avatar {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 9px;
+  background: var(--peach);
+  color: #764b3d;
+  font-size: 12px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .benefit-window h3. */
+.benefit-window h3 {
+  margin: 10px 0 4px;
+  font-family: Manrope, sans-serif;
+  font-size: 22px;
+  letter-spacing: -.06em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .benefit-window h3 span. */
+.benefit-window h3 span {
+  color: #6b8e4c;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-subtitle. */
+.window-subtitle {
+  margin-bottom: 17px;
+  color: #85867e;
+  font-size: 11px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-profile. */
+.mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #eeece6;
+  border-radius: 12px;
+  background: white;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-profile-icon. */
+.mini-profile-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  font-size: 17px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .lavender. */
+.lavender {
+  background: var(--lilac);
+  color: #6c558d;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .peach. */
+.peach {
+  background: var(--peach);
+  color: #8e5c47;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-profile div:nth-child(2). */
+.mini-profile div:nth-child(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-profile small. */
+.mini-profile small {
+  color: #999a92;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-profile strong. */
+.mini-profile strong {
+  font-size: 10px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-check. */
+.mini-check {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e5f4d9;
+  color: #4d7939;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-match. */
+.mini-match {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #f0f6e8;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .match-top. */
+.match-top {
+  color: #7d8b6d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .match-stars. */
+.match-stars {
+  color: #6d8e4d;
+  font-size: 17px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-match > strong. */
+.mini-match > strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-match p. */
+.mini-match p {
+  margin-bottom: 10px;
+  color: #737b6a;
+  font-size: 11px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .mini-match a. */
+.mini-match a {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #dce8ce;
+  padding-top: 10px;
+  font-size: 11px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-foot. */
+.window-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 13px;
+  color: #96978e;
+  font-size: 10px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .window-foot span. */
+.window-foot span {
+  color: #8ea96d;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .float-note. */
+.float-note {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 15px 11px 11px;
+  border: 1px solid rgba(255,255,255,.85);
+  border-radius: 13px;
+  background: rgba(255,254,250,.9);
+  box-shadow: 0 12px 35px rgba(70,52,100,.1);
+  backdrop-filter: blur(12px);
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .float-note strong, .float-note small. */
+.float-note strong, .float-note small {
+  display: block;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .float-note strong. */
+.float-note strong {
+  font-size: 9px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .float-note small. */
+.float-note small {
+  margin-top: 3px;
+  color: #8c8d84;
+  font-size: 10px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .note-top. */
+.note-top {
+  top: 7%;
+  right: -1%;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .note-bottom. */
+.note-bottom {
+  bottom: 8%;
+  left: -3%;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .note-spark, .note-shield. */
+.note-spark, .note-shield {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 10px;
+  background: var(--green);
+  color: #38522d;
+  font-size: 16px;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .note-shield. */
+.note-shield {
+  background: var(--peach);
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .decor-star. */
+.decor-star {
+  position: absolute;
+  color: #8c73c3;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .star-one. */
+.star-one {
+  top: 15%;
+  left: 7%;
+  font-size: 25px;
+  animation: spin-slow 16s linear infinite;
+}
+/* OUTPUT SECTION: HERO. SELECTOR: .star-two. */
+.star-two {
+  bottom: 14%;
+  right: 4%;
+  color: #78965b;
+  font-size: 19px;
+}
+@keyframes spin-slow {
+  /* OUTPUT SECTION: ANIMATION spin-slow (USED IN HERO). SELECTOR: to. */
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* ─── SECTION HEADING ROW ─── */
+/* OUTPUT SECTION: SECTION HEADING ROW. SELECTOR: .section-heading-row. */
+.section-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 45px;
+  margin-bottom: 43px;
+}
+/* OUTPUT SECTION: SECTION HEADING ROW. SELECTOR: .section-heading-row h2, .profiler-copy h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2. */
+.section-heading-row h2, .profiler-copy h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2 {
+  margin: 0;
+  font-size: clamp(38px, 4.5vw, 58px);
+  line-height: 1.06;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: SECTION HEADING ROW. SELECTOR: .section-heading-row > p. */
+.section-heading-row > p {
+  max-width: 420px;
+  margin: 0 2% 5px 0;
+  color: #77796f;
+  font-size: 15px;
+  line-height: 1.85;
+}
+/* OUTPUT SECTION: SECTION HEADING ROW. SELECTOR: .section-footnote. */
+.section-footnote {
+  margin-top: 22px;
+  color: #8a8c82;
+  font-size: 12px;
+  text-align: center;
+}
+/* ─── BENTO GRID ─── */
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-grid. */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 18px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-card. */
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  padding: 24px;
+  border: 1px solid rgba(30,30,25,.04);
+  border-radius: var(--radius-lg);
+  transition: transform .25s, box-shadow .25s;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-card:hover. */
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-main. */
+.bento-main {
+  display: grid;
+  grid-template-columns: .92fr 1.08fr;
+  grid-template-rows: auto auto;
+  align-content: start;
+  background: #eeebff;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-card-top. */
+.bento-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .number-tag. */
+.number-tag {
+  color: #77786f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .icon-tile. */
+.icon-tile {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .icon-lilac. */
+.icon-lilac {
+  background: var(--lilac);
+  color: #70568f;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .icon-peach. */
+.icon-peach {
+  background: var(--peach);
+  color: #8b5843;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .icon-mint. */
+.icon-mint {
+  background: var(--mint);
+  color: #47795b;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .icon-blue. */
+.icon-blue {
+  background: var(--blue);
+  color: #466b9e;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-copy. */
+.bento-copy {
+  align-self: end;
+  position: relative;
+  z-index: 1;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-copy h3. */
+.bento-copy h3 {
+  max-width: 300px;
+  margin: 0 0 11px;
+  font-family: Manrope, sans-serif;
+  font-size: 23px;
+  line-height: 1.15;
+  letter-spacing: -.055em;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-copy p. */
+.bento-copy p {
+  max-width: 340px;
+  margin-bottom: 16px;
+  color: #6f6e7b;
+  font-size: 13px;
+  line-height: 1.75;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .search-illustration. */
+.search-illustration {
+  position: relative;
+  min-height: 130px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .search-ring. */
+.search-ring {
+  position: absolute;
+  top: 28px;
+  left: 25%;
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 130px;
+  border: 1px solid rgba(108,82,157,.35);
+  border-radius: 50%;
+  color: #6f589b;
+  font-size: 65px;
+  transform: rotate(-15deg);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .orbit-label. */
+.orbit-label {
+  position: absolute;
+  z-index: 1;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 99px;
+  background: rgba(255,255,255,.72);
+  color: #615779;
+  font-size: 10px;
+  font-weight: 700;
+  box-shadow: 0 6px 15px rgba(60,40,90,.07);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .label-one. */
+.label-one {
+  top: 20px;
+  left: 2%;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .label-two. */
+.label-two {
+  right: -5px;
+  top: 95px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .label-three. */
+.label-three {
+  bottom: 17px;
+  left: 13%;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .orbit-center. */
+.orbit-center {
+  position: absolute;
+  top: 78px;
+  left: calc(25% + 46px);
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 13px;
+  background: var(--green);
+  color: #526f3d;
+  font-size: 20px;
+  transform: rotate(9deg);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-docs. */
+.bento-docs {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  grid-template-rows: auto 1fr;
+  background: #fff0e7;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-docs .bento-copy. */
+.bento-docs .bento-copy {
+  grid-column: 1 / -1;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-stack. */
+.paper-stack {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 105px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper. */
+.paper {
+  position: absolute;
+  width: 112px;
+  height: 130px;
+  border-radius: 8px;
+  background: #fffdfa;
+  box-shadow: 0 9px 20px rgba(120,80,60,.1);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-back. */
+.paper-back {
+  background: #ffbfa6;
+  transform: rotate(13deg) translate(8px,3px);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-front. */
+.paper-front {
+  padding: 19px 13px;
+  transform: rotate(-7deg);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-stamp. */
+.paper-stamp {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  margin-bottom: 13px;
+  border: 1px solid #91b47b;
+  border-radius: 50%;
+  color: #71975b;
+  font-size: 16px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-line. */
+.paper-line {
+  display: block;
+  width: 70%;
+  height: 4px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+  background: #e5e3dc;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-line.wide. */
+.paper-line.wide {
+  width: 100%;
+  background: #cbdcb9;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-line.short. */
+.paper-line.short {
+  width: 45%;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-sign. */
+.paper-sign {
+  margin-top: 14px;
+  color: #8e9c81;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .paper-spark. */
+.paper-spark {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  color: #d77e61;
+  font-size: 26px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-safety. */
+.bento-safety {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  background: #e2f2e4;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-safety .bento-card-top. */
+.bento-safety .bento-card-top {
+  grid-column: 1 / -1;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-safety .bento-copy. */
+.bento-safety .bento-copy {
+  grid-column: 1 / -1;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .safety-visual. */
+.safety-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 115px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .safety-shield. */
+.safety-shield {
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 87px;
+  border-radius: 45% 45% 40% 40%;
+  background: var(--green-dark);
+  color: #d9f9aa;
+  font-size: 38px;
+  clip-path: polygon(50% 0, 94% 17%, 87% 67%, 50% 100%, 13% 67%, 6% 17%);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .signal. */
+.signal {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 1px solid rgba(69,128,89,.22);
+  border-radius: 50%;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .signal-two. */
+.signal-two {
+  width: 145px;
+  height: 145px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .safety-label. */
+.safety-label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #66836b;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  writing-mode: vertical-rl;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-rights. */
+.bento-rights {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  align-items: center;
+  gap: 24px;
+  background: #dfeaff;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .rights-art. */
+.rights-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .rights-sun. */
+.rights-sun {
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  color: #7898c7;
+  font-size: 28px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .rights-orbit. */
+.rights-orbit {
+  position: absolute;
+  width: 135px;
+  height: 135px;
+  border: 1px dashed #8faad4;
+  border-radius: 50%;
+  color: #6684b3;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-align: center;
+  padding-top: 12px;
+  transform: rotate(-16deg);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .rights-letter. */
+.rights-letter {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 112px;
+  border-radius: 18px 18px 29px 18px;
+  background: #fffdf8;
+  color: #4c6b9a;
+  font-family: "Playfair Display", serif;
+  font-size: 63px;
+  box-shadow: 0 10px 30px rgba(65,94,137,.12);
+  transform: rotate(-7deg);
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .rights-letter span. */
+.rights-letter span {
+  color: var(--coral);
+  font-size: 32px;
+}
+/* OUTPUT SECTION: BENTO GRID. SELECTOR: .bento-rights .bento-copy .number-tag. */
+.bento-rights .bento-copy .number-tag {
+  display: block;
+  margin-bottom: 13px;
+}
+/* ─── PROFILER SECTION ─── */
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-section. */
+.profiler-section {
+  overflow: hidden;
+  position: relative;
+  background: #263d32;
+  color: white;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-section::before. */
+.profiler-section::before {
+  content: "";
+  position: absolute;
+  top: -250px;
+  left: -150px;
+  width: 530px;
+  height: 530px;
+  border: 1px solid rgba(211,246,164,.13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 50px rgba(211,246,164,.025), 0 0 0 100px rgba(211,246,164,.02);
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-section::after. */
+.profiler-section::after {
+  content: "✳";
+  position: absolute;
+  top: 60px;
+  right: 7%;
+  color: rgba(211,246,164,.17);
+  font-size: 70px;
+  animation: spin-slow 30s linear infinite;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-layout. */
+.profiler-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: clamp(45px, 8vw, 110px);
+  padding-top: 105px;
+  padding-bottom: 105px;
+  align-items: start;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .light-kicker. */
+.light-kicker {
+  color: #c0d5b0;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-copy h2. */
+.profiler-copy h2 {
+  max-width: 450px;
+  margin-bottom: 20px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-copy h2 em. */
+.profiler-copy h2 em {
+  color: var(--green);
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profiler-copy > p. */
+.profiler-copy > p {
+  max-width: 410px;
+  color: #c4cec2;
+  font-size: 15px;
+  line-height: 1.9;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-promise. */
+.profile-promise {
+  display: flex;
+  gap: 13px;
+  max-width: 370px;
+  margin: 31px 0;
+  padding: 17px;
+  border: 1px solid rgba(219,241,202,.15);
+  border-radius: 15px;
+  background: rgba(255,255,255,.045);
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-promise > span. */
+.profile-promise > span {
+  color: var(--green);
+  font-size: 23px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-promise strong. */
+.profile-promise strong {
+  font-size: 11px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-promise p. */
+.profile-promise p {
+  margin: 5px 0 0;
+  color: #c0cdc0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-step-list. */
+.profile-step-list {
+  display: grid;
+  gap: 13px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-step. */
+.profile-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e0e8dc;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-step > span. */
+.profile-step > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(219,241,202,.23);
+  border-radius: 50%;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-step p. */
+.profile-step p {
+  margin: 0;
+  font-size: 13px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-panel. */
+.profile-panel {
+  padding: 28px;
+  border-radius: 24px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 24px 80px rgba(0,0,0,.15);
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .panel-heading. */
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .panel-heading h3. */
+.panel-heading h3 {
+  margin: 7px 0 0;
+  font-family: Manrope, sans-serif;
+  font-size: 23px;
+  letter-spacing: -.05em;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .panel-progress. */
+.panel-progress {
+  color: #6e8a56;
+  font-size: 13px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .panel-progress i. */
+.panel-progress i {
+  color: #b0b2a9;
+  font-style: normal;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-panel > .progress-track. */
+.profile-panel > .progress-track {
+  margin: 19px 0 25px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .form-section-label. */
+.form-section-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 23px 0 13px;
+  color: #60645a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .form-section-label > span. */
+.form-section-label > span {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  border-radius: 7px;
+  background: #e7f1dc;
+  color: #688b4e;
+  font-size: 10px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-results. */
+.profile-results {
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px solid #dfe9d3;
+  border-radius: 13px;
+  background: #f2f7ec;
+  color: #41563a;
+  font-size: 13px;
+  line-height: 1.65;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-results h4. */
+.profile-results h4 {
+  margin: 0 0 7px;
+  font-size: 13px;
+}
+/* OUTPUT SECTION: PROFILER SECTION. SELECTOR: .profile-results ul. */
+.profile-results ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+/* ─── BENEFITS SECTION ─── */
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefits-section. */
+.benefits-section {
+  padding-top: 108px;
+  padding-bottom: 112px;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-category-grid. */
+.benefit-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-category. */
+.benefit-category {
+  padding: 24px;
+  border-radius: 22px;
+  transition: transform .25s, box-shadow .25s;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-category:hover. */
+.benefit-category:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-soft);
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-education. */
+.benefit-education {
+  background: #eeebff;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-agriculture. */
+.benefit-agriculture {
+  background: #e1f1e3;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-health. */
+.benefit-health {
+  background: #fff0e7;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-livelihood. */
+.benefit-livelihood {
+  background: #dfeaff;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .category-icon. */
+.category-icon {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .category-number. */
+.category-number {
+  display: block;
+  color: #888;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  margin-bottom: 8px;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-category h3. */
+.benefit-category h3 {
+  font-family: Manrope, sans-serif;
+  font-size: 20px;
+  letter-spacing: -.04em;
+  margin-bottom: 8px;
+}
+/* OUTPUT SECTION: BENEFITS SECTION. SELECTOR: .benefit-category p. */
+.benefit-category p {
+  color: #737569;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+/* ─── DOCUMENTS SECTION ─── */
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-section. */
+.documents-section {
+  background: #f0eee7;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-layout. */
+.documents-layout {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(45px, 8vw, 110px);
+  align-items: center;
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-copy h2. */
+.documents-copy h2 {
+  max-width: 440px;
+  margin-bottom: 19px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-copy > p. */
+.documents-copy > p {
+  max-width: 400px;
+  color: #74766e;
+  font-size: 15px;
+  line-height: 1.9;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-tip. */
+.documents-tip {
+  display: flex;
+  gap: 13px;
+  max-width: 370px;
+  margin-top: 24px;
+  padding: 15px;
+  border-radius: 13px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(200,195,180,.3);
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-tip .tip-icon. */
+.documents-tip .tip-icon {
+  font-size: 22px;
+  color: #7a9c5e;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-tip strong. */
+.documents-tip strong {
+  font-size: 11px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .documents-tip p. */
+.documents-tip p {
+  margin: 4px 0 0;
+  color: #76786e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-panel. */
+.checklist-panel {
+  padding: 27px;
+  border: 1px solid #e5e2d9;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 12px 40px rgba(60,55,40,.045);
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-top. */
+.checklist-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-top h3. */
+.checklist-top h3 {
+  margin: 7px 0 0;
+  font-family: Manrope, sans-serif;
+  font-size: 23px;
+  letter-spacing: -.05em;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-icon. */
+.checklist-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: #e1f0d6;
+  color: #628d4b;
+  font-size: 21px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-progress. */
+.checklist-progress {
+  margin: 17px 0 10px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-progress > div:first-child. */
+.checklist-progress > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  color: #7b7d73;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-progress strong. */
+.checklist-progress strong {
+  color: #658c4e;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .checklist-items. */
+.checklist-items {
+  display: grid;
+  gap: 0;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item. */
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eeece6;
+  cursor: pointer;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item:last-child. */
+.check-item:last-child {
+  border-bottom: 0;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item input. */
+.check-item input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .custom-check. */
+.custom-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #d9d8d0;
+  border-radius: 6px;
+  color: transparent;
+  font-size: 14px;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item input:checked + .custom-check. */
+.check-item input:checked + .custom-check {
+  border-color: #83a965;
+  background: #83a965;
+  color: white;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item input:focus-visible + .custom-check. */
+.check-item input:focus-visible + .custom-check {
+  outline: 3px solid rgba(131,169,101,.3);
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item > span:nth-of-type(2). */
+.check-item > span:nth-of-type(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item strong. */
+.check-item strong {
+  font-size: 11px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item small. */
+.check-item small {
+  color: #8d8f85;
+  font-size: 11px;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .check-item-type. */
+.check-item-type {
+  color: #a0a197;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .09em;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .document-summary. */
+.document-summary {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f0f6e9;
+  color: #667c55;
+  font-size: 12px;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: DOCUMENTS SECTION. SELECTOR: .privacy-footnote. */
+.privacy-footnote {
+  margin: 13px 0 0;
+  color: #999a91;
+  font-size: 11px;
+  line-height: 1.6;
+}
+/* ─── SAFETY SECTION ─── */
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-section. */
+.safety-section {
+  padding-top: 108px;
+  padding-bottom: 105px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-heading. */
+.safety-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-heading h2. */
+.safety-heading h2 {
+  margin-bottom: 17px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-heading > div:first-child > p. */
+.safety-heading > div:first-child > p {
+  max-width: 520px;
+  margin-bottom: 0;
+  color: #77796f;
+  font-size: 14px;
+  line-height: 1.8;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-badge-large. */
+.safety-badge-large {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-right: 8%;
+  transform: rotate(8deg);
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-badge-large > span. */
+.safety-badge-large > span {
+  display: grid;
+  place-items: center;
+  width: 75px;
+  height: 83px;
+  background: var(--green);
+  color: #3f6b37;
+  font-size: 42px;
+  clip-path: polygon(50% 0, 94% 17%, 87% 67%, 50% 100%, 13% 67%, 6% 17%);
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-badge-large small. */
+.safety-badge-large small {
+  color: #7d8b70;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-workspace. */
+.scam-workspace {
+  display: grid;
+  grid-template-columns: 1fr .85fr;
+  gap: 16px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-input-panel, .scam-result-panel. */
+.scam-input-panel, .scam-result-panel {
+  padding: 27px;
+  border: 1px solid #e8e4dc;
+  border-radius: 22px;
+  background: var(--white);
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-panel-heading. */
+.scam-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 21px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-step. */
+.scam-step {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 11px;
+  background: var(--peach);
+  color: #8b5a46;
+  font-size: 12px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-panel-heading h3. */
+.scam-panel-heading h3 {
+  margin: 0 0 4px;
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
+  letter-spacing: -.04em;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-panel-heading p. */
+.scam-panel-heading p {
+  margin: 0;
+  color: #8a8b82;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-input-panel textarea. */
+.scam-input-panel textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.65;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .sample-buttons. */
+.sample-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 4px 0 13px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .sample-button. */
+.sample-button {
+  border: 0;
+  padding: 5px 0;
+  background: transparent;
+  color: #728b5b;
+  font-size: 11px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .sample-button span. */
+.sample-button span {
+  margin-left: 5px;
+  font-size: 15px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel. */
+.scam-result-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #eeebff;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .result-orb. */
+.result-orb {
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  margin-bottom: 27px;
+  border-radius: 15px;
+  background: #fffefa;
+  color: #8068ad;
+  font-size: 25px;
+  box-shadow: 0 7px 18px rgba(80,60,120,.07);
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel h3. */
+.scam-result-panel h3 {
+  margin: 9px 0 8px;
+  font-family: Manrope, sans-serif;
+  font-size: 24px;
+  letter-spacing: -.05em;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel > p. */
+.scam-result-panel > p {
+  color: #747084;
+  font-size: 13px;
+  line-height: 1.8;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .result-rule. */
+.result-rule {
+  width: 100%;
+  height: 1px;
+  margin: 8px 0 15px;
+  background: rgba(100,80,140,.15);
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .result-caveat. */
+.result-caveat {
+  display: flex;
+  gap: 8px;
+  color: #78728b;
+  font-size: 11px;
+  line-height: 1.7;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .result-caveat span. */
+.result-caveat span {
+  font-size: 16px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel.result-warning. */
+.scam-result-panel.result-warning {
+  background: #fff0e8;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel.result-warning .result-orb. */
+.scam-result-panel.result-warning .result-orb {
+  color: #b15e40;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel.result-calm. */
+.scam-result-panel.result-calm {
+  background: #e6f3e5;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .scam-result-panel.result-calm .result-orb. */
+.scam-result-panel.result-calm .result-orb {
+  color: #4b8354;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .result-list. */
+.result-list {
+  margin: 0 0 15px;
+  padding-left: 17px;
+  color: #6e6f67;
+  font-size: 12px;
+  line-height: 1.8;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-reminder. */
+.safety-reminder {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid #e7e3d9;
+  border-radius: 14px;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .reminder-icon. */
+.reminder-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffe1d2;
+  color: #a55c40;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-reminder p. */
+.safety-reminder p {
+  flex: 1;
+  margin: 0;
+  color: #77796f;
+  font-size: 12px;
+  line-height: 1.7;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-reminder strong. */
+.safety-reminder strong {
+  color: #4b4d46;
+}
+/* OUTPUT SECTION: SAFETY SECTION. SELECTOR: .safety-reminder a. */
+.safety-reminder a {
+  color: #6c8a52;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+/* ─── RIGHTS SECTION ─── */
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-section. */
+.rights-section {
+  background: #293d4c;
+  color: white;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-layout. */
+.rights-layout {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 75px;
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-copy h2. */
+.rights-copy h2 {
+  margin-bottom: 18px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-copy h2 em. */
+.rights-copy h2 em {
+  color: #b8e98b;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-copy > p. */
+.rights-copy > p {
+  max-width: 400px;
+  color: #c3ced2;
+  font-size: 14px;
+  line-height: 1.85;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-search. */
+.rights-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 390px;
+  margin: 26px 0 17px;
+  padding: 9px 11px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 99px;
+  background: rgba(255,255,255,.08);
+  color: #d5e0e3;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-search > span. */
+.rights-search > span {
+  font-size: 19px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-search input. */
+.rights-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: white;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-search input::placeholder. */
+.rights-search input::placeholder {
+  color: #a8b9bf;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-search input:focus. */
+.rights-search input:focus {
+  box-shadow: none;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-categories. */
+.rights-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-filter. */
+.rights-filter {
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 99px;
+  background: transparent;
+  color: #cad6d9;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-filter:hover, .rights-filter.active. */
+.rights-filter:hover, .rights-filter.active {
+  border-color: var(--green);
+  background: var(--green);
+  color: #314b31;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-cards. */
+.rights-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-content: center;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card. */
+.rights-card {
+  display: flex;
+  gap: 12px;
+  min-height: 175px;
+  padding: 17px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 17px;
+  background: rgba(255,255,255,.06);
+  transition: transform .2s, background .2s;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card:hover. */
+.rights-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,.1);
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card-icon. */
+.rights-card-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 31px;
+  height: 31px;
+  border-radius: 10px;
+  font-size: 17px;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card-label. */
+.rights-card-label {
+  display: block;
+  margin: 3px 0 8px;
+  color: #b7d88f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card h3. */
+.rights-card h3 {
+  margin: 0 0 8px;
+  font-family: Manrope, sans-serif;
+  font-size: 14px;
+  letter-spacing: -.035em;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card p. */
+.rights-card p {
+  margin-bottom: 12px;
+  color: #c1cdd0;
+  font-size: 11px;
+  line-height: 1.65;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-card a. */
+.rights-card a {
+  color: #d5eead;
+  font-size: 11px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: RIGHTS SECTION. SELECTOR: .rights-empty. */
+.rights-empty {
+  grid-column: 1 / -1;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  color: #d1dcdf;
+  font-size: 14px;
+  text-align: center;
+}
+/* ─── ASSISTANT SECTION ─── */
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-section. */
+.assistant-section {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-banner. */
+.assistant-banner {
+  display: grid;
+  grid-template-columns: .72fr 1fr;
+  gap: clamp(35px, 7vw, 85px);
+  align-items: center;
+  padding: clamp(25px, 5vw, 60px);
+  border-radius: 30px;
+  background: #e9e0ff;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-banner-copy h2. */
+.assistant-banner-copy h2 {
+  margin-bottom: 17px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-banner-copy h2 em. */
+.assistant-banner-copy h2 em {
+  color: #7b61aa;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-banner-copy > p:not(.assistant-note). */
+.assistant-banner-copy > p:not(.assistant-note) {
+  max-width: 340px;
+  color: #716981;
+  font-size: 14px;
+  line-height: 1.85;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-languages. */
+.assistant-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 24px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-languages span. */
+.assistant-languages span {
+  padding: 8px 10px;
+  border: 1px solid rgba(100,80,140,.16);
+  border-radius: 99px;
+  color: #6e6288;
+  font-size: 11px;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .assistant-note. */
+.assistant-note {
+  margin: 17px 0 0;
+  color: #8a809e;
+  font-size: 11px;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-card. */
+.chat-card {
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 21px;
+  background: var(--white);
+  box-shadow: 0 18px 45px rgba(75,55,115,.1);
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-card-head. */
+.chat-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 19px;
+  border-bottom: 1px solid #eeece7;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand. */
+.chat-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand-icon. */
+.chat-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border-radius: 11px;
+  background: var(--green-dark);
+  color: var(--green);
+  font-size: 19px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand strong, .chat-brand small. */
+.chat-brand strong, .chat-brand small {
+  display: block;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand strong. */
+.chat-brand strong {
+  font-size: 11px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand small. */
+.chat-brand small {
+  margin-top: 4px;
+  color: #909187;
+  font-size: 10px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-brand small i. */
+.chat-brand small i {
+  background: #85b76a;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .clear-chat. */
+.clear-chat {
+  border: 0;
+  background: transparent;
+  color: #898a81;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-window. */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-height: 190px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 19px;
+  background: #fffefa;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-bubble. */
+.chat-bubble {
+  display: flex;
+  align-items: start;
+  gap: 9px;
+  max-width: 94%;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-avatar. */
+.chat-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 8px;
+  background: var(--green-dark);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-bubble > div. */
+.chat-bubble > div {
+  padding: 10px 12px;
+  border-radius: 3px 12px 12px 12px;
+  background: #f0f4e9;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-bubble small. */
+.chat-bubble small {
+  color: #7c9169;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-bubble p. */
+.chat-bubble p {
+  margin: 5px 0 0;
+  color: #62655b;
+  font-size: 12px;
+  line-height: 1.7;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .user-bubble. */
+.user-bubble {
+  align-self: flex-end;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .user-bubble > div. */
+.user-bubble > div {
+  border-radius: 12px 3px 12px 12px;
+  background: #e9e0ff;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .user-bubble small. */
+.user-bubble small {
+  color: #7d66a4;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .suggested-questions. */
+.suggested-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0 19px 16px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .suggested-questions > span. */
+.suggested-questions > span {
+  flex-basis: 100%;
+  margin-bottom: 2px;
+  color: #a0a096;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .suggested-questions button. */
+.suggested-questions button {
+  padding: 8px 10px;
+  border: 1px solid #e7e4dc;
+  border-radius: 99px;
+  background: transparent;
+  color: #74766d;
+  font-size: 10px;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .suggested-questions button:hover. */
+.suggested-questions button:hover {
+  border-color: #b4c99e;
+  background: #f3f7ee;
+  color: #557b3e;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-form. */
+.chat-form {
+  display: flex;
+  gap: 8px;
+  margin: 0 19px;
+  padding: 7px;
+  border: 1px solid #e7e4dc;
+  border-radius: 12px;
+  background: #fffefa;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-form input. */
+.chat-form input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  padding: 8px;
+  background: transparent;
+  font-size: 12px;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-form button. */
+.chat-form button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--ink);
+  color: white;
+  font-size: 21px;
+  transition: background .2s;
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-form button:hover. */
+.chat-form button:hover {
+  background: var(--green-dark);
+}
+/* OUTPUT SECTION: ASSISTANT SECTION. SELECTOR: .chat-disclaimer. */
+.chat-disclaimer {
+  margin: 11px 19px 17px;
+  color: #9a9b92;
+  font-size: 10px;
+  line-height: 1.6;
+}
+/* ─── FOOTER ─── */
+/* OUTPUT SECTION: FOOTER. SELECTOR: .site-footer. */
+.site-footer {
+  padding: 42px max(5.2vw, 24px) 18px;
+  background: #f0eee7;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .footer-main. */
+.footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding-bottom: 30px;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .footer-main > p. */
+.footer-main > p {
+  margin: 0;
+  color: #76786e;
+  font-family: "Playfair Display", serif;
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.5;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .footer-top. */
+.footer-top {
+  padding: 10px 14px;
+  border: 1px solid #d9d6cd;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .footer-bottom. */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 17px;
+  border-top: 1px solid #dfdcd3;
+  color: #92938a;
+  font-size: 11px;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .floating-ask. */
+.floating-ask {
+  position: fixed;
+  z-index: 15;
+  right: 24px;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 17px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 99px;
+  background: var(--ink);
+  color: white;
+  box-shadow: 0 10px 30px rgba(20,20,18,.22);
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform .2s, background .2s;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .floating-ask span. */
+.floating-ask span {
+  color: var(--green);
+  font-size: 16px;
+}
+/* OUTPUT SECTION: FOOTER. SELECTOR: .floating-ask:hover. */
+.floating-ask:hover {
+  transform: translateY(-3px);
+  background: var(--green-dark);
+}
+/* ─── AUTH PAGE ─── */
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: body.auth-body. */
+body.auth-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-page. */
+.auth-page {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-left. */
+.auth-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(28px, 5vw, 60px);
+  background: var(--green-dark);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-left::before. */
+.auth-left::before {
+  content: "✳";
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  font-size: 200px;
+  color: rgba(201,242,108,.08);
+  pointer-events: none;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-left::after. */
+.auth-left::after {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(201,242,108,.06);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-brand. */
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  position: relative;
+  z-index: 1;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-brand .brand-mark. */
+.auth-brand .brand-mark {
+  background: var(--green);
+  color: var(--green-dark);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-brand .brand-copy strong. */
+.auth-brand .brand-copy strong {
+  color: white;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-brand .brand-copy strong span. */
+.auth-brand .brand-copy strong span {
+  color: var(--green);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-brand .brand-copy small. */
+.auth-brand .brand-copy small {
+  color: rgba(255,255,255,.6);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-hero-text. */
+.auth-hero-text {
+  position: relative;
+  z-index: 1;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-hero-text h2. */
+.auth-hero-text h2 {
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.08;
+  color: white;
+  margin-bottom: 18px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-hero-text h2 em. */
+.auth-hero-text h2 em {
+  color: var(--green);
+  font-family: "Playfair Display", serif;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-hero-text p. */
+.auth-hero-text p {
+  color: rgba(255,255,255,.72);
+  font-size: 15px;
+  line-height: 1.9;
+  max-width: 380px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-features. */
+.auth-features {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 11px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-feature. */
+.auth-feature {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: rgba(255,255,255,.85);
+  font-size: 13px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-feature-icon. */
+.auth-feature-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(201,242,108,.15);
+  color: var(--green);
+  font-size: 17px;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-right. */
+.auth-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(24px, 5vw, 60px);
+  overflow-y: auto;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-card. */
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-tabs. */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 32px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-tab. */
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-tab.active. */
+.auth-tab.active {
+  background: var(--ink);
+  color: white;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-card h3. */
+.auth-card h3 {
+  font-family: Manrope, sans-serif;
+  font-size: 28px;
+  letter-spacing: -.05em;
+  margin-bottom: 6px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-card > p. */
+.auth-card > p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-divider. */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-divider::before, .auth-divider::after. */
+.auth-divider::before, .auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .social-auth. */
+.social-auth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .social-btn. */
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  transition: border-color .2s, box-shadow .2s;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .social-btn:hover. */
+.social-btn:hover {
+  border-color: #b0b2a9;
+  box-shadow: 0 3px 10px rgba(32,33,31,.07);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .social-btn img. */
+.social-btn img {
+  width: 16px;
+  height: 16px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-submit. */
+.auth-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ink);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-submit:hover. */
+.auth-submit:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-switch. */
+.auth-switch {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-switch a. */
+.auth-switch a {
+  color: #6c8a52;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-field. */
+.auth-field {
+  margin-bottom: 15px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-field label. */
+.auth-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: #64665e;
+  font-size: 13px;
+  font-weight: 700;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-field input. */
+.auth-field input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 14px;
+  outline: 0;
+  transition: border-color .2s, box-shadow .2s;
+}
+.auth-field input::placeholder {
+  color: #9aa0a6;
+  opacity: 1;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-field input:focus. */
+.auth-field input:focus {
+  border-color: #8aaf69;
+  box-shadow: 0 0 0 3px rgba(142,185,107,.15);
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-field .field-row. */
+.auth-field .field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-error. */
+.auth-error {
+  display: none;
+  padding: 10px 13px;
+  margin-bottom: 14px;
+  border-radius: 9px;
+  background: #fff0f0;
+  color: #a03535;
+  font-size: 13px;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-error.show. */
+.auth-error.show {
+  display: block;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-terms. */
+.auth-terms {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.6;
+}
+/* OUTPUT SECTION: AUTH PAGE. SELECTOR: .auth-terms a. */
+.auth-terms a {
+  color: #6c8a52;
+}
+/* ─── PROFILE PAGE ─── */
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-page. */
+.profile-page {
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-page-grid. */
+.profile-page-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-sidebar. */
+.profile-sidebar {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--white);
+  overflow: hidden;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-sidebar-head. */
+.profile-sidebar-head {
+  padding: 28px 22px;
+  background: var(--green-dark);
+  color: white;
+  text-align: center;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-photo-wrap. */
+.profile-photo-wrap {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 14px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-photo. */
+.profile-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.3);
+  background: var(--peach);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #7a4533;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-photo img. */
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-photo-edit. */
+.profile-photo-edit {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--green-dark);
+  background: var(--green);
+  color: var(--green-dark);
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .2s;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-photo-edit:hover. */
+.profile-photo-edit:hover {
+  transform: scale(1.1);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-sidebar-head h3. */
+.profile-sidebar-head h3 {
+  font-family: Manrope, sans-serif;
+  font-size: 18px;
+  letter-spacing: -.04em;
+  margin-bottom: 4px;
+  color: white;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-sidebar-head p. */
+.profile-sidebar-head p {
+  color: rgba(255,255,255,.65);
+  font-size: 13px;
+  margin-bottom: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-sidebar-nav. */
+.profile-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 12px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-nav-item. */
+.profile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 13px;
+  border-radius: 11px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .18s, color .18s;
+  cursor: pointer;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-nav-item:hover, .profile-nav-item.active. */
+.profile-nav-item:hover, .profile-nav-item.active {
+  background: var(--paper);
+  color: var(--ink);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-nav-item .nav-icon. */
+.profile-nav-item .nav-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--paper);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-nav-item.active .nav-icon. */
+.profile-nav-item.active .nav-icon {
+  background: var(--green);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-main-content. */
+.profile-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-section-card. */
+.profile-section-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--white);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-section-card h4. */
+.profile-section-card h4 {
+  font-family: Manrope, sans-serif;
+  font-size: 18px;
+  letter-spacing: -.04em;
+  margin-bottom: 4px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-section-card > p. */
+.profile-section-card > p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-section-divider. */
+.profile-section-divider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-section-divider h4. */
+.profile-section-divider h4 {
+  margin: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-edit-btn. */
+.profile-edit-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 700;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-edit-btn:hover. */
+.profile-edit-btn:hover {
+  border-color: #8eb96b;
+  color: #4e7233;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-info-grid. */
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-info-row. */
+.profile-info-row {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-info-row:nth-last-child(-n+2). */
+.profile-info-row:nth-last-child(-n+2) {
+  border-bottom: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-info-row small. */
+.profile-info-row small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-info-row strong. */
+.profile-info-row strong {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .verified-badge. */
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: var(--mint);
+  color: #3d6e50;
+  font-size: 10px;
+  font-weight: 800;
+  margin-left: 7px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-contact-row. */
+.profile-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .profile-contact-row:last-child. */
+.profile-contact-row:last-child {
+  border-bottom: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-icon. */
+.contact-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--paper);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-info. */
+.contact-info {
+  flex: 1;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-info small. */
+.contact-info small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-info strong. */
+.contact-info strong {
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-change. */
+.contact-change {
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: transparent;
+  color: #6c8a52;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all .2s;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .contact-change:hover. */
+.contact-change:hover {
+  background: var(--mint);
+  border-color: #b0d0ba;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .save-profile-btn. */
+.save-profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ink);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 6px;
+  transition: background .2s, transform .15s;
+}
+/* OUTPUT SECTION: PROFILE PAGE. SELECTOR: .save-profile-btn:hover. */
+.save-profile-btn:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+}
+/* ─── PAGE INTRO BANNER ─── */
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro. */
+.page-intro {
+  padding: 60px 0 0;
+}
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro-inner. */
+.page-intro-inner {
+  padding: 36px 40px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro-inner h1. */
+.page-intro-inner h1 {
+  font-size: clamp(30px, 4vw, 44px);
+  margin: 8px 0 0;
+  color: white;
+}
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro-inner h1 em. */
+.page-intro-inner h1 em {
+  color: var(--green);
+  font-family: "Playfair Display", serif;
+}
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro-inner p. */
+.page-intro-inner p {
+  color: rgba(255,255,255,.65);
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 340px;
+  margin: 10px 0 0;
+}
+/* OUTPUT SECTION: PAGE INTRO BANNER. SELECTOR: .page-intro-badge. */
+.page-intro-badge {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: rgba(201,242,108,.15);
+  color: var(--green);
+  font-size: 32px;
+  flex-shrink: 0;
+}
+/* ─── HIDDEN UTILITY ─── */
+/* OUTPUT SECTION: HIDDEN UTILITY. SELECTOR: [hidden]. */
+[hidden] {
+  display: none !important;
+}
+/* ─── INTRO SECTION PADDING ─── */
+/* OUTPUT SECTION: INTRO SECTION PADDING. SELECTOR: .intro-section. */
+.intro-section {
+  padding-top: 108px;
+  padding-bottom: 110px;
+}
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1000px) {
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .auth-left. */
+  .auth-left {
+    display: none;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .auth-page. */
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .auth-right. */
+  .auth-right {
+    min-height: 100vh;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .site-header. */
+  .site-header {
+    gap: 15px;
+    padding-inline: 24px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .main-nav. */
+  .main-nav {
+    gap: 15px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .main-nav a. */
+  .main-nav a {
+    font-size: 12px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .hero. */
+  .hero {
+    gap: 25px;
+    grid-template-columns: 1fr 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .hero h1. */
+  .hero h1 {
+    font-size: clamp(43px, 5.4vw, 60px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .hero-art::before. */
+  .hero-art::before {
+    width: 330px;
+    height: 330px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .art-orbit. */
+  .art-orbit {
+    transform: scale(.85) rotate(-28deg);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .note-top. */
+  .note-top {
+    right: -4%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .bento-grid. */
+  .bento-grid {
+    gap: 12px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .bento-card. */
+  .bento-card {
+    padding: 20px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .bento-main. */
+  .bento-main {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .search-illustration. */
+  .search-illustration {
+    position: absolute;
+    top: 45px;
+    right: 15px;
+    width: 48%;
+    opacity: .85;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .bento-main .bento-copy. */
+  .bento-main .bento-copy {
+    align-self: end;
+    max-width: 65%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .rights-layout. */
+  .rights-layout {
+    gap: 40px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .rights-card. */
+  .rights-card {
+    flex-direction: column;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .benefit-category-grid. */
+  .benefit-category-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 1000px). SELECTOR: .profile-page-grid. */
+  .profile-page-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .site-header. */
+  .site-header {
+    min-height: 70px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .menu-toggle. */
+  .menu-toggle {
+    display: block;
+    order: 3;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .header-actions. */
+  .header-actions {
+    margin-left: auto;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .header-cta. */
+  .header-cta {
+    display: none;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .language-select. */
+  .language-select {
+    display: none;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .main-nav. */
+  .main-nav {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 0;
+    right: 0;
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 24px 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .main-nav.open. */
+  .main-nav.open {
+    display: flex;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .main-nav a. */
+  .main-nav a {
+    padding: 13px 0;
+    border-bottom: 1px solid #ebe7df;
+    font-size: 14px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero. */
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-top: 55px;
+    padding-bottom: 60px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero-copy. */
+  .hero-copy {
+    padding-left: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero h1. */
+  .hero h1 {
+    max-width: 620px;
+    font-size: clamp(47px, 9vw, 70px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero-intro. */
+  .hero-intro {
+    max-width: 520px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero-art. */
+  .hero-art {
+    min-height: 450px;
+    margin-top: 10px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .hero-art::before. */
+  .hero-art::before {
+    width: 350px;
+    height: 350px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .benefit-window. */
+  .benefit-window {
+    width: min(355px, 82%);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .note-top. */
+  .note-top {
+    right: 2%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .note-bottom. */
+  .note-bottom {
+    left: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .section-wrap. */
+  .section-wrap {
+    width: min(100% - 36px, 600px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .intro-section, .safety-section, .assistant-section. */
+  .intro-section, .safety-section, .assistant-section {
+    padding-top: 76px;
+    padding-bottom: 76px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .section-heading-row. */
+  .section-heading-row {
+    display: block;
+    margin-bottom: 30px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .section-heading-row > p. */
+  .section-heading-row > p {
+    margin: 20px 0 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .bento-grid. */
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .bento-card. */
+  .bento-card {
+    min-height: 300px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .bento-main. */
+  .bento-main {
+    grid-template-columns: .9fr 1.1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .bento-main .bento-copy. */
+  .bento-main .bento-copy {
+    max-width: 100%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .search-illustration. */
+  .search-illustration {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: auto;
+    opacity: 1;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .bento-docs. */
+  .bento-docs {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .profiler-layout, .documents-layout, .rights-layout. */
+  .profiler-layout, .documents-layout, .rights-layout {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-top: 75px;
+    padding-bottom: 75px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .profiler-copy h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2. */
+  .profiler-copy h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2 {
+    font-size: clamp(39px, 8vw, 54px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .profile-step-list. */
+  .profile-step-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .profile-step:last-child. */
+  .profile-step:last-child {
+    grid-column: 1 / -1;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .safety-heading. */
+  .safety-heading {
+    align-items: flex-start;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .safety-badge-large. */
+  .safety-badge-large {
+    margin: 0;
+    transform: scale(.8) rotate(8deg);
+    transform-origin: top right;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .scam-workspace. */
+  .scam-workspace {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .rights-layout. */
+  .rights-layout {
+    gap: 40px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .rights-cards. */
+  .rights-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .rights-card. */
+  .rights-card {
+    flex-direction: row;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .assistant-banner. */
+  .assistant-banner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 28px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .footer-main. */
+  .footer-main {
+    flex-wrap: wrap;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .footer-main > p. */
+  .footer-main > p {
+    margin-left: auto;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .footer-bottom. */
+  .footer-bottom {
+    justify-content: flex-start;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 760px). SELECTOR: .benefit-category-grid. */
+  .benefit-category-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 480px) {
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .announcement. */
+  .announcement {
+    font-size: 11px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .site-header. */
+  .site-header {
+    padding-inline: 17px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .brand-copy small. */
+  .brand-copy small {
+    max-width: 130px;
+    font-size: 10px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .brand-copy strong. */
+  .brand-copy strong {
+    font-size: 18px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .section-wrap. */
+  .section-wrap {
+    width: calc(100% - 32px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero. */
+  .hero {
+    padding-top: 43px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero h1. */
+  .hero h1 {
+    font-size: clamp(43px, 12vw, 56px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero-intro. */
+  .hero-intro {
+    font-size: 15px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero-buttons. */
+  .hero-buttons {
+    gap: 14px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .button. */
+  .button {
+    gap: 15px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero-proof. */
+  .hero-proof {
+    margin-top: 30px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero-art. */
+  .hero-art {
+    min-height: 385px;
+    margin-inline: -4px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .hero-art::before. */
+  .hero-art::before {
+    width: 280px;
+    height: 280px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .benefit-window. */
+  .benefit-window {
+    width: 82%;
+    padding: 16px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .note-top. */
+  .note-top {
+    top: 1%;
+    right: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .note-bottom. */
+  .note-bottom {
+    bottom: 1%;
+    left: -2%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .float-note. */
+  .float-note {
+    padding: 8px 10px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .float-note strong. */
+  .float-note strong {
+    font-size: 8px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .float-note small. */
+  .float-note small {
+    font-size: 9px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .art-orbit. */
+  .art-orbit {
+    transform: scale(.68) rotate(-28deg);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .ticker-track. */
+  .ticker-track {
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .section-heading-row h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2, .profiler-copy h2. */
+  .section-heading-row h2, .documents-copy h2, .safety-heading h2, .rights-copy h2, .assistant-banner-copy h2, .profiler-copy h2 {
+    font-size: 41px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-main. */
+  .bento-main {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .search-illustration. */
+  .search-illustration {
+    min-height: 165px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .search-ring. */
+  .search-ring {
+    left: 27%;
+    width: 110px;
+    height: 110px;
+    font-size: 55px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .orbit-center. */
+  .orbit-center {
+    top: 65px;
+    left: calc(27% + 38px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-main .bento-copy. */
+  .bento-main .bento-copy {
+    max-width: 100%;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-docs. */
+  .bento-docs {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-docs .bento-card-top. */
+  .bento-docs .bento-card-top {
+    grid-column: auto;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .paper-stack. */
+  .paper-stack {
+    min-height: 140px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-safety. */
+  .bento-safety {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-visual. */
+  .safety-visual {
+    min-height: 130px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .bento-rights. */
+  .bento-rights {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .rights-art. */
+  .rights-art {
+    min-height: 145px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .rights-orbit. */
+  .rights-orbit {
+    width: 115px;
+    height: 115px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .rights-letter. */
+  .rights-letter {
+    width: 75px;
+    height: 90px;
+    font-size: 50px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .profile-panel, .checklist-panel, .scam-input-panel, .scam-result-panel. */
+  .profile-panel, .checklist-panel, .scam-input-panel, .scam-result-panel {
+    padding: 20px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .field-grid. */
+  .field-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .profile-step-list. */
+  .profile-step-list {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .profile-step:last-child. */
+  .profile-step:last-child {
+    grid-column: auto;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-heading. */
+  .safety-heading {
+    gap: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-badge-large. */
+  .safety-badge-large {
+    display: none;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .sample-buttons. */
+  .sample-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-reminder. */
+  .safety-reminder {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-reminder p. */
+  .safety-reminder p {
+    flex-basis: calc(100% - 45px);
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .safety-reminder a. */
+  .safety-reminder a {
+    margin-left: 41px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .rights-cards. */
+  .rights-cards {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .rights-card. */
+  .rights-card {
+    min-height: auto;
+    flex-direction: row;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .assistant-banner. */
+  .assistant-banner {
+    padding: 23px 17px;
+    border-radius: 22px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .suggested-questions. */
+  .suggested-questions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .chat-window. */
+  .chat-window {
+    min-height: 170px;
+    padding: 13px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .chat-form. */
+  .chat-form {
+    margin-inline: 13px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .chat-disclaimer. */
+  .chat-disclaimer {
+    margin-inline: 13px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .site-footer. */
+  .site-footer {
+    padding-inline: 18px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .footer-main. */
+  .footer-main {
+    align-items: flex-start;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .footer-main > p. */
+  .footer-main > p {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .footer-top. */
+  .footer-top {
+    margin-left: auto;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .footer-bottom. */
+  .footer-bottom {
+    flex-direction: column;
+    gap: 7px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .floating-ask. */
+  .floating-ask {
+    right: 12px;
+    bottom: 12px;
+    padding: 11px 13px;
+    font-size: 12px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .benefit-category-grid. */
+  .benefit-category-grid {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .profile-info-grid. */
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .auth-right. */
+  .auth-right {
+    padding: 24px 18px;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .social-auth. */
+  .social-auth {
+    grid-template-columns: 1fr;
+  }
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (max-width: 480px). SELECTOR: .page-intro-inner. */
+  .page-intro-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 28px 22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* OUTPUT SECTION: RESPONSIVE / RESPONSIVE (prefers-reduced-motion: reduce). SELECTOR: *, *::before, *::after. */
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   READABILITY + NAVIGATION + DOCUMENT CHECKLIST COLOR TUNING
+   These overrides preserve the existing layout and heading sizes.
+   ───────────────────────────────────────────────────────────── */
+
+/* Header links now look like buttons instead of plain text links. */
+/* OUTPUT SECTION: HEADER — NAVIGATION LINKS STYLED AS BUTTONS. SELECTOR: .main-nav a. */
+.main-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 13px;
+  border: 1px solid rgba(37, 76, 60, .18);
+  border-radius: 999px;
+  background: var(--white);
+  color: #435344;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+}
+/* OUTPUT SECTION: HEADER — NAVIGATION LINKS STYLED AS BUTTONS. SELECTOR: .main-nav a:hover, .main-nav a.active. */
+.main-nav a:hover,
+.main-nav a.active {
+  border-color: #b8d88f;
+  background: var(--green);
+  color: #283b25;
+  transform: translateY(-1px);
+}
+
+/* Keep the button navigation compact on tablet-width screens. */
+@media (max-width: 1000px) and (min-width: 761px) {
+  /* OUTPUT SECTION: HEADER — TABLET NAVIGATION BUTTONS / RESPONSIVE (max-width: 1000px) and (min-width: 761px). SELECTOR: .site-header. */
+  .site-header {
+    gap: 10px;
+  }
+  /* OUTPUT SECTION: HEADER — TABLET NAVIGATION BUTTONS / RESPONSIVE (max-width: 1000px) and (min-width: 761px). SELECTOR: .main-nav. */
+  .main-nav {
+    gap: 8px;
+  }
+  /* OUTPUT SECTION: HEADER — TABLET NAVIGATION BUTTONS / RESPONSIVE (max-width: 1000px) and (min-width: 761px). SELECTOR: .main-nav a. */
+  .main-nav a {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Keep the same button-like navigation on phones and small tablets. */
+@media (max-width: 760px) {
+  /* OUTPUT SECTION: HEADER — MOBILE NAVIGATION BUTTONS / RESPONSIVE (max-width: 760px). SELECTOR: .main-nav. */
+  .main-nav {
+    gap: 6px;
+    padding: 10px 18px 16px;
+  }
+  /* OUTPUT SECTION: HEADER — MOBILE NAVIGATION BUTTONS / RESPONSIVE (max-width: 760px). SELECTOR: .main-nav a. */
+  .main-nav a {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    margin: 3px 0;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    font-size: 14px;
+  }
+}
+
+/* Orange accents for the Document Checklist only. */
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .documents-copy h2 em. */
+.documents-copy h2 em {
+  color: #d8783f;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .documents-tip .tip-icon. */
+.documents-tip .tip-icon {
+  color: #d8783f;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .checklist-icon. */
+.checklist-icon {
+  background: #ffe0cc;
+  color: #a8562c;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .checklist-progress strong. */
+.checklist-progress strong {
+  color: #bd683b;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .documents-section .progress-track > span. */
+.documents-section .progress-track > span {
+  background: #ed884b;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .check-item input:checked + .custom-check. */
+.check-item input:checked + .custom-check {
+  border-color: #ed884b;
+  background: #ed884b;
+  color: white;
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .check-item input:focus-visible + .custom-check. */
+.check-item input:focus-visible + .custom-check {
+  outline-color: rgba(237, 136, 75, .35);
+}
+/* OUTPUT SECTION: DOCUMENTS — ORANGE CHECKLIST ACCENTS. SELECTOR: .document-summary. */
+.document-summary {
+  background: #fff0e7;
+  color: #925637;
+}
+
+/* The profile page has a small embedded <style> block; keep its small text in line too. */
+/* OUTPUT SECTION: PROFILE PAGE — EMBEDDED STYLE SUPPORT. SELECTOR: body .save-toast. */
+body .save-toast {
+  font-size: 13px;
+}
+/* OUTPUT SECTION: PROFILE PAGE — EMBEDDED STYLE SUPPORT. SELECTOR: .profile-page-wrap .profile-tab. */
+.profile-page-wrap .profile-tab {
+  font-size: 14px;
+}
+/* OUTPUT SECTION: PROFILE PAGE — EMBEDDED STYLE SUPPORT. SELECTOR: .profile-page-wrap .profile-breadcrumb. */
+.profile-page-wrap .profile-breadcrumb {
+  font-size: 13px;
+}
+/* OUTPUT SECTION: PROFILE PAGE — EMBEDDED STYLE SUPPORT. SELECTOR: .profile-page-wrap .profile-breadcrumb strong. */
+.profile-page-wrap .profile-breadcrumb strong {
+  font-size: 11px;
+}
+
+/* =====================================================================
+   ADHIKARAI — READABLE TYPOGRAPHY CONTROLS (EDIT THIS SECTION)
+   This section changes supporting text and paragraph sizes only.
+   Main heading sizes and existing explicit <strong> sizes are not changed.
+
+   QUICK ADJUSTMENT:
+   --adh-body-paragraph: 16px;   Main explanatory paragraphs
+   --adh-card-paragraph: 14px;   Card descriptions
+   --adh-small-copy: 13px;       Notes, footnotes and helper text
+   --adh-label-size: 12px;       Labels, filters and small controls
+   --adh-control-size: 14px;     Input and text-entry size
+
+   If you want text larger/smaller, edit the numbers above first.
+   ===================================================================== */
+
+/* OUTPUT SECTION: ADHIKARAI — READABLE TYPOGRAPHY CONTROLS (EDIT THIS SECTION). SELECTOR: :root. */
+
+:root {
+  --adh-body-paragraph: 16px;
+  --adh-card-paragraph: 14px;
+  --adh-small-copy: 13px;
+  --adh-label-size: 12px;
+  --adh-control-size: 14px;
+}
+
+/* =====================================================================
+   1. SHARED WEBSITE TEXT — used on multiple pages
+   ===================================================================== */
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: .eyebrow, .section-kicker. */
+.eyebrow,
+.section-kicker {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: .tiny-label. */
+
+.tiny-label {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: .field > span. */
+
+.field > span {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: .field select, .field input, .field textarea. */
+
+.field select,
+.field input,
+.field textarea {
+  font-size: var(--adh-control-size) !important;
+}
+
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: .button, .text-link, .arrow-link, .header-cta, .language-select select. */
+
+.button,
+.text-link,
+.arrow-link,
+.header-cta,
+.language-select select {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* Inline paragraph sizes exist in a few HTML files.
+   Target paragraphs only; do not target whole containers or headings. */
+/* OUTPUT SECTION: 1. SHARED WEBSITE TEXT — used on multiple pages. SELECTOR: p[style*="font-size"]. */
+p[style*="font-size"] {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   2. HOME PAGE — main hero and proof text
+   ===================================================================== */
+/* OUTPUT SECTION: 2. HOME PAGE — main hero and proof text. SELECTOR: .hero-intro. */
+.hero-intro {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 2. HOME PAGE — main hero and proof text. SELECTOR: .hero-proof p. */
+
+.hero-proof p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* Preserve the existing explicit size of the bold proof text. */
+/* OUTPUT SECTION: 2. HOME PAGE — main hero and proof text. SELECTOR: .hero-proof strong. */
+.hero-proof strong {
+  font-size: 11px !important;
+}
+
+/* =====================================================================
+   3. HOW IT WORKS PAGE — banner and four feature cards
+   ===================================================================== */
+/* OUTPUT SECTION: 3. HOW IT WORKS PAGE — banner and four feature cards. SELECTOR: .page-intro-inner p. */
+.page-intro-inner p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 3. HOW IT WORKS PAGE — banner and four feature cards. SELECTOR: .bento-copy p. */
+
+.bento-copy p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* OUTPUT SECTION: 3. HOW IT WORKS PAGE — banner and four feature cards. SELECTOR: .intro-section > div[style] p. */
+
+.intro-section > div[style] p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   4. BENEFITS PAGE — section intro, category cards and footnote
+   ===================================================================== */
+/* OUTPUT SECTION: 4. BENEFITS PAGE — section intro, category cards and footnote. SELECTOR: .section-heading-row > p. */
+.section-heading-row > p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 4. BENEFITS PAGE — section intro, category cards and footnote. SELECTOR: .benefit-category p. */
+
+.benefit-category p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* OUTPUT SECTION: 4. BENEFITS PAGE — section intro, category cards and footnote. SELECTOR: .section-footnote. */
+
+.section-footnote {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 4. BENEFITS PAGE — section intro, category cards and footnote. SELECTOR: .benefits-section > div[style] p. */
+
+.benefits-section > div[style] p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   5. PROFILER PAGE — explanation, steps, privacy and result descriptions
+   ===================================================================== */
+/* OUTPUT SECTION: 5. PROFILER PAGE — explanation, steps, privacy and result descriptions. SELECTOR: .profiler-copy > p. */
+.profiler-copy > p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 5. PROFILER PAGE — explanation, steps, privacy and result descriptions. SELECTOR: .profile-promise p, .profile-step p. */
+
+.profile-promise p,
+.profile-step p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 5. PROFILER PAGE — explanation, steps, privacy and result descriptions. SELECTOR: .form-privacy-note. */
+
+.form-privacy-note {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 5. PROFILER PAGE — explanation, steps, privacy and result descriptions. SELECTOR: .form-section-label. */
+
+.form-section-label {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 5. PROFILER PAGE — explanation, steps, privacy and result descriptions. SELECTOR: .profile-results p. */
+
+.profile-results p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* =====================================================================
+   6. DOCUMENTS PAGE — text and checklist details
+   Orange checklist accents are defined in the earlier DOCUMENTS section.
+   ===================================================================== */
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .documents-copy > p. */
+.documents-copy > p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .documents-tip p. */
+
+.documents-tip p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .checklist-progress > div:first-child. */
+
+.checklist-progress > div:first-child {
+  font-size: var(--adh-small-copy) !important;
+}
+
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .check-item small. */
+
+.check-item small {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.6;
+}
+
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .check-item-type. */
+
+.check-item-type {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 6. DOCUMENTS PAGE — text and checklist details. SELECTOR: .document-summary, .privacy-footnote. */
+
+.document-summary,
+.privacy-footnote {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* =====================================================================
+   7. SCAM SHIELD PAGE — description and warning results
+   ===================================================================== */
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .safety-heading > div:first-child > p. */
+.safety-heading > div:first-child > p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .scam-panel-heading p. */
+
+.scam-panel-heading p {
+  font-size: var(--adh-small-copy) !important;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .sample-button. */
+
+.sample-button {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .scam-result-panel > p. */
+
+.scam-result-panel > p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* Preserve bold words inside generated scam-result paragraphs at their prior size. */
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .scam-result-panel > p strong. */
+.scam-result-panel > p strong {
+  font-size: 11px !important;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .result-caveat, .result-list. */
+
+.result-caveat,
+.result-list {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .safety-reminder p. */
+
+.safety-reminder p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.75;
+}
+
+/* The bold label in this paragraph keeps its original 10px size. */
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .safety-reminder p strong. */
+.safety-reminder p strong {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 7. SCAM SHIELD PAGE — description and warning results. SELECTOR: .safety-reminder a. */
+
+.safety-reminder a {
+  font-size: var(--adh-small-copy) !important;
+}
+
+/* =====================================================================
+   8. RIGHTS PAGE — search, filters and rights cards
+   ===================================================================== */
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-copy > p. */
+.rights-copy > p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-search input. */
+
+.rights-search input {
+  font-size: var(--adh-control-size) !important;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-filter. */
+
+.rights-filter {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-card-label. */
+
+.rights-card-label {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-card p. */
+
+.rights-card p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-card a. */
+
+.rights-card a {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-empty. */
+
+.rights-empty {
+  font-size: var(--adh-card-paragraph) !important;
+}
+
+/* The rights-page call-to-action paragraph has inline styling in its HTML. */
+/* OUTPUT SECTION: 8. RIGHTS PAGE — search, filters and rights cards. SELECTOR: .rights-section + section p. */
+.rights-section + section p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* =====================================================================
+   9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips
+   ===================================================================== */
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .assistant-banner-copy > p:not(.assistant-note). */
+.assistant-banner-copy > p:not(.assistant-note) {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .assistant-note. */
+
+.assistant-note {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .assistant-languages span. */
+
+.assistant-languages span {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .chat-bubble p. */
+
+.chat-bubble p {
+  font-size: var(--adh-card-paragraph) !important;
+  line-height: 1.75;
+}
+
+/* Keep bold words inside chatbot replies at the previous 10px size. */
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .chat-bubble p strong. */
+.chat-bubble p strong {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .chat-bubble small, .suggested-questions > span. */
+
+.chat-bubble small,
+.suggested-questions > span {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .clear-chat, .suggested-questions button. */
+
+.clear-chat,
+.suggested-questions button {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .chat-form input. */
+
+.chat-form input {
+  font-size: var(--adh-control-size) !important;
+}
+
+/* OUTPUT SECTION: 9. ASSISTANT PAGE — introduction, chatbot messages and quick-start chips. SELECTOR: .chat-disclaimer. */
+
+.chat-disclaimer {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* =====================================================================
+   10. PROFILE PAGE — sidebar, detail labels, contact and form notes
+   ===================================================================== */
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .profile-breadcrumb, .profile-sidebar-head p, .profile-section-card > p. */
+.profile-breadcrumb,
+.profile-sidebar-head p,
+.profile-section-card > p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .profile-nav-item. */
+
+.profile-nav-item {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .profile-info-row small, .contact-info small. */
+
+.profile-info-row small,
+.contact-info small {
+  font-size: 11px !important;
+}
+
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .contact-change, .profile-edit-btn, .profile-page-wrap .profile-tab. */
+
+.contact-change,
+.profile-edit-btn,
+.profile-page-wrap .profile-tab {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* Preserve existing contact-value strong text size. */
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .contact-info strong. */
+.contact-info strong {
+  font-size: 12px !important;
+}
+
+/* OUTPUT SECTION: 10. PROFILE PAGE — sidebar, detail labels, contact and form notes. SELECTOR: .profile-page-wrap .save-toast. */
+
+.profile-page-wrap .save-toast {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* =====================================================================
+   11. LOGIN / SIGN-UP PAGE — supporting text and field labels
+   ===================================================================== */
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-hero-text p. */
+.auth-hero-text p {
+  font-size: var(--adh-body-paragraph) !important;
+  line-height: 1.8;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-feature. */
+
+.auth-feature {
+  font-size: var(--adh-small-copy) !important;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-card > p. */
+
+.auth-card > p {
+  font-size: var(--adh-small-copy) !important;
+  line-height: 1.7;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-field label. */
+
+.auth-field label {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-field input. */
+
+.auth-field input {
+  font-size: var(--adh-control-size) !important;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-tab, .auth-switch. */
+
+.auth-tab,
+.auth-switch {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 11. LOGIN / SIGN-UP PAGE — supporting text and field labels. SELECTOR: .auth-terms. */
+
+.auth-terms {
+  font-size: 11px !important;
+  line-height: 1.7;
+}
+
+/* =====================================================================
+   12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT
+   ===================================================================== */
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .brand-copy small. */
+.brand-copy small {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .profile-avatar-name, .pd-action-link, .footer-top. */
+
+.profile-avatar-name,
+.pd-action-link,
+.footer-top {
+  font-size: var(--adh-label-size) !important;
+}
+
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .pd-email. */
+
+.pd-email {
+  font-size: 12px !important;
+}
+
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .pd-info-item small. */
+
+.pd-info-item small {
+  font-size: 10px !important;
+}
+
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .footer-main > p. */
+
+.footer-main > p {
+  font-size: 19px !important;
+  line-height: 1.5;
+}
+
+/* OUTPUT SECTION: 12. SHARED HEADER / FOOTER / PROFILE DROPDOWN SUPPORTING TEXT. SELECTOR: .footer-bottom. */
+
+.footer-bottom {
+  font-size: 11px !important;
+  line-height: 1.6;
+}
+/* =========================================================
+   ADHIKARAI — GOVERNMENT SCHEME DIRECTORY
+   Added for the scheme sections in benefits.html
+========================================================= */
+
+/* Keep the directory and unselected categories hidden */
+.scheme-directory[hidden],
+.scheme-group[hidden] {
+    display: none !important;
+}
+
+/* Main scheme directory */
+.scheme-directory {
+    padding-top: 76px;
+    padding-bottom: 80px;
+    scroll-margin-top: 30px;
+}
+
+.scheme-directory > .section-kicker {
+    margin-bottom: 16px;
+}
+
+/* Category groups */
+.scheme-group {
+    margin-top: 64px;
+    scroll-margin-top: 28px;
+}
+
+.scheme-group-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e4e0d6;
+}
+
+.scheme-group-heading > div {
+    max-width: 650px;
+}
+
+.scheme-group-heading .category-number {
+    display: block;
+    margin-bottom: 10px;
+    color: #77786f;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.scheme-group-heading h3 {
+    margin: 0 0 10px;
+    color: #252722;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(23px, 3vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 1.2;
+}
+
+.scheme-group-heading p {
+    max-width: 560px;
+    margin: 0;
+    color: #77786f;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.scheme-group-heading > .text-link {
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+/* Scheme cards grid */
+.scheme-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+/* Individual scheme card */
+.scheme-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid #e9e5dc;
+    border-radius: 19px;
+    background: #fffefa;
+    box-shadow: 0 4px 18px rgba(39, 43, 34, 0.025);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.scheme-card:hover {
+    transform: translateY(-4px);
+    border-color: #d4dfb9;
+    box-shadow: 0 15px 35px rgba(39, 43, 34, 0.075);
+}
+
+/* Small category label */
+.scheme-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    margin-bottom: 17px;
+    padding: 7px 10px;
+    border: 1px solid #e4e8d8;
+    border-radius: 999px;
+    background: #f1f5e8;
+    color: #56654a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* Scheme title */
+.scheme-card h4 {
+    margin: 0 0 12px;
+    color: #252722;
+    font-family: "Manrope", sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.45;
+}
+
+/* Scheme description */
+.scheme-card p {
+    flex-grow: 1;
+    margin: 0 0 22px;
+    color: #6e7068;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.85;
+}
+
+/* Official portal link */
+.scheme-card .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 100%;
+    margin-top: auto;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #c9c9bc;
+    color: #252722;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.7;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.scheme-card .arrow-link:hover {
+    border-color: #7a9844;
+    color: #58762e;
+}
+
+.scheme-card .arrow-link span {
+    flex-shrink: 0;
+}
+
+/* Wider panel leading to the full scheme directory */
+.all-schemes-note {
+    margin-top: 64px;
+    padding: clamp(25px, 4vw, 44px);
+    border: 1px solid #dce5d1;
+    border-radius: 22px;
+    background: #eef3e7;
+}
+
+.all-schemes-note .section-kicker {
+    margin-bottom: 14px;
+    color: #64784b;
+}
+
+.all-schemes-note h3 {
+    max-width: 650px;
+    margin: 0 0 14px;
+    color: #252722;
+    font-family: "Manrope", sans-serif;
+    font-size: clamp(23px, 3vw, 32px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1.25;
+}
+
+.all-schemes-note p {
+    max-width: 720px;
+    margin: 0 0 24px;
+    color: #62665d;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.all-schemes-note .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 100%;
+    text-decoration: none;
+}
+
+/* Keyboard accessibility */
+.scheme-card a:focus-visible,
+.scheme-group-heading a:focus-visible,
+.all-schemes-note a:focus-visible {
+    outline: 3px solid #91b74c;
+    outline-offset: 4px;
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUTS
+========================================================= */
+
+/* Tablets and smaller laptops */
+@media (max-width: 1000px) {
+    .scheme-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .scheme-card {
+        padding: 22px;
+    }
+
+    .scheme-group {
+        margin-top: 48px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .scheme-directory {
+        padding-top: 48px;
+        padding-bottom: 52px;
+    }
+
+    .scheme-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .scheme-card {
+        padding: 22px;
+        border-radius: 17px;
+    }
+
+    .scheme-card h4 {
+        font-size: 16px;
+    }
+
+    .scheme-group-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 19px;
+    }
+
+    .scheme-group-heading p {
+        font-size: 13px;
+    }
+
+    .scheme-group-heading > .text-link {
+        align-self: flex-start;
+    }
+
+    .scheme-group {
+        margin-top: 40px;
+    }
+
+    .all-schemes-note {
+        margin-top: 42px;
+        border-radius: 18px;
+    }
+}
+/* =========================================================
+   ADHIKARAI — SCHEME CARD COLOURS
+   Distinct pastel backgrounds for each scheme category
+========================================================= */
+
+/* EDUCATION — LAVENDER */
+#education-schemes .scheme-card {
+    background: #f0ebff;
+    border-color: #ded3fa;
+}
+
+#education-schemes .scheme-tag {
+    background: #ded2ff;
+    border-color: #d1c1f6;
+    color: #5e4889;
+}
+
+#education-schemes .scheme-card:hover {
+    background: #e9e0ff;
+    border-color: #bba5ed;
+}
+
+/* AGRICULTURE — MINT GREEN */
+#agriculture-schemes .scheme-card {
+    background: #e4f3e5;
+    border-color: #c8e5cc;
+}
+
+#agriculture-schemes .scheme-tag {
+    background: #ccebd0;
+    border-color: #b9dfbf;
+    color: #356947;
+}
+
+#agriculture-schemes .scheme-card:hover {
+    background: #d9eedc;
+    border-color: #a5d4ad;
+}
+
+/* HEALTHCARE — WARM PEACH */
+#healthcare-schemes .scheme-card {
+    background: #fff0e6;
+    border-color: #f4d8c5;
+}
+
+#healthcare-schemes .scheme-tag {
+    background: #ffdfcb;
+    border-color: #f3ceb6;
+    color: #985635;
+}
+
+#healthcare-schemes .scheme-card:hover {
+    background: #ffe8d9;
+    border-color: #eabda2;
+}
+
+/* LIVELIHOOD — SOFT BLUE */
+#livelihood-schemes .scheme-card {
+    background: #e3edff;
+    border-color: #cbdcf8;
+}
+
+#livelihood-schemes .scheme-tag {
+    background: #cfdefa;
+    border-color: #bfd2f3;
+    color: #385b91;
+}
+
+#livelihood-schemes .scheme-card:hover {
+    background: #d8e6ff;
+    border-color: #a9c3ef;
+}
+
+/* Keep scheme titles dark and readable */
+.scheme-card h4 {
+    color: #20211f;
+}
+
+/* Keep descriptions readable against the coloured backgrounds */
+.scheme-card p {
+    color: #555950;
+}
+
+/* Make official links stand out */
+.scheme-card .arrow-link {
+    color: #20211f;
+    border-bottom-color: rgba(32, 33, 31, 0.3);
+}
+
+.scheme-card .arrow-link:hover {
+    color: #345b35;
+    border-bottom-color: #587b43;
+}
+/* =========================================================
+   ADHIKARAI ASSISTANT — LANGUAGE SELECTOR AND VOICE INPUT
+   Append to the END of styles.css. Keep all existing CSS.
+========================================================= */
+
+/* Language selection area */
+.assistant-language-area {
+  margin-top: 23px;
+}
+
+.language-heading {
+  display: block;
+  margin-bottom: 11px;
+  color: #766b91;
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+/* The three language buttons */
+.assistant-languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.assistant-languages .language-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 9px 13px;
+  border: 1px solid rgba(100, 80, 140, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #5b4d80;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.assistant-languages .language-option:hover {
+  border-color: #a99bc9;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}
+
+.assistant-languages .language-option.active {
+  border-color: #7964a4;
+  background: #7964a4;
+  color: #ffffff;
+}
+
+.assistant-languages .language-option:focus-visible {
+  outline: 3px solid rgba(121, 100, 164, 0.28);
+  outline-offset: 3px;
+}
+
+/* Current chat language indicator */
+.chat-language-status {
+  min-height: 16px;
+  margin: 9px 0 0;
+  color: #81758f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Quick guides */
+.assistant-quick-guides {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.quick-guides-heading {
+  margin-bottom: 4px;
+  color: #8a7caa;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.quick-guide-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(100, 80, 140, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  color: #5b4d80;
+  font-size: 12px;
+  font-weight: 600;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.quick-guide-link:hover {
+  border-color: rgba(100, 80, 140, 0.25);
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateX(2px);
+}
+
+.quick-guide-link span:nth-child(2) {
+  flex: 1;
+}
+
+/* Chat input row */
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-form input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
+
+/* Microphone button */
+.chat-form .voice-input-btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #ddd4f0;
+  border-radius: 12px;
+  background: #f0eaff;
+  color: #68528f;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.chat-form .voice-input-btn:hover {
+  border-color: #b7a5dc;
+  background: #e6dcff;
+  transform: translateY(-1px);
+}
+
+.chat-form .voice-input-btn:focus-visible,
+.chat-form .chat-send-btn:focus-visible {
+  outline: 3px solid rgba(121, 100, 164, 0.3);
+  outline-offset: 2px;
+}
+
+/* Changes while the microphone is listening */
+.chat-form .voice-input-btn.is-listening {
+  border-color: #d88d91;
+  background: #ffe6e7;
+  color: #a52d3a;
+  box-shadow: 0 0 0 4px rgba(216, 141, 145, 0.15);
+  animation: adhikarai-mic-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes adhikarai-mic-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(216, 141, 145, 0.12);
+  }
+
+  50% {
+    box-shadow: 0 0 0 7px rgba(216, 141, 145, 0.24);
+  }
+}
+
+/* Send button */
+.chat-form .chat-send-btn {
+  display: grid;
+  place-items: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chat-form .chat-send-btn:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+}
+
+/* Microphone permission, listening and error messages */
+.voice-status {
+  margin: 9px 19px 0;
+  color: #776a91;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.voice-status:empty {
+  display: none;
+}
+
+.voice-status.voice-status-error {
+  color: #a52d3a;
+}
+
+.voice-status.voice-status-active {
+  color: #4d7854;
+}
+
+/* Disabled states */
+.chat-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .assistant-languages {
+    gap: 6px;
+  }
+
+  .assistant-languages .language-option {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .chat-form {
+    gap: 6px;
+  }
+
+  .chat-form .voice-input-btn,
+  .chat-form .chat-send-btn {
+    flex-basis: 37px;
+    width: 37px;
+    height: 37px;
+  }
+
+  .voice-status {
+    margin-right: 13px;
+    margin-left: 13px;
+  }
+}
+
+/* Respect the user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .chat-form .voice-input-btn.is-listening {
+    animation: none;
+  }
+}
+/* =========================================================
+   SHARED HEADER — DOCUMENTS DROPDOWN
+========================================================= */
+
+.main-nav .nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.main-nav .nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid rgba(37, 76, 60, .18);
+  border-radius: 999px;
+  background: var(--white);
+  color: #435344;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color .2s ease,
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.main-nav .nav-dropdown-toggle:hover,
+.main-nav .nav-dropdown-toggle.active,
+.main-nav .nav-dropdown.open .nav-dropdown-toggle {
+  border-color: #b8d88f;
+  background: var(--green);
+  color: #283b25;
+}
+
+.nav-caret {
+  display: inline-block;
+  font-size: 12px;
+  transition: transform .2s ease;
+}
+
+.nav-dropdown.open .nav-caret {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 215px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--white);
+  box-shadow: 0 16px 40px rgba(32, 33, 31, .13);
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  display: flex;
+}
+
+/* Dropdown options should look like menu items, not pill buttons */
+.main-nav .nav-dropdown-menu a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #435344;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal;
+  transform: none;
+}
+
+.main-nav .nav-dropdown-menu a:hover,
+.main-nav .nav-dropdown-menu a.active {
+  border-color: #e0e9d3;
+  background: #eff5e7;
+  color: #283b25;
+  transform: none;
+}
+
+.main-nav .nav-dropdown-toggle:focus-visible,
+.main-nav .nav-dropdown-menu a:focus-visible {
+  outline: 3px solid rgba(142, 185, 107, .4);
+  outline-offset: 3px;
+}
+
+/* Tablet */
+@media (max-width: 1000px) and (min-width: 761px) {
+  .main-nav .nav-dropdown-toggle {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .nav-dropdown-menu {
+    min-width: 195px;
+  }
+}
+
+/* Mobile navigation */
+@media (max-width: 760px) {
+  .main-nav .nav-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .main-nav .nav-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 3px 0;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--white);
+    font-size: 14px;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    min-width: 0;
+    width: 100%;
+    margin: 0 0 7px;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: none;
+    background: #f0eee7;
+  }
+
+  .main-nav .nav-dropdown-menu a {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+/* =========================================================
+   HOW IT WORKS — REDUCE FEATURE CARD HEIGHTS
+========================================================= */
+
+.intro-section .bento-card {
+  min-height: 0;
+  padding: 18px;
+  row-gap: 8px;
+}
+
+/* Reduce the illustration space */
+.intro-section .bento-main .search-illustration {
+  min-height: 130px;
+}
+
+.intro-section .bento-docs .paper-stack {
+  min-height: 105px;
+}
+
+.intro-section .bento-safety .safety-visual {
+  min-height: 75px;
+}
+
+.intro-section .bento-rights .rights-art {
+  min-height: 140px;
+}
+
+/* Tighten spacing inside all four cards */
+.intro-section .bento-card {
+  row-gap: 12px;
+}
+
+.intro-section .bento-copy h3 {
+  margin-bottom: 8px;
+  font-size: 21px;
+}
+
+.intro-section .bento-copy p {
+  margin-bottom: 12px;
+  line-height: 1.65;
+}
+
+/* Keep the illustrations and cards responsive on phones */
+@media (max-width: 760px) {
+  .intro-section .bento-card {
+    padding: 18px;
+  }
+
+  .intro-section .bento-main .search-illustration {
+    min-height: 145px;
+  }
+
+  .intro-section .bento-docs .paper-stack {
+    min-height: 120px;
+  }
+
+  .intro-section .bento-safety .safety-visual {
+    min-height: 100px;
+  }
+
+  .intro-section .bento-rights .rights-art {
+    min-height: 130px;
+  }
+}
+/* PROFILE PAGE — EQUAL-WIDTH ROUNDED OPTION BOXES */
+
+.profile-page-wrap .profile-tabs,
+.profile-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+.profile-page-wrap .profile-tab,
+.profile-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  border: 1px solid #dedbd3;
+  border-radius: 16px;
+  background: #fffefa;
+  text-align: left;
+}
+
+.profile-page-wrap .profile-tab:hover,
+.profile-page-wrap .profile-tab.active,
+.profile-nav-item:hover,
+.profile-nav-item.active {
+  border-color: #c9f26c;
+  background: #f0f6e7;
+}

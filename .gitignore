@@ -63,3 +63,20 @@ Thumbs.db
 .vscode/
 .idea/
 .gemini/
+
+# =============================================================================
+# Local Uploads, Vector Indexes & Generated Caches
+# =============================================================================
+uploads/
+**/uploads/
+*.index
+*.faiss
+*.chroma/
+*.tmp
+*.temp
+coverage/
+**/coverage/
+Desktop.ini
+ehthumbs.db
+scratch/
+

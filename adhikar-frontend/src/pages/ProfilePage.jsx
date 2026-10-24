@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  User,
-  Save,
-  Sparkles,
-  Lock,
-  ArrowUpRight
-} from 'lucide-react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
-import Alert from '../components/ui/Alert';
+
+import { calculateProfileCompleteness } from '../context/ProfileContext';
 
 const INDIAN_STATES = [
   'Karnataka',
@@ -27,54 +21,57 @@ const INDIAN_STATES = [
   'Punjab',
   'Haryana',
   'Delhi',
-  'Odisha',
-  'Assam',
   'Other State / UT'
 ];
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
-  const { profile, saveProfile, loadPreset } = useProfile();
-
-  const query = new URLSearchParams(location.search);
-  const redirectTarget = query.get('redirect');
+  const { user, switchDemoUser } = useAuth();
+  const { profile, saveProfile } = useProfile();
 
   const [formData, setFormData] = useState({
-    name: '',
-    age: 24,
-    gender: 'Male',
-    state: 'Karnataka',
-    category: 'SC',
-    annual_income: 120000,
-    education_level: 'Undergraduate',
-    course: 'B.Tech Computer Science',
-    occupation: 'Student',
-    is_minority: false,
-    is_bpl: true
+    name: user?.name || profile?.name || '',
+    age: profile?.age ? String(profile.age) : '',
+    gender: profile?.gender || '',
+    state: profile?.state || '',
+    category: profile?.category || '',
+    annual_income: (profile?.annual_income !== null && profile?.annual_income !== undefined && profile?.annual_income !== '') ? String(profile.annual_income) : '',
+    education_level: profile?.education_level || '',
+    course: profile?.course || '',
+    occupation: profile?.occupation || '',
+    is_minority: Boolean(profile?.is_minority),
+    is_bpl: Boolean(profile?.is_bpl)
   });
 
   const [saving, setSaving] = useState(false);
-  const [alertInfo, setAlertInfo] = useState(null);
+  const [successToast, setSuccessToast] = useState(false);
+  const [errorToast, setErrorToast] = useState('');
 
   useEffect(() => {
     if (profile) {
       setFormData({
         name: profile.name || user?.name || '',
-        age: profile.age ?? 24,
-        gender: profile.gender || 'Male',
-        state: profile.state || 'Karnataka',
-        category: profile.category || 'SC',
-        annual_income: profile.annual_income ?? 120000,
-        education_level: profile.education_level || 'Undergraduate',
+        age: profile.age ? String(profile.age) : '',
+        gender: profile.gender || '',
+        state: profile.state || '',
+        category: profile.category || '',
+        annual_income: (profile.annual_income !== null && profile.annual_income !== undefined && profile.annual_income !== '') ? String(profile.annual_income) : '',
+        education_level: profile.education_level || '',
         course: profile.course || '',
-        occupation: profile.occupation || 'Student',
+        occupation: profile.occupation || '',
         is_minority: Boolean(profile.is_minority),
         is_bpl: Boolean(profile.is_bpl)
       });
+    } else if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || ''
+      }));
     }
   }, [profile, user]);
+
+  const liveCompleteness = calculateProfileCompleteness(formData);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -84,337 +81,339 @@ const ProfilePage = () => {
     }));
   };
 
-  const handleSubmit = async (e, shouldRedirect = false) => {
+  const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     setSaving(true);
-    setAlertInfo(null);
+    setErrorToast('');
 
     try {
       await saveProfile({
         ...formData,
-        age: Number(formData.age),
-        annual_income: Number(formData.annual_income)
+        age: formData.age !== '' ? Number(formData.age) : null,
+        annual_income: formData.annual_income !== '' ? Number(formData.annual_income) : null
       });
-      setAlertInfo({ type: 'success', text: 'Citizen profile saved successfully! Scheme matching updated.' });
+      setSuccessToast(true);
 
-      if (shouldRedirect || redirectTarget === 'find-schemes') {
-        setTimeout(() => navigate('/find-schemes'), 400);
-      }
+      // Workflow transition: navigate directly to My Schemes after profile completion
+      setTimeout(() => {
+        navigate('/my-schemes');
+      }, 700);
     } catch (err) {
-      setAlertInfo({ type: 'danger', text: err.message || 'Failed to save citizen profile.' });
+      setErrorToast(err.message || 'Failed to save citizen profile.');
     } finally {
       setSaving(false);
     }
   };
 
-  const handleApplyPreset = (key) => {
-    loadPreset(key);
-    setAlertInfo({ type: 'info', text: `Loaded demo profile for ${key}. You can edit and test changes.` });
-  };
+  const initials = formData.name
+    ? formData.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : 'U';
 
   return (
-    <div className="container" style={{ maxWidth: '980px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Page Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <span className="eyebrow-text">CITIZEN IDENTITY</span>
-          <h1 style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff', letterSpacing: '-0.04em' }}>
-            Citizen Profile &amp; Preferences.
-          </h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '1rem', marginTop: '0.35rem' }}>
-            Your demographic and socioeconomic data powers the AdhikarAI eligibility matching engine.
-          </p>
+    <div className="profile-page-wrap">
+      <div className="section-wrap profile-page" style={{ paddingTop: '40px', paddingBottom: '90px' }}>
+        {/* Breadcrumb Navigation */}
+        <div className="profile-breadcrumb" style={{ marginBottom: '24px' }}>
+          <Link to="/">Home</Link>
+          <span>›</span>
+          <strong>Citizen Profile</strong>
         </div>
 
-        {/* Demo Preset Buttons */}
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.78rem', color: '#ffffff', fontWeight: 700 }}>Presets:</span>
-          <button
-            type="button"
-            className="demo-pill-btn"
-            onClick={() => handleApplyPreset('SC')}
-            title="Load SC Student Profile"
+        {/* Success Toast */}
+        {successToast && (
+          <div
+            style={{
+              padding: '12px 18px',
+              borderRadius: '12px',
+              background: '#e1f1e3',
+              border: '1px solid #c8e5cc',
+              color: '#254c3c',
+              fontSize: '13px',
+              fontWeight: 700,
+              marginBottom: '20px'
+            }}
           >
-            Arun (SC)
-          </button>
-          <button
-            type="button"
-            className="demo-pill-btn"
-            onClick={() => handleApplyPreset('OBC')}
-            title="Load OBC Farmer Profile"
+            ✓ Profile saved successfully! Welfare eligibility matching updated.
+          </div>
+        )}
+
+        {errorToast && (
+          <div
+            style={{
+              padding: '12px 18px',
+              borderRadius: '12px',
+              background: '#fff0ef',
+              border: '1px solid #f5c6c2',
+              color: '#c93b2b',
+              fontSize: '13px',
+              fontWeight: 700,
+              marginBottom: '20px'
+            }}
           >
-            Priya (OBC)
-          </button>
-          <button
-            type="button"
-            className="demo-pill-btn"
-            onClick={() => handleApplyPreset('Senior')}
-            title="Load Senior Citizen Profile"
-          >
-            Ramesh (Sr)
-          </button>
+            ✕ {errorToast}
+          </div>
+        )}
+
+        {/* Profile Card Header */}
+        <div
+          style={{
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '24px',
+            padding: '32px',
+            marginBottom: '28px',
+            boxShadow: 'var(--shadow-soft)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+              <div className="pd-avatar-large" style={{ width: '64px', height: '64px', fontSize: '24px' }}>
+                {initials}
+              </div>
+              <div>
+                <h2 style={{ margin: 0, fontFamily: 'Manrope, sans-serif', fontSize: '24px', fontWeight: 800 }}>
+                  {formData.name || 'Citizen User'}
+                </h2>
+                <div style={{ color: '#77786f', fontSize: '13px', marginTop: '2px' }}>
+                  {user?.email || 'citizen@adhikar.ai'}
+                </div>
+                <span className="pd-badge" style={{ marginTop: '6px', display: 'inline-block' }}>
+                  ✓ Verified Citizen Profile
+                </span>
+              </div>
+            </div>
+
+            {/* Quick Demo Switchers */}
+            <div>
+              <span className="tiny-label" style={{ display: 'block', marginBottom: '8px' }}>
+                LOAD DEMO PRESET PROFILE
+              </span>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  className="sample-button"
+                  onClick={() => switchDemoUser('SC')}
+                >
+                  Arun (SC Student)
+                </button>
+                <button
+                  type="button"
+                  className="sample-button"
+                  onClick={() => switchDemoUser('OBC')}
+                >
+                  Priya (OBC Farmer)
+                </button>
+                <button
+                  type="button"
+                  className="sample-button"
+                  onClick={() => switchDemoUser('Senior')}
+                >
+                  Ramesh (Senior BPL)
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {alertInfo && (
-        <Alert variant={alertInfo.type} onClose={() => setAlertInfo(null)}>
-          {alertInfo.text}
-        </Alert>
-      )}
+        {/* Main Details Form */}
+        <div
+          style={{
+            background: 'var(--white, #fffefa)',
+            border: '1px solid var(--line, #e8e4dc)',
+            borderRadius: '24px',
+            padding: '36px',
+            boxShadow: 'var(--shadow-soft)'
+          }}
+        >
+          <div className="section-kicker" style={{ marginBottom: '8px' }}>
+            DEMOGRAPHIC ELIGIBILITY PARAMETERS
+          </div>
+          <h3 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '20px', fontWeight: 800, margin: '0 0 20px' }}>
+            Set Up Citizen Information
+          </h3>
 
-      {/* Main Profile Form Card */}
-      <div className="card" style={{ padding: '2.5rem', borderRadius: 'var(--radius-xl)' }}>
-        <form onSubmit={(e) => handleSubmit(e, false)}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            {/* Row 1 */}
-            <div className="grid-2">
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label form-label-required">Full Name</label>
+          {/* Live Profile Setup Completeness Meter */}
+          <div
+            style={{
+              padding: '16px 20px',
+              borderRadius: '16px',
+              background: liveCompleteness === 100 ? '#e1f1e3' : '#faf8f3',
+              border: '1px solid ' + (liveCompleteness === 100 ? '#b8dec0' : '#e8e4dc'),
+              marginBottom: '26px'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <span style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '.06em', color: '#45463f' }}>
+                PROFILE SETUP COMPLETION
+              </span>
+              <strong style={{ fontSize: '14px', color: liveCompleteness === 100 ? '#254c3c' : '#8c4300' }}>
+                {liveCompleteness}% Complete
+              </strong>
+            </div>
+            <div className="progress-track" style={{ height: '8px', background: '#e8e4dc' }}>
+              <span
+                style={{
+                  width: `${liveCompleteness}%`,
+                  background: liveCompleteness === 100 ? '#254c3c' : '#d97706',
+                  transition: 'width 0.3s ease'
+                }}
+              ></span>
+            </div>
+            <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#77786f' }}>
+              {liveCompleteness === 100
+                ? '✓ All core demographic criteria configured! Ready to match your eligible welfare schemes.'
+                : 'Fill in your state, social category, age, and occupation to reach 100% and view matching schemes.'}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="field-grid">
+              <label className="field">
+                <span>Full Name</span>
                 <input
                   type="text"
                   name="name"
-                  required
-                  className="form-input"
+                  placeholder="e.g. Ramesh Kumar"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="e.g. Arun Kumar"
+                  required
                 />
-              </div>
+              </label>
 
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label form-label-required">Age (Years)</label>
+              <label className="field">
+                <span>State of Domicile</span>
+                <select name="state" value={formData.state} onChange={handleChange} required>
+                  <option value="">Select State of Residence</option>
+                  {INDIAN_STATES.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="field">
+                <span>Social Category / Caste</span>
+                <select name="category" value={formData.category} onChange={handleChange} required>
+                  <option value="">Select Social Category</option>
+                  <option value="SC">Scheduled Caste (SC)</option>
+                  <option value="ST">Scheduled Tribe (ST)</option>
+                  <option value="OBC">Other Backward Class (OBC)</option>
+                  <option value="General">General / Unreserved</option>
+                  <option value="Minority">Religious Minority</option>
+                </select>
+              </label>
+
+              <label className="field">
+                <span>Age</span>
                 <input
                   type="number"
                   name="age"
                   min="1"
                   max="120"
-                  required
-                  className="form-input"
+                  placeholder="e.g. 24"
                   value={formData.age}
                   onChange={handleChange}
-                  placeholder="e.g. 24"
+                  required
                 />
-              </div>
-            </div>
+              </label>
 
-            {/* Row 2 */}
-            <div className="grid-2">
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label form-label-required">Gender</label>
-                <select name="gender" className="form-select" value={formData.gender} onChange={handleChange}>
+              <label className="field">
+                <span>Gender</span>
+                <select name="gender" value={formData.gender} onChange={handleChange} required>
+                  <option value="">Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
-                  <option value="Transgender">Transgender / Other</option>
+                  <option value="Other">Other</option>
                 </select>
-              </div>
+              </label>
 
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label form-label-required">State of Permanent Residence</label>
-                <select name="state" className="form-select" value={formData.state} onChange={handleChange}>
-                  {INDIAN_STATES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
+              <label className="field">
+                <span>Primary Occupation</span>
+                <select name="occupation" value={formData.occupation} onChange={handleChange} required>
+                  <option value="">Select Primary Occupation</option>
+                  <option value="Student">Student</option>
+                  <option value="Farmer">Farmer / Cultivator</option>
+                  <option value="Agricultural Labourer">Agricultural Labourer</option>
+                  <option value="Self Employed">Self-Employed / Artisan</option>
+                  <option value="Unemployed">Unemployed</option>
+                  <option value="Senior Citizen">Senior Citizen / Retired</option>
                 </select>
-              </div>
-            </div>
+              </label>
 
-            {/* Row 3 */}
-            <div className="grid-2">
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label form-label-required">Social Category</label>
-                <select name="category" className="form-select" value={formData.category} onChange={handleChange}>
-                  <option value="General">General / Unreserved</option>
-                  <option value="SC">Scheduled Caste (SC)</option>
-                  <option value="ST">Scheduled Tribe (ST)</option>
-                  <option value="OBC">Other Backward Class (OBC)</option>
-                  <option value="Minority">Notified Religious / Linguistic Minority</option>
-                </select>
-              </div>
-
-              <div className="form-group" style={{ margin: 0 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <label className="form-label form-label-required">Annual Family Income (₹)</label>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--coral-600)', fontWeight: 700 }}>
-                    ₹{Number(formData.annual_income || 0).toLocaleString('en-IN')} / year
-                  </span>
-                </div>
+              <label className="field">
+                <span>Annual Household Income (₹)</span>
                 <input
                   type="number"
                   name="annual_income"
                   min="0"
                   step="5000"
-                  required
-                  className="form-input"
+                  placeholder="e.g. 120000"
                   value={formData.annual_income}
                   onChange={handleChange}
-                  placeholder="e.g. 120000"
+                  required
                 />
-              </div>
-            </div>
+              </label>
 
-            {/* Row 4 */}
-            <div className="grid-2">
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label">Education Level</label>
-                <select
-                  name="education_level"
-                  className="form-select"
-                  value={formData.education_level}
-                  onChange={handleChange}
-                >
-                  <option value="Primary">Primary (Up to 8th Standard)</option>
-                  <option value="Secondary">Secondary (Class 9 - 10)</option>
-                  <option value="Higher Secondary">Higher Secondary (Class 11 - 12 / PUC)</option>
-                  <option value="Undergraduate">Undergraduate Degree (B.A., B.Sc., B.Tech, etc.)</option>
-                  <option value="Postgraduate">Postgraduate Degree (M.A., M.Sc., M.Tech, etc.)</option>
-                  <option value="Diploma">Polytechnic / Vocational Diploma</option>
-                  <option value="None">None / Non-Formal</option>
+              <label className="field">
+                <span>Education Level</span>
+                <select name="education_level" value={formData.education_level} onChange={handleChange}>
+                  <option value="">Select Education Level</option>
+                  <option value="Primary School">Primary School</option>
+                  <option value="Secondary School">Secondary School (Class 10)</option>
+                  <option value="Higher Secondary">Higher Secondary (Class 12 / PUC)</option>
+                  <option value="Undergraduate">Undergraduate (Degree / Diploma)</option>
+                  <option value="Postgraduate">Postgraduate</option>
+                  <option value="Doctorate">Doctorate / Ph.D.</option>
+                  <option value="None">None / Non-literate</option>
                 </select>
-              </div>
-
-              <div className="form-group" style={{ margin: 0 }}>
-                <label className="form-label">Current Course / Stream</label>
-                <input
-                  type="text"
-                  name="course"
-                  className="form-input"
-                  value={formData.course}
-                  onChange={handleChange}
-                  placeholder="e.g. B.Tech Computer Science or Class 12 Science"
-                />
-              </div>
+              </label>
             </div>
 
-            {/* Row 5 */}
-            <div className="form-group" style={{ margin: 0 }}>
-              <label className="form-label">Current Occupation / Status</label>
-              <select name="occupation" className="form-select" value={formData.occupation} onChange={handleChange}>
-                <option value="Student">Student (Enrolled in School / College)</option>
-                <option value="Farmer / Artisan">Farmer / Agricultural Labourer</option>
-                <option value="Construction Worker">Construction / Informal Sector Worker</option>
-                <option value="Artisan">Handloom Weaver / Artisan</option>
-                <option value="Salaried Employee">Salaried / Private Employee</option>
-                <option value="Self Employed">Self-Employed / Micro-Enterprise</option>
-                <option value="Senior Citizen / Pensioner">Senior Citizen / Pensioner</option>
-                <option value="Unemployed">Unemployed / Job Seeker</option>
-              </select>
-            </div>
-
-            {/* Row 6: Special Status Toggles */}
-            <div
-              style={{
-                background: 'var(--charcoal-50)',
-                padding: '1.5rem',
-                borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--charcoal-100)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem'
-              }}
-            >
-              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--charcoal-500)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Special Affirmative Entitlements
-              </div>
-
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+            {/* Checkbox Attributes */}
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', margin: '24px 0', padding: '16px 20px', borderRadius: '14px', background: '#faf8f3', border: '1px solid #e8e4dc' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
                 <input
                   type="checkbox"
                   name="is_bpl"
                   checked={formData.is_bpl}
                   onChange={handleChange}
-                  style={{ width: '18px', height: '18px', accentColor: 'var(--coral-600)', cursor: 'pointer' }}
+                  style={{ width: '18px', height: '18px', accentColor: '#254c3c' }}
                 />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--charcoal-900)' }}>
-                    Holds Below Poverty Line (BPL) / Antyodaya Ration Card
-                  </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--charcoal-500)' }}>
-                    Unlocks specific nutritional, housing, and subsidised educational reservations.
-                  </div>
-                </div>
+                <span>Below Poverty Line (BPL / Antyodaya Ration Card)</span>
               </label>
 
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
                 <input
                   type="checkbox"
                   name="is_minority"
                   checked={formData.is_minority}
                   onChange={handleChange}
-                  style={{ width: '18px', height: '18px', accentColor: 'var(--coral-600)', cursor: 'pointer' }}
+                  style={{ width: '18px', height: '18px', accentColor: '#254c3c' }}
                 />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--charcoal-900)' }}>
-                    Belongs to Notified Religious or Linguistic Minority Community
-                  </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--charcoal-500)' }}>
-                    Enables Ministry of Minority Affairs merit scholarships and pre-matric programs.
-                  </div>
-                </div>
+                <span>Minority Community Member</span>
               </label>
             </div>
 
-            {/* Form Actions */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: '1rem',
-                flexWrap: 'wrap',
-                paddingTop: '1rem',
-                borderTop: '1px solid var(--charcoal-100)'
-              }}
-            >
+            {/* Action Buttons */}
+            <div style={{ marginTop: '28px' }}>
               <button
                 type="submit"
-                disabled={saving}
-                className="btn"
+                className="button button-dark"
                 style={{
-                  background: 'var(--charcoal-900)',
+                  width: '100%',
+                  background: '#254c3c',
                   color: '#ffffff',
-                  padding: '0.8rem 1.6rem'
+                  justifyContent: 'center',
+                  padding: '14px 28px',
+                  fontSize: '15px',
+                  fontWeight: 800,
+                  borderRadius: '14px'
                 }}
-              >
-                <span>Save Profile</span>
-              </button>
-
-              <button
-                type="button"
                 disabled={saving}
-                onClick={(e) => handleSubmit(e, true)}
-                className="btn"
-                style={{
-                  background: 'var(--coral-600)',
-                  color: '#ffffff',
-                  padding: '0.8rem 1.8rem'
-                }}
               >
-                <span>Save &amp; Find My Schemes</span>
-                <ArrowUpRight size={17} />
+                {saving ? 'Saving Profile & Matching Schemes...' : 'Save Profile & View My Schemes →'}
               </button>
             </div>
-          </div>
-        </form>
-      </div>
-
-      {/* Security Guarantee Box */}
-      <div
-        className="card"
-        style={{
-          borderRadius: 'var(--radius-lg)',
-          padding: '1.25rem 1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem'
-        }}
-      >
-        <Lock size={22} style={{ color: 'var(--coral-600)', flexShrink: 0 }} />
-        <div style={{ fontSize: '0.85rem', color: 'var(--charcoal-700)', lineHeight: 1.5 }}>
-          <strong>Statutory Privacy Protection:</strong> Profile details are stored strictly in local client memory for
-          evaluating welfare criteria against open scheme guidelines. AdhikarAI will never request personal biometric
-          identifiers or banking passwords.
+          </form>
         </div>
       </div>
     </div>
